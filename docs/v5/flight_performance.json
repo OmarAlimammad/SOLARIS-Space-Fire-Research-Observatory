@@ -1,0 +1,48 @@
+{
+ "node": "v24.22.2",
+ "cpu": "8 vCPU Linux x86_64 VM (single thread used)",
+ "scenarios": {
+  "saturn_legacy": {
+   "name": "Saturn V ascent to parking orbit",
+   "wall_s": 0.08,
+   "samples": 3072,
+   "steps": null,
+   "status": "completed"
+  },
+  "leo": {
+   "name": "Low Earth orbit laboratory",
+   "wall_s": 0.02,
+   "samples": 574,
+   "steps": null,
+   "status": "completed"
+  },
+  "lunar": {
+   "name": "Earth–Moon transfer and lunar orbit insertion",
+   "wall_s": 0.41,
+   "samples": 1642,
+   "steps": null,
+   "status": "completed"
+  },
+  "mars": {
+   "name": "Earth–Mars transfer (bounded example)",
+   "wall_s": 0.04,
+   "samples": 730,
+   "steps": null,
+   "status": "completed"
+  },
+  "free": {
+   "name": "Custom free-flight state at a chosen body",
+   "wall_s": 0.01,
+   "samples": 630,
+   "steps": null,
+   "status": "completed"
+  },
+  "sixdof": {
+   "name": "6-DOF rigid-body demonstrator",
+   "wall_s": 0.05,
+   "samples": 405,
+   "steps": null,
+   "status": "completed"
+  }
+ }
+}

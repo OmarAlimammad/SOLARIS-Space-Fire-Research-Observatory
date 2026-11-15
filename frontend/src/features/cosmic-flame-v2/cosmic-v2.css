@@ -1,0 +1,85 @@
+/* Teammate Cosmic Flame Lab v2 — scene and flame-preview styles extracted from SOLARIS 5.0 cosmic-flame.css (dark scene, matches the live lab panel). */
+.solar-canvas-wrap{height:460px;width:100%;position:relative;overflow:hidden;touch-action:none;background:radial-gradient(ellipse at 51% 53%,#103352 0%,#071c31 70%,#04111e 100%)}
+.solar-canvas-wrap:before{content:'';pointer-events:none;position:absolute;left:12%;top:10%;width:210px;height:210px;border-radius:50%;background:radial-gradient(circle,#d99f374d,transparent 68%);filter:blur(28px);z-index:1}
+.solar-canvas-wrap canvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:crosshair;touch-action:none}
+.solar-label-layer{position:absolute;inset:0;pointer-events:none}
+.solar-planet-label{position:absolute;z-index:2;display:block;transform:translate(12px,12px);color:#b5d3e8;font-size:10px;font-weight:800;text-shadow:0 1px 6px #000;letter-spacing:.025em;white-space:nowrap}
+.solar-planet-label.is-selected{color:#fff;text-decoration:underline;text-decoration-color:#71d8ed;text-underline-offset:4px}
+.solar-hint{position:absolute;bottom:15px;left:18px;background:#0a2949c9;border:1px solid #ffffff20;border-radius:5px;color:#a1c0d4;letter-spacing:.11em;font-size:9px;padding:9px 12px;font-weight:800;pointer-events:none}
+.solar-hint span{color:#427d9e;margin:0 5px}
+.cosmic-location-card,.cosmic-controls-card,.cosmic-forecast-card,.cosmic-notes-card,.cosmic-flame-stage{background:#fff;border:1px solid #d9e7f0;border-radius:12px;padding:26px;box-shadow:0 8px 26px #173f5908}
+.cosmic-flame-stage{padding:0;overflow:hidden;background:#0b233b;border-color:#254763;color:#dcecf6}
+.cosmic-flame-meta{height:49px;display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid #234b63;padding:0 16px;font-size:9px;letter-spacing:.13em;color:#8cb3cd;font-weight:800}
+.cosmic-flame-meta .cosmic-lit{color:#e9c88b}
+.cosmic-flame-meta .cosmic-off{color:#9caebc}
+.cosmic-flame-svg{width:100%;height:290px;display:block}
+.cosmic-flame-moving{transform-origin:159px 242px;animation:solarFlameSway 2.5s ease-in-out infinite alternate}
+.cosmic-flame-visual-note{padding:0px 20px 20px;color:#8eb0c6;font-size:10px;line-height:1.65;margin:0}
+@media(max-width:1100px){.solar-canvas-wrap{height:420px}}
+@media(max-width:540px){.solar-canvas-wrap{height:350px}.solar-hint{font-size:7px;bottom:8px;left:9px;padding:7px}.cosmic-flame-svg{height:265px}}
+@media(prefers-reduced-motion:reduce){.cosmic-flame-moving{animation:none}}
+.solar-fallback{display:none;position:absolute;inset:0;z-index:4;align-items:center;justify-content:center;text-align:center;padding:30px;background:#0a233b;color:#d1e7f5;font-size:14px;line-height:1.7}
+/* Graceful, fully interactive 2D fallback for browsers without GPU/WebGL support. */
+.solar-canvas-wrap.is-2d>canvas{visibility:hidden;pointer-events:none}
+.solar-canvas-wrap.is-2d .solar-label-layer{display:none}
+.solar-2d-mode{position:absolute;inset:0;z-index:3;overflow:hidden}
+.solar-2d-mode>canvas{display:block;width:100%;height:100%;cursor:grab;outline-offset:-4px}
+.solar-2d-mode>canvas:active{cursor:grabbing}
+.solar-2d-mode>canvas:focus-visible{outline:2px solid #84e4ff}
+.solar-mode-info{pointer-events:none;position:absolute;left:17px;top:16px;right:14px;display:flex;flex-wrap:wrap;gap:5px 12px;align-items:center;color:#9dbbcf;font-size:10px;line-height:1.6;letter-spacing:.01em}
+.solar-mode-info strong{font-size:9px;color:#b0e6f4;background:#164968bd;padding:6px 9px;border:1px solid #4c92ac74;border-radius:4px;letter-spacing:.11em;white-space:nowrap}
+.solar-2d-select{position:absolute;bottom:52px;left:14px;right:14px;display:flex;gap:5px;justify-content:center;flex-wrap:wrap;max-height:90px;overflow:auto}
+.solar-2d-select button{background:#0e304bdc;color:#afcbe0;border:1px solid #4c69848a;padding:5px 8px;border-radius:5px;font-size:10px;font-weight:700;cursor:pointer}
+.solar-2d-select button:hover,.solar-2d-select button.active{background:#24729a;color:#fff;border-color:#86def3}
+.solar-2d-select button:focus-visible{outline:2px solid #b9ecff;outline-offset:2px}
+.solar-canvas-wrap.is-2d .solar-hint{z-index:4;bottom:9px}
+@media(max-width:540px){.solar-mode-info{left:10px;top:8px;font-size:9px}.solar-2d-select{left:7px;right:7px;bottom:47px;max-height:88px}.solar-2d-select button{font-size:9px;padding:4px 6px}}
+/* WebGL compatibility information and reliable manual retry. */
+.solar-retry-3d{position:absolute;top:14px;right:15px;z-index:7;border:1px solid #82cce6;color:#f2fbff;background:#1c6184;padding:9px 13px;border-radius:6px;font-size:11px;font-weight:800;cursor:pointer}
+.solar-retry-3d:hover{background:#247da2}
+.solar-retry-3d:focus-visible,.solar-canvas-wrap>canvas:focus-visible{outline:3px solid #9fefff;outline-offset:-4px}
+.solar-simple-shader{position:absolute;z-index:3;right:12px;top:12px;font-size:9px;letter-spacing:.12em;padding:7px 10px;border:1px solid #7ac3ed77;color:#cdefff;background:#123d5cbb;border-radius:4px;pointer-events:none}
+/* Animated educational combustion visuals. All motion is transform/opacity-only. */
+.cosmic-flame-scenario{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 17px 0;color:#b9d6eb;font-size:11px}
+.cosmic-flame-scenario strong{color:white;white-space:nowrap}
+.cosmic-flame-scenario span{text-align:right;font-size:9px;color:#9bb9cd}
+.cosmic-flame-motion{transform-origin:159px 241px}
+.cosmic-flame-shell,.cosmic-flame-core,.cosmic-flame-halo,.cosmic-flame-wick-glow{transform-box:fill-box;transform-origin:50% 100%}
+.cosmic-flame-shell{animation:cf-flicker var(--flame-period,2.15s) ease-in-out infinite alternate}
+.cosmic-flame-core{animation:cf-core var(--flame-core-period,1.55s) ease-in-out infinite alternate}
+.cosmic-flame-halo{animation:cf-glow 2.9s ease-in-out infinite alternate}
+.cosmic-flame-wick-glow{animation:cf-glow 1.8s ease-in-out infinite alternate}
+.cosmic-flame-spark{opacity:0;animation:cf-spark 2.8s ease-out infinite;transform-origin:center}
+.cosmic-spark-1{animation-delay:.48s}
+.cosmic-spark-2{animation-delay:1.05s}
+.cosmic-spark-3{animation-delay:1.61s}
+.cosmic-spark-4{animation-delay:2.14s}
+.cosmic-flame-orb .cosmic-flame-shell{animation:cf-breathe 3.7s ease-in-out infinite alternate}
+.cosmic-flame-orb .cosmic-flame-core{animation:cf-breathe 2.9s ease-in-out infinite alternate-reverse}
+.cosmic-flame-orb .cosmic-flame-spark{animation-duration:4.6s}
+.cosmic-flame-empty{padding:7px 18px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;color:#c5d9e8;font-size:10px;line-height:1.5}
+.cosmic-flame-empty button{background:#20668a;border:1px solid #66bbd8;color:#fff;border-radius:6px;padding:9px 11px;cursor:pointer;flex-shrink:0;font-size:10px;font-weight:800}
+.cosmic-flame-empty button:focus-visible{outline:2px solid #9ae8ff;outline-offset:2px}
+@keyframes cf-flicker{0%{transform:translate3d(-2px,1px,0) scale(.98,1.01) rotate(-1.1deg);opacity:.91}40%{transform:translate3d(2px,-2px,0) scale(1.04,.98) rotate(1.1deg);opacity:1}100%{transform:translate3d(-1px,-4px,0) scale(.96,1.045) rotate(-.5deg);opacity:.95}}
+@keyframes cf-core{from{transform:translate3d(1px,1px,0) scale(.96,.98)}to{transform:translate3d(-1px,-3px,0) scale(1.04,1.04)}}
+@keyframes cf-glow{from{transform:scale(.94);opacity:.53}to{transform:scale(1.12);opacity:.92}}
+@keyframes cf-breathe{from{transform:scale(.96);opacity:.83}to{transform:scale(1.07);opacity:.98}}
+@keyframes cf-spark{0%{opacity:0;transform:translate3d(0,10px,0) scale(.5)}16%{opacity:.78}65%{opacity:.35}100%{opacity:0;transform:translate3d(8px,-50px,0) scale(.2)}}
+@media(max-width:540px){.cosmic-flame-scenario{align-items:flex-start;flex-direction:column}.solar-retry-3d{right:8px;top:9px;padding:7px 9px}}
+@media(prefers-reduced-motion:reduce){.cosmic-flame-shell,.cosmic-flame-core,.cosmic-flame-halo,.cosmic-flame-wick-glow,.cosmic-flame-spark{animation:none!important}}
+/* layout glue on top of the live Cosmic Flame Lab styles (features.css .cf-*) */
+.cf2-scene { position: relative; height: 420px; margin: 12px 0; border-radius: 14px; overflow: hidden; background: #040f1b; }
+.cf2-scene .solar-canvas-wrap { position: absolute; inset: 0; height: 100%; }
+.cf2-layout .cf-env { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.cf2-time { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.cf2-time .cf-env-btn { padding: 6px 10px; font-size: 12px; font-weight: 800; }
+.cf2-metrics strong small { font-size: 12px; color: var(--s-muted); font-weight: 700; }
+.cf2-flame { border-radius: 14px; overflow: hidden; background: #0a1a2e; color: #d7e8f5; }
+.cf2-flame .cosmic-flame-stage { padding: 12px; }
+.cf2-flame .cosmic-flame-meta { display: flex; justify-content: space-between; gap: 8px; font-size: 9.5px; letter-spacing: .12em; font-weight: 800; color: #9cc7e6; margin-bottom: 6px; }
+.cf2-flame .cosmic-flame-svg { width: 100%; height: auto; display: block; }
+.cf2-flame .cosmic-flame-visual-note { font-size: 10.5px; color: #8fb0c8; margin: 8px 0 0; line-height: 1.5; }
+.cf2-regime { margin-top: 12px; padding: 12px 14px; border-radius: var(--s-radius-2); border: 1px solid #d9d3f5; background: #f7f5ff; display: grid; gap: 4px; }
+.cf2-regime strong { color: var(--s-ink); font-family: Manrope, sans-serif; }
+.cf2-regime span { color: var(--s-body); font-size: 12.5px; line-height: 1.55; }
+@media (max-width: 600px) { .cf2-scene { height: 320px; } .cf2-layout .cf-env { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

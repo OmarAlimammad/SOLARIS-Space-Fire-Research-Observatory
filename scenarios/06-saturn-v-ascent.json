@@ -1,0 +1,26 @@
+{
+ "schema_version": "5.0",
+ "order": 6,
+ "title": "Saturn V reference ascent",
+ "destination": "flight",
+ "kind": "saturn_legacy",
+ "fidelity_level": "flight",
+ "expected_runtime": "under 1 s",
+ "summary": "The supplied Saturn V Flight Lab 2.0 model, run through the legacy adapter with its default configuration. The physics file is byte-identical to the supplied source.",
+ "expected_behaviour": "Three-stage ascent to a low Earth parking orbit of about 180-190 km with max-q near 79 s and peak sensed acceleration below 5 g.",
+ "acceptance_checks": [
+  "Orbit is reached (perigee altitude above 150 km).",
+  "Max-q between 25 and 35 kPa.",
+  "Stage separation events appear in order S-IC, S-II, S-IVB cutoff.",
+  "Legacy regression tests pass (npm test)."
+ ],
+ "payload": {
+  "scenario": "saturn_legacy",
+  "params": {
+   "payloadFactor": 1,
+   "throttle": 1,
+   "pitchFinal": 80,
+   "windEast": 0
+  }
+ }
+}

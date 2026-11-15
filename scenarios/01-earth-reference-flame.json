@@ -1,0 +1,50 @@
+{
+ "schema_version": "5.0",
+ "order": 1,
+ "title": "Earth reference flame",
+ "destination": "flame",
+ "kind": "flame_l3",
+ "fidelity_level": 3,
+ "expected_runtime": "about 30 s",
+ "summary": "Methane jet in sea-level air at 1 g, open boundary: transient 2-D axisymmetric laminar reacting-flow solve with stored temperature, velocity, species and heat-release fields.",
+ "expected_behaviour": "After ignition a buoyant diffusion flame attaches above the burner; peak temperature settles near the one-step-chemistry flame temperature (over-predicted versus detailed chemistry).",
+ "acceptance_checks": [
+  "Run status is completed (not non_converged).",
+  "Relative mass-balance residual below 1e-2.",
+  "Peak temperature between 1800 K and 2500 K at the end of the run.",
+  "At least 5 stored field frames can be inspected."
+ ],
+ "payload": {
+  "mode": "flame_l3",
+  "fuel": "CH4",
+  "ox": {
+   "basis": "mole",
+   "species": {
+    "N2": 0.79,
+    "O2": 0.21
+   },
+   "humidity": {
+    "mode": "none"
+   }
+  },
+  "p": 101325,
+  "T": 300,
+  "l3": {
+   "geometry": "axisymmetric",
+   "boundary": "open",
+   "length_m": 0.08,
+   "width_m": 0.04,
+   "radius_m": 0.003,
+   "velocity": 0.25,
+   "coflow": 0,
+   "accel": -9.80665,
+   "lateral": 0,
+   "nx": 64,
+   "ny": 32,
+   "duration": 0.3,
+   "ignite": true,
+   "react": true,
+   "radiation": false
+  }
+ }
+}

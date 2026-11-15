@@ -1,0 +1,54 @@
+{
+ "schema_version": "5.0",
+ "order": 12,
+ "title": "Failure and recovery checklist",
+ "destination": "guide",
+ "kind": "failures",
+ "fidelity_level": null,
+ "expected_runtime": "a few minutes",
+ "summary": "Six deliberate failures, each of which must produce a clear message and a way to recover rather than a silent or fabricated result.",
+ "expected_behaviour": "Every case shows a structured error or status with a recovery hint; the application stays usable.",
+ "acceptance_checks": [
+  "Each step below shows the stated outcome."
+ ],
+ "payload": {
+  "steps": [
+   {
+    "title": "Invalid gas mixture",
+    "route": "/world",
+    "do": "Change the N2 fraction so that the sum is not 1 and press Evaluate.",
+    "expect": "Error \"mixture_not_normalized\" with the field name; the explicit Normalize button repairs it. Nothing is normalized silently."
+   },
+   {
+    "title": "Exhausted propellant",
+    "route": "/flight",
+    "do": "Choose \"Custom free-flight state\", set the prograde burn to 4000 m/s and run.",
+    "expect": "The burn phase ends with outcome \"depletion\" and a warning that the vehicle cannot deliver the manoeuvre; delivered delta-v equals the vehicle capability."
+   },
+   {
+    "title": "Unsupported chemistry",
+    "route": "/flame",
+    "do": "Add carbon monoxide (CO) to the atmosphere and run the 2-D transient solver.",
+    "expect": "Structured rejection: the Level 3 solver supports only its listed species; choose a Level 1/2 mode or remove the species."
+   },
+   {
+    "title": "Canceled CFD job",
+    "route": "/flame",
+    "do": "Start a 2-D transient run with a 96 x 48 grid and press Cancel.",
+    "expect": "Status becomes \"canceled\"; no result is shown as if it were complete."
+   },
+   {
+    "title": "Unavailable ephemerides",
+    "route": "/flight",
+    "do": "Choose the lunar transfer and set the epoch to 2040-01-01T00:00:00Z.",
+    "expect": "Error \"ephemeris_range\": outside the cached interval, no extrapolation; choose an epoch from 2026 to 2031."
+   },
+   {
+    "title": "Lost WebGL context",
+    "route": "/flight",
+    "do": "Run any flight, then press \"2-D view\" (or use a browser with WebGL disabled).",
+    "expect": "The trajectory and telemetry remain available as a 2-D projection."
+   }
+  ]
+ }
+}

@@ -5,6 +5,7 @@ import { PageHeader } from '../components/ui.jsx';
 import { replaceParams } from '../lib/router.js';
 import CompatibilityWorkspace from '../features/compatibility/CompatibilityWorkspace.jsx';
 import { AdvisorTool, ContradictionTool, FlameTracker, GapTool, TransferTool, WhatIfTool } from '../features/studio/StudioTools.jsx';
+import { RefereeTool } from '../features/studio/SourceTableTools.jsx';
 
 const TOOLS = {
   compatibility: CompatibilityWorkspace,
@@ -14,6 +15,7 @@ const TOOLS = {
   flame: FlameTracker,
   whatif: WhatIfTool,
   advisor: AdvisorTool,
+  referee: RefereeTool,
 };
 
 export default function Research({ params }) {
@@ -24,17 +26,19 @@ export default function Research({ params }) {
     const keep = Object.fromEntries(params ? [...params.entries()] : []);
     replaceParams({ ...keep, tool: id });
   };
+  // Follow in-app links that change only the query (e.g. #/research?tool=gaps while already on the Studio).
+  React.useEffect(() => { if (requested && TOOLS[requested]) setActiveState(requested); }, [requested]);
   const Tool = TOOLS[active];
 
   return (
     <div className="inner-page">
-      <PageHeader kicker="Research Studio / Seven tools"
+      <PageHeader kicker="Research Studio / Eight tools"
         title={<>From NASA records to <em>traceable conclusions.</em></>}
-        lede="Seven working analysis tools. Each one states what it computes, which evidence class it uses, and what it cannot tell you. None of them produces risk scores or invented measurements." />
+        lede="Eight working analysis tools. Each one states what it computes, which evidence class it uses, and what it cannot tell you. None of them produces risk scores or invented measurements." />
 
       <div className="container research-layout">
         <aside className="research-sidebar" aria-label="Research modules">
-          <div className="research-sidebar-top">RESEARCH MODULES <span>07</span></div>
+          <div className="research-sidebar-top">RESEARCH MODULES <span>{String(researchModules.length).padStart(2, '0')}</span></div>
           {researchModules.map(module => {
             const Icon = module.icon;
             return <button key={module.id} type="button" onClick={() => setActive(module.id)}

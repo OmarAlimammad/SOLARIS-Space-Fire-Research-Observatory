@@ -72,9 +72,27 @@ def timeline_events() -> list[dict]:
     return json.loads((CATALOG_DIR / "timeline.json").read_text(encoding="utf-8"))["events"]
 
 
+def _source_tables(inv_id: str) -> list[dict]:
+    """Row-level NASA PSI tables held in data/raw/ for this investigation (from the source-table registry)."""
+    try:
+        from ..scientific.foundation import registry
+    except ImportError:  # pragma: no cover
+        return []
+    out = []
+    for d in registry()["items"]:
+        if d.get("site_investigation") != inv_id or not d.get("available"):
+            continue
+        listing = d.get("psi_listing") or {}
+        out.append({"dataset_id": d["id"], "variant": d["variant"], "rows": d["row_count"], "file": f"data/raw/{d['file']}",
+                    "sha256": d["sha256"], "accession": d["accession"], "psi_listing_status": listing.get("status"),
+                    "psi_listed_name": listing.get("listed_name")})
+    return out
+
+
 def _data_status(inv_id: str, records: list[dict]) -> dict:
     tables = [t for r in records for t in r["experimental_tables"]]
     media = sum(r["file_inventory"]["by_extension"].get(".mp4", 0) for r in records)
+    held = _source_tables(inv_id)
     if inv_id == "bass-ii":
         rows = len(load_original_records())
         return {
@@ -82,15 +100,35 @@ def _data_status(inv_id: str, records: list[dict]) -> dict:
             "label": "Row-level experimental table imported",
             "imported_rows": rows,
             "imported_file": "data/raw/bassii_nasa_original.csv",
+            "source_tables": held,
+            "tables_imported": len(held),
             "psi_tables": tables,
             "psi_listed_videos": media,
             "note": "Unchanged copy of the PSI-25 experimental table. Flame-spread rates are not part of this table.",
+        }
+    if held:
+        missing = [t["file_name"] for t in tables if t["file_name"] not in {h["psi_listed_name"] for h in held}]
+        return {
+            "level": "row_level_imported",
+            "label": "Row-level experimental table imported" if not missing else f"{len(held)} of {len(tables)} PSI-listed tables imported",
+            "imported_rows": sum(h["rows"] for h in held),
+            "imported_file": held[0]["file"],
+            "source_tables": held,
+            "tables_imported": len(held),
+            "tables_not_imported": missing,
+            "psi_tables": tables,
+            "psi_listed_videos": media,
+            "note": ("Unchanged copy of the PSI experimental table" + ("s" if len(held) > 1 else "") + "; file name and byte size match the PSI listing. "
+                     "Rows are source-table records (not necessarily individual tests). Units are kept as written; nothing is converted or pooled with BASS-II."
+                     + (f" Not imported: {', '.join(missing)}." if missing else "")),
         }
     return {
         "level": "catalog_only",
         "label": "Catalog metadata only",
         "imported_rows": 0,
         "imported_file": None,
+        "source_tables": [],
+        "tables_imported": 0,
         "psi_tables": tables,
         "psi_listed_videos": media,
         "note": "PSI lists an experimental table for this investigation, but it has not been imported into SOLARIS. "

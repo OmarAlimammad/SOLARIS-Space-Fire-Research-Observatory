@@ -1,0 +1,142 @@
+/* ==========================================================================
+   SOLARIS simulation laboratories (World Builder, Flame Lab, Flight Lab, Onboard,
+   Scenarios, Methods). Built only from the tokens in styles/system.css.
+   ========================================================================== */
+.ev-simulation { --c: var(--ev-simulation); }
+.sim-body { display: flex; flex-direction: column; gap: 18px; }
+.sim-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 18px; align-items: start; }
+.sim-grid.is-even { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.sim-stack { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.sim-panel { min-width: 0; }
+.sim-panel-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; }
+.sim-panel-head .s-muted { margin: 2px 0 0; max-width: 640px; }
+.sim-panel h3, .sim-h4 { font-family: Manrope, sans-serif; color: var(--s-ink); font-size: 14px; letter-spacing: -.01em; margin: 20px 0 10px; }
+.sim-ico { vertical-align: -3px; color: var(--s-blue); margin-right: 4px; }
+.sim-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.sim-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+.sim-row > .sim-field { flex: 1 1 150px; }
+.sim-p { color: var(--s-body); font-size: 13.5px; line-height: 1.65; margin: 8px 0; }
+.sim-sub { display: block; color: var(--s-muted); font-size: 11px; margin-top: 2px; }
+
+/* fields */
+.sim-field { margin-bottom: 10px; }
+.sim-field > span em { font-style: normal; text-transform: none; letter-spacing: 0; color: #8aa3b6; font-weight: 700; }
+.sim-field small { color: var(--s-muted); font-size: 11.5px; line-height: 1.45; }
+.sim-field.is-bad .s-input { border-color: var(--s-rose); box-shadow: 0 0 0 3px rgba(194, 71, 91, .12); }
+.sim-bad { color: var(--s-rose) !important; font-size: 12px; margin: 4px 0; }
+.sim-ok { color: #1f7f74; font-size: 12.5px; margin: 6px 0; }
+.sim-warn { color: #7a5713; background: #fffaf0; border: 1px solid #f0d6a4; border-radius: var(--s-radius-1); padding: 9px 12px; font-size: 12.5px; line-height: 1.6; margin: 8px 0; }
+.sim-check { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; color: var(--s-ink-2); font-size: 13px; font-weight: 700; cursor: pointer; }
+.sim-check input { margin-top: 3px; accent-color: var(--s-blue); width: 16px; height: 16px; }
+.sim-check small { display: block; font-weight: 500; color: var(--s-muted); font-size: 11.5px; margin-top: 2px; }
+.sim-comp { border: 1px solid var(--s-stroke); border-radius: var(--s-radius-2); padding: 14px 16px 10px; margin: 6px 0 14px; background: var(--s-pale-2); min-width: 0; }
+.sim-comp legend { padding: 0 6px; }
+.sim-species { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 0 12px; }
+.sim-species-row { display: flex; gap: 6px; align-items: flex-start; }
+.sim-species-row > .sim-field { flex: 1; }
+.sim-x { margin-top: 22px; width: 32px; height: 38px; border-radius: var(--s-radius-1); border: 1px solid #cfe0ec; background: #fff; color: var(--s-muted); font-size: 18px; line-height: 1; flex-shrink: 0; transition: color var(--dur-fast), border-color var(--dur-fast); }
+.sim-x:hover { color: var(--s-rose); border-color: #e7b2bc; }
+.sim-comp-foot { align-items: center; }
+.sim-sum { font-size: 12.5px; padding: 8px 12px; border-radius: 99px; background: #fff; border: 1px solid var(--s-stroke); color: var(--s-body); }
+.sim-sum.is-ok { color: #1f7f74; border-color: #bfe5df; }
+.sim-sum.is-bad { color: var(--s-rose); border-color: #efc3cb; }
+
+/* chips */
+.sim-chip-ok { background: #e6f6f3; color: #1f7f74; border-color: #bfe5df; }
+.sim-chip-bad { background: #fff1f3; color: #a3364a; border-color: #f1c4cc; }
+.sim-chip-warn { background: #fff7e8; color: #8a5d12; border-color: #f0d6a4; }
+
+/* key/value, notes, details */
+.sim-kv { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px; margin: 6px 0 12px; }
+.sim-kv > div { background: var(--s-pale-2); border: 1px solid var(--s-stroke-2); border-radius: var(--s-radius-1); padding: 10px 12px; min-width: 0; }
+.sim-kv dt { font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: #6f8ea4; margin-bottom: 4px; }
+.sim-kv dd { margin: 0; color: var(--s-ink); font-weight: 700; font-size: 13.5px; overflow-wrap: anywhere; }
+.sim-kv dd em { font-style: normal; color: var(--s-muted); font-weight: 600; font-size: 12px; }
+.sim-kv code, .sim-hash { font-size: 11.5px; font-weight: 600; }
+.sim-notes { margin: 12px 0; padding: 12px 14px; border-radius: var(--s-radius-2); border: 1px solid var(--s-stroke); background: #fbfdff; }
+.sim-notes ul { margin: 8px 0 0; padding-left: 18px; color: var(--s-body); font-size: 12.5px; line-height: 1.65; }
+.sim-notes-warn { background: #fffaf0; border-color: #f0d6a4; }
+.sim-notes-warn ul { color: #6b5220; }
+.sim-details { margin: 12px 0; border: 1px solid var(--s-stroke); border-radius: var(--s-radius-2); background: #fff; }
+.sim-details > summary { cursor: pointer; padding: 11px 14px; font-weight: 800; font-size: 12.5px; color: var(--s-blue-deep); list-style-position: inside; }
+.sim-details[open] > summary { border-bottom: 1px solid var(--s-stroke-2); }
+.sim-details > :not(summary) { margin: 12px 14px; }
+.sim-details pre { max-height: 360px; overflow: auto; background: var(--s-pale-2); border-radius: var(--s-radius-1); padding: 12px; font-size: 11.5px; line-height: 1.5; color: var(--s-ink-2); }
+.sim-details ul { color: var(--s-body); font-size: 12.5px; line-height: 1.65; padding-left: 18px; }
+.sim-banner { margin: 0; }
+.sim-error > div > div { margin-top: 3px; }
+
+/* cards (presets, missions, scenarios) */
+.sim-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.sim-card { text-align: left; padding: 14px 15px; display: flex; flex-direction: column; gap: 7px; font: inherit; color: var(--s-body); min-width: 0; }
+.sim-card strong { color: var(--s-ink); font-family: Manrope, sans-serif; font-size: 14px; letter-spacing: -.01em; }
+.sim-card > span:not(.s-chip):not(.ev-badge) { font-size: 12.5px; line-height: 1.55; }
+.sim-card:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+.sim-card .sim-row { gap: 6px; }
+
+/* run status */
+.sim-runstatus { margin-top: 14px; display: grid; gap: 10px; }
+.sim-runid { font-size: 11px; color: var(--s-blue-deep); background: var(--s-pale); padding: 3px 7px; border-radius: 6px; overflow-wrap: anywhere; }
+.sim-progress { position: relative; height: 26px; border-radius: 99px; background: #eaf2f8; overflow: hidden; }
+.sim-progress i { position: absolute; inset: 0; transform-origin: 0 50%; background: linear-gradient(90deg, #8fd3ee, #3fa4e0); transition: transform var(--dur-slow) var(--ease-out); }
+.sim-progress span { position: relative; z-index: 1; display: block; line-height: 26px; padding: 0 12px; font-size: 11.5px; font-weight: 700; color: var(--s-ink); }
+.sim-progress.is-indeterminate i { width: 35%; transform: none; animation: sim-indeterminate 1.4s var(--ease-in-out) infinite; }
+@keyframes sim-indeterminate { from { transform: translateX(-100%); } to { transform: translateX(290%); } }
+
+/* tabs row */
+.sim-tabs-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+.sim-tab-level { font-size: 9px; letter-spacing: .1em; color: var(--s-muted); margin-right: 2px; }
+
+/* plots */
+.sim-figure { margin: 0; min-width: 0; }
+.sim-plot-title { font-size: 11.5px; font-weight: 800; color: var(--s-ink-2); margin: 0 0 6px; }
+.sim-plot { position: relative; width: 100%; border: 1px solid var(--s-stroke); border-radius: var(--s-radius-1); overflow: hidden; background: #fff; }
+.sim-plot canvas { display: block; width: 100%; }
+.sim-plot-dark { background: #061626; border-color: #12324d; }
+.sim-legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; font-size: 11.5px; color: var(--s-body); }
+.sim-legend i { display: inline-block; width: 14px; height: 3px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
+.sim-split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.sim-player { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; margin-bottom: 12px; }
+.sim-player input[type="range"] { flex: 1 1 160px; accent-color: var(--s-blue); margin-bottom: 14px; }
+.sim-player .sim-field { flex: 0 1 200px; margin: 0; }
+
+/* events list */
+.sim-events { display: grid; gap: 4px; max-height: 260px; overflow: auto; }
+.sim-events button { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 10px; text-align: left; border: 1px solid transparent; background: transparent; border-radius: var(--s-radius-1); padding: 7px 9px; font: inherit; font-size: 12.5px; color: var(--s-body); transition: background var(--dur-fast), border-color var(--dur-fast); }
+.sim-events button:hover { background: var(--s-pale); border-color: var(--s-stroke); }
+.sim-events time { font-weight: 800; color: var(--s-blue-deep); font-variant-numeric: tabular-nums; }
+
+/* 3-D trajectory view: same dark scene language as the Cosmic Flame Lab */
+.sim-view3d { position: relative; height: 440px; border-radius: 14px; overflow: hidden; background: #040f1b; margin-bottom: 12px; box-shadow: var(--s-shadow-2); }
+.sim-view3d canvas { display: block; touch-action: none; }
+.sim-view3d-hud { position: absolute; left: 12px; top: 12px; z-index: 2; color: #cfe2f1; font-size: 11.5px; line-height: 1.6; background: rgba(4, 15, 27, .72); border: 1px solid #1f4a6d; border-radius: 10px; padding: 8px 11px; max-width: calc(100% - 24px); pointer-events: none; }
+.sim-view3d-hud > div:first-child { font-weight: 800; color: #fff; }
+.sim-view3d-ctl { position: absolute; right: 12px; bottom: 12px; z-index: 2; display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; max-width: calc(100% - 24px); }
+.sim-view3d-ctl button { border: 1px solid #1f4a6d; background: #0b2740; color: #cfe2f1; border-radius: 8px; padding: 7px 10px; font-size: 11.5px; font-weight: 800; transition: background var(--dur-base), border-color var(--dur-base); }
+.sim-view3d-ctl button:hover { border-color: #3b79a8; }
+.sim-view3d-ctl button[aria-pressed="true"] { background: #e9f5fd; color: var(--s-ink); border-color: #e9f5fd; }
+
+/* scenario banner, tour, matrix */
+.sim-scenario { border-color: #b7dcf2; background: linear-gradient(180deg, #f4faff, #fff 60%); }
+.sim-tour { list-style: none; counter-reset: tour; padding: 0; margin: 0; display: grid; gap: 10px; }
+.sim-tour li { counter-increment: tour; display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 4px 12px; align-items: start; padding: 12px; border: 1px solid var(--s-stroke-2); border-radius: var(--s-radius-2); background: #fbfdff; }
+.sim-tour li:before { content: counter(tour, decimal-leading-zero); grid-row: span 2; font-weight: 800; font-size: 12px; color: var(--s-blue); background: var(--s-pale); border-radius: 8px; text-align: center; padding: 7px 0; }
+.sim-tour a { font-weight: 800; color: var(--s-ink); }
+.sim-tour span { color: var(--s-body); font-size: 12.5px; line-height: 1.6; }
+.sim-status { font-size: 10px; font-weight: 800; letter-spacing: .08em; padding: 3px 8px; border-radius: 99px; white-space: nowrap; }
+.sim-status.IMPLEMENTED { background: #e6f6f3; color: #1f7f74; }
+.sim-status.PARTIAL { background: #fff7e8; color: #8a5d12; }
+.sim-status.ILLUSTRATIVE { background: #f4ebfa; color: #7c3fa3; }
+.sim-status.NOT-IMPLEMENTED { background: #f1f4f7; color: #6b7d8c; }
+.sim-levels { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.sim-levels > div { border: 1px solid var(--s-stroke); border-radius: var(--s-radius-2); padding: 14px; background: #fff; display: grid; gap: 6px; align-content: start; }
+.sim-levels strong { font-family: Manrope, sans-serif; color: var(--s-ink); font-size: 14px; }
+.sim-levels p { margin: 0; color: var(--s-body); font-size: 12px; line-height: 1.55; }
+.sim-levels .sim-n { font-size: 28px; font-weight: 800; color: var(--s-blue); font-family: Manrope, sans-serif; line-height: 1; }
+
+/* sim hub links in other pages */
+.sim-crosslink { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; justify-content: space-between; }
+
+@media (max-width: 1080px) { .sim-grid, .sim-grid.is-even { grid-template-columns: minmax(0, 1fr); } .sim-levels { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 700px) { .sim-split { grid-template-columns: minmax(0, 1fr); } .sim-view3d { height: 340px; } .sim-events button { grid-template-columns: 96px minmax(0, 1fr); } .sim-levels { grid-template-columns: minmax(0, 1fr); } .sim-kv { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (prefers-reduced-motion: reduce) { .sim-progress.is-indeterminate i { animation: none; width: 100%; opacity: .5; } .sim-progress i { transition: none; } }

@@ -45,6 +45,7 @@ function Detail({ id, onClose }) {
           </>}
           {tab === 'data' && <div className="s-stack">
             <p className="lb-note">{d.data.data_status.note}</p>
+            {d.data.data_status.source_tables?.length > 0 && <div className="cp-ids">{d.data.data_status.source_tables.map(t => <a key={t.dataset_id} className="s-btn s-btn-ghost s-btn-sm" href={`#/explore?view=tables&dataset=${t.dataset_id}`}><Database size={12} /> Open {t.psi_listed_name ?? t.dataset_id} ({t.rows} rows) in Data Atlas</a>)}</div>}
             {d.data.psi_records.map(r => <div key={r.accession} className="lb-files">
               <strong>{r.accession}</strong>
               <div className="cp-ids">{r.experimental_tables.map(t => <span key={t.file_name} className="s-chip"><Database size={11} /> {t.file_name} · {(t.size_bytes / 1024).toFixed(1)} KB</span>)}</div>

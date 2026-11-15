@@ -1,0 +1,57 @@
+{
+ "schema_version": "5.0",
+ "order": 4,
+ "title": "No external oxidizer: fuel jet into pure nitrogen versus separately supplied oxidizer",
+ "destination": "flame",
+ "kind": "counterflow_flame",
+ "fidelity_level": 2,
+ "expected_runtime": "10-60 s",
+ "summary": "Variant A: methane against a pure-nitrogen stream - there is nothing to react with. Variant B: methane against a separately supplied oxygen/nitrogen stream - a diffusion flame forms between the two supplied streams, independent of any ambient atmosphere.",
+ "expected_behaviour": "Variant A is reported as the non-reacting branch (no O2 in either stream, peak temperature equals the inlet temperature). Variant B gives a counterflow diffusion flame near 2000 K.",
+ "acceptance_checks": [
+  "Variant A: peak temperature below 400 K and the result is labelled as not burning.",
+  "Variant B: peak temperature above 1700 K."
+ ],
+ "payload": {
+  "mode": "counterflow_flame",
+  "fuel": "CH4",
+  "ox": {
+   "basis": "mole",
+   "species": {
+    "N2": 1.0
+   },
+   "humidity": {
+    "mode": "none"
+   }
+  },
+  "p": 101325,
+  "T": 300,
+  "variants": [
+   {
+    "label": "Variant A: oxidizer stream is pure N2",
+    "ox": {
+     "basis": "mole",
+     "species": {
+      "N2": 1.0
+     },
+     "humidity": {
+      "mode": "none"
+     }
+    }
+   },
+   {
+    "label": "Variant B: separately supplied 21 % O2 / 79 % N2 stream",
+    "ox": {
+     "basis": "mole",
+     "species": {
+      "N2": 0.79,
+      "O2": 0.21
+     },
+     "humidity": {
+      "mode": "none"
+     }
+    }
+   }
+  ]
+ }
+}

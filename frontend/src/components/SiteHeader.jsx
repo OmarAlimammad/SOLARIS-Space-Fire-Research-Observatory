@@ -9,6 +9,7 @@ const TOP = [
   { type: 'group', id: 'discover' },
   { type: 'link', path: '/explore', label: 'Data Atlas' },
   { type: 'group', id: 'research' },
+  { type: 'group', id: 'simulate' },
   { type: 'link', path: '/copilot', label: 'Copilot' },
   { type: 'link', path: '/library', label: 'Library' },
   { type: 'link', path: '/about', label: 'About' },
@@ -18,10 +19,16 @@ const DESCRIPTIONS = {
   '/lab': '3D environments + labelled flame model',
   '/timeline': 'Dated NASA milestones with sources',
   '/habitat': 'Materials, ventilation and evidence gaps',
-  '/research': 'Seven source-grounded analysis tools',
+  '/research': 'Eight source-grounded analysis tools',
   '/theater': 'Side-by-side experiments and footage',
   '/universe': 'Knowledge graph with provenance',
-  '/report': 'Export a reproducible PDF',
+  '/report': 'Export a reproducible PDF and run records',
+  '/world': 'Gas mixtures, gravity and atmospheres',
+  '/flame': 'Cantera chemistry, 1-D and 2-D flames',
+  '/flight': 'Saturn V, orbits, Moon and Mars transfers',
+  '/onboard': 'A flame in a chamber aboard a flight',
+  '/scenarios': 'Twelve runnable demonstrations',
+  '/methods': 'Capability matrix, benchmarks, run ledger',
 };
 
 function Dropdown({ groupId, current, open, setOpen, onNavigate }) {

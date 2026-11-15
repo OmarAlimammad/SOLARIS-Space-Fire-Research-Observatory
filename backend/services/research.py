@@ -111,7 +111,7 @@ def evidence_gaps() -> dict:
             "Counts describe how many BASS-II table rows exist for each combination; they are not evidence strength.",
             "Material groups use only names written in the fuel description. 'Other descriptions' includes rods whose material is not named.",
             "An empty cell means no row in this table, not that the condition is safe, unsafe or untested elsewhere.",
-            "Other investigations' experimental tables are not imported, so they cannot fill BASS-II cells.",
+            "Other investigations' tables (now browsable in the Data Atlas) use different fields, units and hardware, so they are never used to fill BASS-II cells.",
         ],
     }
 

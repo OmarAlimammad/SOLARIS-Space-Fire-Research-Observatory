@@ -70,3 +70,28 @@ export function useApi(loader, deps = []) {
 }
 
 export const API_HINT = 'cd backend; python -m uvicorn main:app --reload --port 8000';
+
+/* ---------------------------------------------------------------------------
+ * NASA PSI source tables (merged from SOLARIS 4.0/5.0): every experimental table in data/raw/,
+ * lossless, with row locators, field schema/units, summaries and exports; plus MissionShield tools.
+ * ------------------------------------------------------------------------- */
+const qs = (o) => new URLSearchParams(Object.entries(o).filter(([, v]) => v !== undefined && v !== null)).toString();
+export const tablesApi = {
+  root: API_ROOT,
+  registry: (o) => getJSON('/api/v1/datasets', o),
+  dataset: (id, o) => getJSON(`/api/v1/datasets/${encodeURIComponent(id)}`, o),
+  rows: (id, { search = '', filters = [], offset = 0, limit = 25 } = {}, o) => getJSON(`/api/v1/datasets/${encodeURIComponent(id)}/rows?${qs({ search, filters: JSON.stringify(filters), offset, limit })}`, o),
+  row: (id, n, o) => getJSON(`/api/v1/datasets/${encodeURIComponent(id)}/rows/${n}`, o),
+  summary: (id, field, { search = '', filters = [] } = {}, o) => getJSON(`/api/v1/datasets/${encodeURIComponent(id)}/summary?${qs({ field, search, filters: JSON.stringify(filters) })}`, o),
+  exportUrl: (id, { search = '', filters = [] } = {}, format = 'csv') => `${API_ROOT}/api/v1/datasets/${encodeURIComponent(id)}/export?${qs({ search, filters: JSON.stringify(filters), format })}`,
+  originalUrl: (id) => `${API_ROOT}/api/v1/datasets/${encodeURIComponent(id)}/original`,
+  passport: (id, n, o) => getJSON(`/api/v1/mission-shield/passport/${encodeURIComponent(id)}/${n}`, o),
+  coverage: (id, o) => getJSON(`/api/v1/mission-shield/coverage/${encodeURIComponent(id)}`, o),
+  transport: (ventilation, steps, o) => getJSON(`/api/v1/mission-shield/transport?${qs({ ventilation, steps })}`, o),
+  compare: async (body, o) => (await postJSON('/api/v1/mission-shield/compare', body, o)).json(),
+  scenario: async (body, o) => (await postJSON('/api/v1/mission-shield/scenario', body, o)).json(),
+  referee: async (body, o) => (await postJSON('/api/v1/mission-shield/referee/number', body, o)).json(),
+};
+
+/** Human label for a source table, e.g. "ACME · Flame Design (inverse)". */
+export const tableLabel = (d) => `${d.investigation}${d.variant !== 'table' ? ` · Flame Design (${d.variant})` : ''}`;

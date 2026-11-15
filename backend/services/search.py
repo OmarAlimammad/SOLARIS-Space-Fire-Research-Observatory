@@ -5,6 +5,8 @@ Corpus (each passage keeps its evidence class and source):
 * psi_record_text     — objective / hypothesis / approach / impacts text from PSI records
 * publication         — publication titles + authors listed on PSI records (with DOI)
 * experimental_record — one passage per BASS-II test row (source fields only)
+* source_table_row    — one passage per row of the other NASA PSI experimental tables in data/raw/
+                        (BASS, ACME, FLEX, FLEX-2, Saffire I-III, SAME, SAME-R, SPICE): raw cell text, never converted
 * educational_note    — short SOLARIS-authored explanations (clearly labelled)
 
 No embeddings or external services: ranking is reproducible and inspectable.
@@ -102,12 +104,45 @@ def corpus() -> list[dict]:
             "investigation": "bass-ii", "url": r["source_url"], "citation": r["source_locator"],
             "record_id": r["id"], "tags": ["bass-ii", material_group(r["fuel"]).split(" ")[0].lower()],
         })
+    docs.extend(_source_table_passages())
     for nid, title, text, tags in EDUCATIONAL_NOTES:
         docs.append({
             "id": f"edu:{nid}", "evidence_type": "educational_note", "title": title, "text": text,
             "investigation": None, "url": None, "citation": "SOLARIS educational note (not a NASA source)", "tags": tags,
         })
     return docs
+
+
+def _source_table_passages() -> list[dict]:
+    """One passage per source row of every non-BASS-II PSI table (BASS-II rows are indexed above)."""
+    try:
+        from ..scientific.foundation import dataset, registry
+    except ImportError:  # pragma: no cover
+        return []
+    out = []
+    for meta in registry()["items"]:
+        if not meta.get("available") or meta["investigation"] == "BASS-II":
+            continue
+        _, rows = dataset(meta["id"])
+        listed = (meta.get("psi_listing") or {}).get("listed_name") or meta["file"].split("/")[-1]
+        label = meta["investigation"] + (f" ({meta['variant']} flame design)" if meta["variant"] != "table" else "")
+        for r in rows:
+            if r["role"] == "blank":
+                continue
+            cells = [f"{k.strip()}: {v.strip()}" for k, v in r["values"].items() if k and v and v.strip()]
+            if not cells:
+                continue
+            text = "; ".join(cells)
+            out.append({
+                "id": f"row:{meta['id']}:{r['source_row']}", "evidence_type": "source_table_row",
+                "title": f"{label} table · source row {r['source_row']}" + ("" if r["role"] == "source_record" else f" ({r['role'].replace('_', ' ')})"),
+                "text": f"{meta['name']} ({meta['investigation']}) experimental table row {r['source_row']}: {text}"[:900],
+                "investigation": meta["site_investigation"], "url": meta["source_url"],
+                "citation": f"NASA {meta['accession']} experimental table '{listed}', source row {r['source_row']} (file SHA-256 {meta['sha256'][:12]}…)",
+                "dataset_id": meta["id"], "source_row": r["source_row"],
+                "tags": [meta["site_investigation"], meta["topic"].lower()],
+            })
+    return out
 
 
 @lru_cache(maxsize=1)
@@ -121,7 +156,8 @@ def _index():
     return docs, [Counter(t) for t in toks], [len(t) for t in toks], df, avg
 
 
-TYPE_WEIGHT = {"published_finding": 1.35, "psi_record_text": 1.15, "educational_note": 1.3, "publication": 0.9, "experimental_record": 0.8}
+TYPE_WEIGHT = {"published_finding": 1.35, "psi_record_text": 1.15, "educational_note": 1.3, "publication": 0.9, "experimental_record": 0.8,
+               "source_table_row": 0.7}
 
 
 def search(query: str, *, limit: int = 12, types: set[str] | None = None, investigation: str | None = None) -> list[dict]:

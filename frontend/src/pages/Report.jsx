@@ -3,6 +3,7 @@ import { CheckCircle2, FileDown, FileText, LoaderCircle, ShieldCheck, X } from '
 import { api, getExperiments, useApi } from '../lib/api.js';
 import { useResearch } from '../state/ResearchContext.jsx';
 import { ApiError, EvidenceBadge, PageHeader, Skeleton } from '../components/ui.jsx';
+import RunLedger from '../features/sim/RunLedger.jsx';
 
 const SECTIONS = [
   ['Evidence classes', 'How every value in the report is labelled', 'metadata'],
@@ -90,6 +91,9 @@ export default function Report() {
         <div className="s-panel" data-reveal><span className="s-label"><ShieldCheck size={13} /> What the report will not contain</span>
           <ul className="rp-not"><li>Flame-spread rates or calibrated airflow speeds (not in the table)</li><li>Risk scores, probabilities or safety certification</li><li>AI-generated text</li></ul></div>
       </aside>
+    </div>
+    <div className="container rp-runs" data-reveal>
+      <RunLedger compact />
     </div>
   </div>;
 }

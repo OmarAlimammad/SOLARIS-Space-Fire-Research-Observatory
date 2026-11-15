@@ -1,0 +1,79 @@
+{
+ "schema_version": "5.0",
+ "order": 3,
+ "title": "Pressure and gravity study",
+ "destination": "flame",
+ "kind": "flame_l3",
+ "fidelity_level": 3,
+ "expected_runtime": "about 30 s per run",
+ "summary": "Separates two effects with the same burner. Variants change exactly one input: gravity (1 g, Mars 0.38 g, 0 g) at 1 atm, or pressure (0.5 atm) at 1 g.",
+ "expected_behaviour": "Without gravity the buoyant plume disappears and the hot region becomes wider and shorter; lowering pressure lowers density and buoyant acceleration of the plume. Gravity does not enter the Level 1/2 models at all.",
+ "acceptance_checks": [
+  "Each variant completes.",
+  "Peak axial velocity at 0 g is lower than at 1 g.",
+  "The acceleration plot shows the applied value for each variant."
+ ],
+ "payload": {
+  "mode": "flame_l3",
+  "fuel": "CH4",
+  "ox": {
+   "basis": "mole",
+   "species": {
+    "N2": 0.79,
+    "O2": 0.21
+   },
+   "humidity": {
+    "mode": "none"
+   }
+  },
+  "p": 101325,
+  "T": 300,
+  "l3": {
+   "geometry": "axisymmetric",
+   "boundary": "open",
+   "length_m": 0.08,
+   "width_m": 0.04,
+   "radius_m": 0.003,
+   "velocity": 0.25,
+   "coflow": 0,
+   "accel": -9.80665,
+   "lateral": 0,
+   "nx": 64,
+   "ny": 32,
+   "duration": 0.3,
+   "ignite": true,
+   "react": true,
+   "radiation": false
+  },
+  "variants": [
+   {
+    "label": "1 g, 1 atm",
+    "p": 101325,
+    "l3": {
+     "accel": -9.80665
+    }
+   },
+   {
+    "label": "Mars gravity, 1 atm",
+    "p": 101325,
+    "l3": {
+     "accel": -3.728
+    }
+   },
+   {
+    "label": "0 g, 1 atm",
+    "p": 101325,
+    "l3": {
+     "accel": 0
+    }
+   },
+   {
+    "label": "1 g, 0.5 atm",
+    "p": 50662.5,
+    "l3": {
+     "accel": -9.80665
+    }
+   }
+  ]
+ }
+}

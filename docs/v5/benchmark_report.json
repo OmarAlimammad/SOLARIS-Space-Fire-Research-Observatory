@@ -1,0 +1,191 @@
+{
+ "generated_utc": "2026-11-15T14:23:33.729274+00:00",
+ "versions": {
+  "solaris": "5.0.0",
+  "schema": "5.0",
+  "python": "3.10.12",
+  "cantera": "3.2.0",
+  "numpy": "2.2.6",
+  "scipy": "1.15.3",
+  "platform": "Linux-6.8.0-1060-aws-x86_64-with-glibc2.35"
+ },
+ "benchmarks": {
+  "ENV-USSA76": {
+   "title": "Hydrostatic integration reproduces US Standard Atmosphere 1976 pressures",
+   "metric": "max relative pressure error at 11, 20, 30 km",
+   "value": 2.3180894957008924e-05,
+   "tolerance": 0.01,
+   "status": "PASS",
+   "reference": "NOAA/NASA/USAF, U.S. Standard Atmosphere, 1976 (pressures at 11/20/30 km geopotential; geometric/geopotential difference < 0.5 % included in tolerance)",
+   "wall_time_s": 0.18
+  },
+  "L1-EQ-CH4": {
+   "title": "Adiabatic flame temperature, stoichiometric CH4/air, 298.15 K, 1 atm",
+   "metric": "T_ad [K]",
+   "value": 2224.224370867008,
+   "tolerance": "2226 +/- 15 K",
+   "status": "PASS",
+   "reference": "S. R. Turns, An Introduction to Combustion, 3rd ed., Table 2.1 lists about 2226 K for CH4/air (air as 79/21 N2/O2)",
+   "wall_time_s": 0.06
+  },
+  "L1-ELEMENTS": {
+   "title": "Element conservation through equilibrium solve",
+   "metric": "max |delta element mass fraction|",
+   "value": 1.8762769116165146e-14,
+   "tolerance": 1e-09,
+   "status": "PASS",
+   "reference": "Exact conservation law",
+   "wall_time_s": 0.05
+  },
+  "L1-REACTOR-CONS": {
+   "title": "Mass and element conservation in constant-pressure reactor with ignition",
+   "metric": "max conservation error",
+   "value": 4.191091917959966e-15,
+   "tolerance": 1e-08,
+   "status": "PASS",
+   "reference": "Exact conservation law",
+   "wall_time_s": 0.17
+  },
+  "L2-SL-CH4": {
+   "title": "Laminar burning velocity, stoichiometric CH4/air, 300 K, 1 atm (GRI-Mech 3.0)",
+   "metric": "S_L [m/s]",
+   "value": 0.38215039241487736,
+   "tolerance": "0.33-0.42",
+   "status": "PASS",
+   "reference": "Measured values cluster around 0.36-0.40 m/s (e.g. Vagelopoulos & Egolfopoulos, Proc. Combust. Inst. 27 (1998) 513); GRI-Mech 3.0 is known to give about 0.38 m/s",
+   "grid_points": 149,
+   "wall_time_s": 20.31
+  },
+  "L2-SL-H2": {
+   "title": "Laminar burning velocity, stoichiometric H2/air, 300 K, 1 atm",
+   "metric": "S_L [m/s]",
+   "value": 2.343825506831942,
+   "tolerance": "1.9-2.6",
+   "status": "PASS",
+   "reference": "Measured values about 2.1-2.4 m/s near stoichiometric (e.g. Tse, Zhu & Law, Proc. Combust. Inst. 28 (2000) 1793)",
+   "wall_time_s": 0.36
+  },
+  "L2-CF-CH4": {
+   "title": "Counterflow CH4/air diffusion flame: reacting branch found; N2-only oxidizer yields no reacting solution",
+   "metric": "peak T [K]",
+   "value": 2010.9824301948486,
+   "tolerance": "1700-2300 K and no flame without O2",
+   "status": "PASS",
+   "reference": "Internal consistency (peak below adiabatic stoichiometric temperature; oxidizer-free control)",
+   "wall_time_s": 21.47
+  },
+  "L3-VOLUME-BALANCE": {
+   "title": "Isothermal constant-density jet: discrete volume balance (inflow = outflow through open boundaries)",
+   "metric": "|net volume flux| / inflow",
+   "value": 1.7646519734464589e-16,
+   "tolerance": 1e-08,
+   "status": "PASS",
+   "reference": "Incompressibility constraint div u = 0 enforced by the projection",
+   "wall_time_s": 0.39
+  },
+  "L3-CAVITY-GHIA": {
+   "title": "Lid-driven cavity, Re = 100, 48x48 grid: centreline velocity profile",
+   "metric": "max |u/U - Ghia|",
+   "value": 0.005125810937445019,
+   "tolerance": 0.03,
+   "status": "PASS",
+   "reference": "Ghia, Ghia & Shin, J. Comput. Phys. 48 (1982) 387-411, Table I",
+   "time_reached_s": 1.4416624594292047,
+   "steps": 4000,
+   "wall_time_s": 31.93
+  },
+  "L3-DIFFUSION": {
+   "title": "Decay of a thermal cosine mode between adiabatic walls (pure conduction at constant pressure)",
+   "metric": "relative amplitude error",
+   "value": 0.00023472862697504482,
+   "tolerance": 0.02,
+   "status": "PASS",
+   "reference": "Analytic: A(t) = A0 exp(-alpha pi^2 t / L^2)",
+   "wall_time_s": 4.69
+  },
+  "L3-SEALED-ADIABATIC": {
+   "title": "Sealed adiabatic chamber, lean premixed CH4/air burn-out: final pressure vs constant-U,V complete-combustion reference",
+   "metric": "relative pressure error",
+   "value": 0.010577847526919593,
+   "tolerance": 0.03,
+   "status": "PASS",
+   "reference": "First law for a closed adiabatic rigid vessel with the same NASA-7 data",
+   "p_final_pa": 775810.4559930663,
+   "p_reference_pa": 784104.594842467,
+   "fuel_fraction_left": 1.7553256481919495e-10,
+   "mass_residual_rel": 0.0,
+   "energy_residual_rel": 0.004743924280018388,
+   "wall_time_s": 10.93
+  },
+  "L3-BUOYANCY": {
+   "title": "Buoyancy sign and symmetry: hot kernel moves opposite to the effective acceleration; no drift at zero acceleration",
+   "metric": "centroid shift [m] for a = -g, 0, +g",
+   "value": [
+    0.005454570069236029,
+    -3.469446951953614e-18,
+    -0.005454570069236038
+   ],
+   "tolerance": "opposite, antisymmetric within 5 %, |zero-g| < 10 %",
+   "status": "PASS",
+   "reference": "Momentum equation source (rho - rho_ref) a",
+   "wall_time_s": 1.9
+  },
+  "L3-GRID": {
+   "title": "Grid sensitivity of the zero-g CH4 jet flame over 0-0.15 s (dx = 1.25, 0.83, 0.625 mm)",
+   "metric": "relative change medium->fine: [T_max, cumulative heat released]; instantaneous HRR at 0.15 s reported separately",
+   "value": [
+    0.0032896839298866233,
+    0.003913239840440313
+   ],
+   "tolerance": "T_max < 3 %, cumulative heat release < 5 %",
+   "status": "PASS",
+   "reference": "Self-convergence (no exact solution). Pass criterion uses peak temperature and time-integrated heat release only.",
+   "instantaneous_hrr_change_medium_to_fine": 0.16136358350281418,
+   "not_converged_note": "The instantaneous integrated heat-release rate at a single time still changes by 16 % between the two finest grids: the one-step reaction zone is thinner than the grid, so instantaneous HRR and flame-shape metrics are grid-dependent at these resolutions.",
+   "runs": [
+    {
+     "grid": "48x24",
+     "heat_released_j": 14.266044795009662,
+     "T_max_k": 2334.8988532000167,
+     "hrr_total_w": 114.87015801544605,
+     "flame_width_m": 0.0325,
+     "status": "completed",
+     "mass_residual_rel": 0.001316651068138733
+    },
+    {
+     "grid": "72x36",
+     "heat_released_j": 14.78746589398918,
+     "T_max_k": 2320.6298237926717,
+     "hrr_total_w": 87.93237132903376,
+     "flame_width_m": 0.03333333333333333,
+     "status": "completed",
+     "mass_residual_rel": 0.0012389909346901082
+    },
+    {
+     "grid": "96x48",
+     "heat_released_j": 14.729824557687342,
+     "T_max_k": 2328.2891592239,
+     "hrr_total_w": 104.85160147982774,
+     "flame_width_m": 0.03375,
+     "status": "completed",
+     "mass_residual_rel": 0.0009082393367049382
+    }
+   ],
+   "wall_time_s": 65.67
+  },
+  "CPL-SIGN": {
+   "title": "Coupling sign convention: surface rest -> -g along burner axis, coast -> 0, thrust -> -a, spin -> +omega^2 r outward",
+   "metric": "[a_surface, a_coast, a_burn, a_spin]",
+   "value": [
+    -9.80665,
+    0.0,
+    -30.0,
+    12.0
+   ],
+   "tolerance": "exact",
+   "status": "PASS",
+   "reference": "Kinematics of a non-inertial frame",
+   "wall_time_s": 0.0
+  }
+ }
+}

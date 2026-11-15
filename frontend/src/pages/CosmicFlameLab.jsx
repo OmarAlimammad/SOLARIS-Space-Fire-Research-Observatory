@@ -2,7 +2,7 @@ import React, { Suspense, lazy, useMemo, useState } from 'react';
 import { ArrowUpRight, Gauge, Globe2, Info, Orbit, RotateCcw, ShieldAlert, Sigma } from 'lucide-react';
 import { ENVIRONMENTS, ASSUMPTIONS, analyse, buoyantVelocityCmS } from '../scientific/flamePhysics.js';
 import { useReducedMotion } from '../lib/motion.js';
-import { EvidenceBadge, PageHeader, Skeleton } from '../components/ui.jsx';
+import { EvidenceBadge, PageHeader, Skeleton, Tabs } from '../components/ui.jsx';
 import FlamePreview from '../features/cosmic-flame/FlamePreview.jsx';
 import { webglAvailable } from '../features/cosmic-flame/webgl.js';
 
@@ -85,17 +85,18 @@ function Lab() {
           <li>The drawing maps model outputs to shape and brightness for teaching. It is not CFD and not validated against experiments.</li>
           <li>No flame-spread rate, temperature, extinction limit or risk is computed.</li>
         </ul>
+        <p><a className="s-btn s-btn-ghost s-btn-sm" href="#/flame">Computed chemistry & flow: Flame Laboratory (Levels 1–3) <ArrowUpRight size={13} /></a></p>
       </details>
     </section>
   </div>;
 }
 
 export default function CosmicFlameLab() {
-  const [mode, setMode] = useState(TeammateLab ? 'teammate' : 'solaris');
+  const [mode, setMode] = useState('solaris');
   return <div className="s-page cf-page">
     <PageHeader kicker="Discover / Cosmic Flame Laboratory" title={<>Change the world around a flame. <em>See what changes.</em></>}
       lede="Pick Earth, the ISS, the Moon or Mars, then adjust oxygen, pressure and airflow. A labelled order-of-magnitude model tells you which transport mechanism dominates — and links to the real NASA evidence, or to the gap where evidence is missing."
-      aside={TeammateLab && <div className="s-tabs" role="tablist"><button type="button" role="tab" className="s-tab" aria-selected={mode === 'solaris'} onClick={() => setMode('solaris')}>SOLARIS lab</button><button type="button" role="tab" className="s-tab" aria-selected={mode === 'teammate'} onClick={() => setMode('teammate')}>Cosmic Flame Lab v2</button></div>} />
-    {mode === 'teammate' && TeammateLab ? <Suspense fallback={<div className="container"><Skeleton lines={6} /></div>}><div className="container"><div className="s-alert is-info" style={{ marginBottom: 12 }}><Info size={16} />Team module: educational model, not validated against experiments.</div></div><TeammateLab /></Suspense> : <Lab />}
+      aside={TeammateLab && <Tabs label="Laboratory" value={mode} onChange={setMode} tabs={[{ value: 'solaris', label: 'Four environments' }, { value: 'teammate', label: 'Whole Solar System' }]} />} />
+    {mode === 'teammate' && TeammateLab ? <Suspense fallback={<div className="container"><Skeleton lines={6} /></div>}><div className="container"><div className="s-alert is-info" style={{ marginBottom: 12 }}><Info size={16} /><span>Team module: every body in the Solar System, points in space, sealed chambers and spacecraft acceleration. Educational model, not validated against experiments.</span></div></div><TeammateLab /></Suspense> : <Lab />}
   </div>;
 }

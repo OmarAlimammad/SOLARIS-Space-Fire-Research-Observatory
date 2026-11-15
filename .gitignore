@@ -21,3 +21,8 @@ models/
 *.pkl
 .venv/
 .vercel
+# SaturnV.glb is a protected source asset of the Flight Laboratory
+!frontend/public/models/
+!frontend/public/models/**
+# Local simulation run store (SOLARIS_RUN_DIR default)
+var/

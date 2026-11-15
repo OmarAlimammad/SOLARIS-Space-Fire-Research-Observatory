@@ -1,0 +1,179 @@
+{
+  "model": "Educational ECI three-degree-of-freedom point mass RK4 with approximate aerodynamics",
+  "notHistoricalTelemetry": true,
+  "config": {
+    "ratio": 3.5618161925601743,
+    "v0": 0,
+    "payloadFactor": 1,
+    "throttle": 1,
+    "cdScale": 1,
+    "windEast": 0,
+    "pitchStart": 0,
+    "pitchEnd": 265,
+    "pitchFinal": 80,
+    "limitAoA": 5,
+    "atmosphere": true,
+    "rotation": true,
+    "j2": true,
+    "lift": true,
+    "staging": true,
+    "targetOrbit": true,
+    "dt": 0.75,
+    "coastTo": 2300,
+    "stage3Burn": 420
+  },
+  "launchMass_kg": 2953339.9210699997,
+  "firstStageMassRatio": 3.561816192560173,
+  "initialThrustToWeight": 1.1687912762331958,
+  "idealDeltaV_m_s": 12233.141286462593,
+  "stages": [
+    {
+      "name": "S-IC",
+      "engine": "5 × F-1",
+      "prop": 2124173.0687099993,
+      "dry": 161025.29135,
+      "ispSL": 263,
+      "ispVac": 304,
+      "thrustSL": 33850966.49015,
+      "area": 78.5,
+      "noseRadius": 5,
+      "mdot": 13124.859070334034,
+      "thrustVac": 39128113.35743574,
+      "exitArea": 52.081390252018195
+    },
+    {
+      "name": "S-II",
+      "engine": "5 × J-2",
+      "prop": 452685.18526,
+      "dry": 41730.49804,
+      "ispVac": 421,
+      "thrustVac": 5115454.857249999,
+      "exitArea": 15,
+      "area": 78.5,
+      "noseRadius": 5,
+      "mdot": 1239.029039119838
+    },
+    {
+      "name": "S-IVB",
+      "engine": "1 × J-2",
+      "prop": 107047.79932,
+      "dry": 13154.17873,
+      "ispVac": 421,
+      "thrustVac": 1023090.97145,
+      "exitArea": 3.5,
+      "area": 36.6,
+      "noseRadius": 3.3,
+      "mdot": 247.8058078239676
+    }
+  ],
+  "cutoffEvents": [
+    {
+      "t": 161.84349541026637,
+      "stage": 0,
+      "m": 829166.852360012,
+      "alt": 83340.39589359425
+    },
+    {
+      "t": 527.1982780403582,
+      "stage": 1,
+      "m": 215456.3757500127,
+      "alt": 291209.43854182307
+    },
+    {
+      "t": 712.4482780403582,
+      "stage": 2,
+      "m": 127819.85181062133,
+      "alt": 277450.01654452365
+    }
+  ],
+  "maxQ_Ascent": {
+    "value": 28253.50651233717,
+    "t": 78.75
+  },
+  "maxG": {
+    "value": 4.811944971358071,
+    "t": 161.84349541026637
+  },
+  "insertion": {
+    "time_s": 712.4482780403582,
+    "altitude_m": 277450.01654452365,
+    "speed_m_s": 7723.902710278467,
+    "radialSpeed_m_s": -55.23956143012924,
+    "orbit": {
+      "apogee": 302318.06268257834,
+      "perigee": 187427.94968742132,
+      "eccentricity": 0.008682914022665687,
+      "a": 6615873.006185,
+      "inclination": 28.118735315436272,
+      "energy": -30124553.58705943,
+      "orbital": true
+    }
+  },
+  "events": [
+    {
+      "t": 0,
+      "type": "liftoff",
+      "text": "IGNITION · S-IC / 5 × F-1"
+    },
+    {
+      "t": 78.75,
+      "type": "maxq",
+      "text": "MAX-Q · 28.3 kPa"
+    },
+    {
+      "t": 161.84349541026637,
+      "type": "cutoff",
+      "text": "S-IC · ENGINE CUTOFF"
+    },
+    {
+      "t": 161.84349541026637,
+      "type": "stage",
+      "text": "S-IC SEPARATED · 161 t JETTISONED"
+    },
+    {
+      "t": 161.84349541026637,
+      "type": "ignition",
+      "text": "S-II · 5 × J-2 IGNITION"
+    },
+    {
+      "t": 161.84349541026637,
+      "type": "maxg",
+      "text": "PEAK SPECIFIC FORCE · 4.81 g"
+    },
+    {
+      "t": 173.09349541026637,
+      "type": "space",
+      "text": "100 KM · KÁRMÁN LINE CROSSED"
+    },
+    {
+      "t": 527.1982780403582,
+      "type": "cutoff",
+      "text": "S-II · ENGINE CUTOFF"
+    },
+    {
+      "t": 527.1982780403582,
+      "type": "stage",
+      "text": "S-II SEPARATED · 42 t JETTISONED"
+    },
+    {
+      "t": 527.1982780403582,
+      "type": "ignition",
+      "text": "S-IVB · 1 × J-2 IGNITION"
+    },
+    {
+      "t": 712.4482780403582,
+      "type": "orbit",
+      "text": "TARGET PERIGEE REACHED · ORBIT INSERTION"
+    },
+    {
+      "t": 712.4482780403582,
+      "type": "cutoff",
+      "text": "S-IVB · ENGINE CUTOFF"
+    },
+    {
+      "t": 712.4482780403582,
+      "type": "coast",
+      "text": "S-IVB FIRST BURN COMPLETE · COAST"
+    }
+  ]
+}
