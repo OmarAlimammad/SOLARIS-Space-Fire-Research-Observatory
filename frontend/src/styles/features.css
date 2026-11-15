@@ -335,3 +335,42 @@
 .hb-checks .is-missing { color: #6a7c8c; } .hb-checks .is-missing svg { color: var(--ev-missing); }
 @media (max-width: 960px) { .hb-layout, .hb-controls { grid-template-columns: 1fr; } }
 @media (prefers-reduced-motion: reduce) { .hb-flow path, .hb-outline, .hb-zone { animation: none; stroke-dashoffset: 0; } }
+
+/* ===================== COSMIC FLAME LAB ===================== */
+.cf-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 18px; align-items: start; }
+.cf-space { background: radial-gradient(circle at 50% 30%, #0f2d4a 0%, #061626 70%); border-radius: var(--s-radius-3); padding: 16px; color: #d7e8f5; box-shadow: var(--s-shadow-3); position: sticky; top: calc(var(--header-h) + 16px); }
+.cf-space-head, .cf-space-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.cf-space-head .s-label { display: inline-flex; gap: 6px; align-items: center; }
+.cf-scene { position: relative; height: 380px; margin: 12px 0; border-radius: 14px; overflow: hidden; background: #040f1b; }
+.cf-scene canvas { display: block; width: 100% !important; height: 100% !important; touch-action: none; }
+.cf-loading, .cf-fallback { display: grid; place-items: center; align-content: center; gap: 12px; color: #9cb9cf; text-align: center; padding: 20px; font-size: 13px; }
+.cf-loading .s-skeleton { background: #10304d; }
+.cf-hover { position: absolute; left: 12px; top: 12px; background: rgba(4, 15, 27, .8); border: 1px solid #1f4a6d; color: #e4f1fa; font-size: 12px; font-weight: 800; padding: 5px 10px; border-radius: 99px; pointer-events: none; animation: tip-in var(--dur-fast) var(--ease-out); }
+.cf-env { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.cf-env-btn { border: 1px solid #1f4a6d; background: #0b2740; color: #cfe2f1; border-radius: 10px; padding: 9px 8px; text-align: left; display: grid; gap: 2px; transition: background var(--dur-base), border-color var(--dur-base), transform var(--dur-fast) var(--ease-out); }
+.cf-env-btn:hover { transform: translateY(-1px); border-color: #3b79a8; }
+.cf-env-btn strong { font-size: 12px; }
+.cf-env-btn small { font-size: 10.5px; color: #8fb0c8; }
+.cf-env-btn.is-on { background: #e9f5fd; color: var(--s-ink); border-color: #e9f5fd; }
+.cf-env-btn.is-on small { color: #3b6a8c; }
+.cf-space-foot { margin-top: 10px; }
+.cf-speed { display: flex; gap: 8px; align-items: center; font-size: 11px; color: #9cb9cf; }
+.cf-speed input { accent-color: var(--s-cyan); }
+.cf-toggle { background: transparent; color: #cfe6f6; border-color: #2d5677; }
+.cf-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; margin-top: 12px; }
+.cf-flame-wrap { background: radial-gradient(circle at 50% 60%, #0d2a44, #06131f); border-radius: 14px; overflow: hidden; }
+.cf-flame { width: 100%; height: 260px; display: block; }
+.cf-controls { display: grid; gap: 14px; align-content: start; }
+.cf-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 16px; }
+.cf-metrics > div { background: #f6fafd; border: 1px solid var(--s-stroke); border-radius: 10px; padding: 12px; display: grid; gap: 6px; align-content: start; }
+.cf-metrics .s-label { display: inline-flex; gap: 5px; align-items: center; font-size: 9px; }
+.cf-metrics strong { font-family: Manrope, sans-serif; font-size: 17px; color: var(--s-ink); font-variant-numeric: tabular-nums; }
+.cf-metrics small { font-size: 10.5px; color: #7d93a6; }
+.cf-evidence { display: flex; gap: 10px; align-items: center; margin-top: 14px; padding: 12px 14px; border-radius: 12px; background: #f3fbf9; border: 1px solid #cde9e2; color: #1d5e52; font-size: 13px; flex-wrap: wrap; }
+.cf-evidence span { flex: 1; min-width: 200px; }
+.cf-assume { margin-top: 14px; border-top: 1px solid #eef3f7; padding-top: 12px; font-size: 12.8px; color: #3b5a72; line-height: 1.65; }
+.cf-assume summary { cursor: pointer; font-weight: 800; color: var(--s-ink); display: flex; gap: 8px; align-items: center; }
+.cf-assume code { background: #eef5fa; padding: 2px 6px; border-radius: 5px; }
+.cf-assume ul { padding-left: 18px; }
+@media (max-width: 1080px) { .cf-layout { grid-template-columns: 1fr; } .cf-space { position: static; } .cf-metrics { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .cf-grid { grid-template-columns: 1fr; } .cf-env { grid-template-columns: 1fr 1fr; } .cf-scene { height: 300px; } }
