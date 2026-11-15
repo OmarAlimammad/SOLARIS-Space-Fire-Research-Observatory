@@ -12,6 +12,8 @@ import {
   FileSearch,
 } from "lucide-react";
 import { getMetadata } from "../lib/api.js";
+import { useCountUp } from "../lib/motion.js";
+import ExperienceGrid from "../components/ExperienceGrid.jsx";
 
 const NASA_SOURCE =
   "https://psi.nasa.gov/physci/repo/data/investigations/PSI-25";
@@ -23,6 +25,11 @@ const NASA_COMPARISON_IMAGE =
 
 const ESA_BASS_IMAGE =
   "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2014/08/microgravity_flame/14714389-2-eng-GB/Microgravity_flame.jpg";
+
+function CountUp({ value }) {
+  const shown = useCountUp(value ?? null);
+  return value === null || value === undefined ? "—" : shown;
+}
 
 function Eyebrow({ number, children }) {
   return (
@@ -60,7 +67,7 @@ export default function Home() {
       {/* 01 — HERO */}
       <section className="obs-hero">
         <div className="container obs-hero-grid">
-          <div className="obs-hero-copy">
+          <div className="obs-hero-copy" data-reveal>
             <Eyebrow>SPACE FIRE RESEARCH OBSERVATORY</Eyebrow>
 
             <h1>
@@ -97,7 +104,7 @@ export default function Home() {
             </div>
           </div>
 
-          <figure className="obs-hero-figure">
+          <figure className="obs-hero-figure" data-reveal="scale">
             <div className="obs-photo-top">
               <span>OBSERVATORY / 001</span>
               <span>NASA / SoFIE-GEL</span>
@@ -141,14 +148,14 @@ export default function Home() {
 
       {/* LIVE DATA FOUNDATION */}
       <section className="obs-data-strip">
-        <div className="container obs-data-inner">
+        <div className="container obs-data-inner" data-reveal="fade">
           <div className="obs-data-label">
             <span className="obs-data-line" />
             RESEARCH FOUNDATION
           </div>
 
           <div className="obs-data-item">
-            <strong>{records ?? "—"}</strong>
+            <strong><CountUp value={records} /></strong>
             <span>BASS-II source records</span>
           </div>
 
@@ -158,8 +165,8 @@ export default function Home() {
           </div>
 
           <div className="obs-data-item">
-            <strong>07</strong>
-            <span>Planned research tools</span>
+            <strong>11</strong>
+            <span>NASA investigations catalogued</span>
           </div>
 
           <a
@@ -177,7 +184,7 @@ export default function Home() {
       {/* 02 — GRAVITY SCIENCE */}
       <section className="obs-science">
         <div className="container obs-science-grid">
-          <div className="obs-science-heading">
+          <div className="obs-science-heading" data-reveal>
             <Eyebrow number="01">THE QUESTION OF GRAVITY</Eyebrow>
 
             <h2>
@@ -205,7 +212,7 @@ export default function Home() {
             </a>
           </div>
 
-          <figure className="obs-comparison-figure">
+          <figure className="obs-comparison-figure" data-reveal="scale">
             <div className="obs-figure-heading">
               <span>FIGURE 01</span>
               <span>GRAVITY / MICROGRAVITY</span>
@@ -255,7 +262,7 @@ export default function Home() {
           </div>
 
           <div className="obs-featured-grid">
-            <div className="obs-featured-copy">
+            <div className="obs-featured-copy" data-reveal>
               <span className="obs-small-label">NASA / PSI-25</span>
 
               <h2>
@@ -305,7 +312,7 @@ export default function Home() {
               </div>
             </div>
 
-            <figure className="obs-featured-photo">
+            <figure className="obs-featured-photo" data-reveal="scale">
               <img
                 src={ESA_BASS_IMAGE}
                 alt="Microgravity combustion flame photographed during the BASS-II research investigation"
@@ -330,7 +337,7 @@ export default function Home() {
       {/* 04 — SCIENTIFIC WORKFLOW */}
       <section className="obs-workflow">
         <div className="container">
-          <div className="obs-workflow-head">
+          <div className="obs-workflow-head" data-reveal>
             <div>
               <Eyebrow number="03">THE RESEARCH PROCESS</Eyebrow>
               <h2>
@@ -347,7 +354,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="obs-workflow-grid">
+          <div className="obs-workflow-grid" data-reveal>
             <a
               className="obs-workflow-primary"
               href="#/explore"
@@ -409,7 +416,7 @@ export default function Home() {
                   <p>
                     Explore sources, assumptions
                     and uncertainty through
-                    the Evidence Passport concept.
+                    the Evidence Passport.
                   </p>
                   <span>
                     VIEW RESEARCH TOOLS <ArrowUpRight size={16} />
@@ -420,17 +427,20 @@ export default function Home() {
           </div>
 
           <p className="obs-roadmap-note">
-            Scientific tools are being developed progressively.
-            Features not yet validated are presented as
-            research concepts rather than completed analyses.
+            Every tool labels its evidence class — measured data, metadata,
+            published finding, simplified model or AI-assisted interpretation —
+            and none of them produces risk scores or invented measurements.
           </p>
         </div>
       </section>
 
+      {/* 04b — SEVEN EXPERIENCES */}
+      <ExperienceGrid />
+
       {/* 05 — SCIENTIFIC PRINCIPLES */}
       <section className="obs-method">
         <div className="container obs-method-grid">
-          <div className="obs-method-intro">
+          <div className="obs-method-intro" data-reveal>
             <Eyebrow number="04">OUR SCIENTIFIC APPROACH</Eyebrow>
 
             <h2>
@@ -450,7 +460,7 @@ export default function Home() {
             </a>
           </div>
 
-          <div className="obs-method-list">
+          <div className="obs-method-list" data-reveal>
             <div>
               <span>01</span>
               <BookOpen size={21} />
@@ -492,7 +502,7 @@ export default function Home() {
 
       {/* 06 — FINAL ENTRY */}
       <section className="obs-final">
-        <div className="container obs-final-grid">
+        <div className="container obs-final-grid" data-reveal>
           <div>
             <Eyebrow>CONTINUE THE INVESTIGATION</Eyebrow>
 

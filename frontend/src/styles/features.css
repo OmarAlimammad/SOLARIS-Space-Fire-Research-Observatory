@@ -374,3 +374,30 @@
 .cf-assume ul { padding-left: 18px; }
 @media (max-width: 1080px) { .cf-layout { grid-template-columns: 1fr; } .cf-space { position: static; } .cf-metrics { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 600px) { .cf-grid { grid-template-columns: 1fr; } .cf-env { grid-template-columns: 1fr 1fr; } .cf-scene { height: 300px; } }
+
+/* ===================== HOME — EXPERIENCES ===================== */
+.xp-section { padding: 110px 0; background: linear-gradient(180deg, #f6f9fc 0%, #eef5fb 100%); border-top: 1px solid #e3edf4; }
+.xp-head { max-width: 680px; margin-bottom: 40px; }
+.xp-head h2 { font-family: Manrope, sans-serif; color: var(--s-ink); font-size: clamp(30px, 3.6vw, 46px); letter-spacing: -.055em; line-height: 1.15; margin: 18px 0 14px; }
+.xp-head h2 em { font-style: normal; color: #237fb9; }
+.xp-head p { color: #5e7689; line-height: 1.75; font-size: 15px; margin: 0; }
+.xp-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.xp-card { padding: 22px; display: flex; flex-direction: column; gap: 8px; min-height: 250px; }
+.xp-top { display: flex; justify-content: space-between; align-items: center; color: var(--s-blue); }
+.xp-n { font-family: Manrope, sans-serif; font-size: 12px; font-weight: 800; color: #8aa9bf; letter-spacing: .1em; }
+.xp-card h3 { font-family: Manrope, sans-serif; color: var(--s-ink); font-size: 18px; letter-spacing: -.03em; margin: 14px 0 0; }
+.xp-card p { color: #5e7689; font-size: 13px; line-height: 1.65; margin: 0; }
+.xp-foot { margin-top: auto; padding-top: 12px; display: flex; justify-content: space-between; align-items: center; }
+.xp-arrow { color: var(--s-blue); transition: transform var(--dur-base) var(--ease-out); }
+.xp-card:hover .xp-arrow { transform: translate3d(3px, -3px, 0); }
+.xp-card:hover .xp-top svg { animation: wiggle .6s var(--ease-out); }
+@keyframes wiggle { 30% { transform: rotate(-8deg) scale(1.08); } 60% { transform: rotate(5deg); } }
+@media (max-width: 1100px) { .xp-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .xp-grid { grid-template-columns: 1fr; } .xp-section { padding: 72px 0; } .xp-card { min-height: 0; } }
+
+/* ===================== DISCOVER additions ===================== */
+.dc-next { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 28px; }
+.dc-next a { padding: 18px; display: grid; gap: 6px; }
+.dc-next strong { font-family: Manrope, sans-serif; color: var(--s-ink); font-size: 15.5px; display: flex; justify-content: space-between; align-items: center; }
+.dc-next span { color: #5e7689; font-size: 12.8px; line-height: 1.6; }
+@media (max-width: 800px) { .dc-next { grid-template-columns: 1fr; } }
