@@ -1,0 +1,83 @@
+{
+ "notes": "Each event is dated by the cited NASA source. 'precision' states how exact the date is. Events derived from the BASS-II table are computed from the CSV at request time and are not listed here.",
+ "events": [
+  {
+   "id": "spice-2009",
+   "date": "2009",
+   "precision": "year",
+   "investigation": "spice",
+   "kind": "operations",
+   "title": "SPICE conducted aboard the ISS",
+   "summary": "Laminar gas-jet diffusion flames studied in the Microgravity Science Glovebox.",
+   "finding_id": "spice-2009",
+   "source": {"label": "NTRS 20120017940 (NASA GRC, 2012)", "url": "https://ntrs.nasa.gov/citations/20120017940"}
+  },
+  {
+   "id": "grc-2012-flex",
+   "date": "2012-10",
+   "precision": "month",
+   "investigation": "flex",
+   "kind": "publication",
+   "title": "NASA reports FLEX flammability-limit result",
+   "summary": "A NASA Glenn overview states that FLEX research to date shows a lower flammability limit in reduced gravity.",
+   "finding_id": "flex-limit-lower",
+   "source": {"label": "NTRS 20120017940 (IAC-12.A2.7.4)", "url": "https://ntrs.nasa.gov/citations/20120017940"}
+  },
+  {
+   "id": "saffire-i-2016",
+   "date": "2016-06-14",
+   "precision": "day",
+   "investigation": "saffire-i",
+   "kind": "operations",
+   "title": "Saffire-I conducted after Cygnus departs the ISS",
+   "summary": "The first remote Spacecraft Fire Experiment ran inside an Orbital ATK Cygnus cargo vehicle after it left the station.",
+   "finding_id": "saffire1-conducted",
+   "source": {"label": "NASA Release 16-021 (15 June 2016)", "url": "https://www.nasa.gov/news-release/nasa-glenn-successfully-ignites-largest-fire-experiment-in-space"}
+  },
+  {
+   "id": "saffire-ii-2016",
+   "date": "2016-11",
+   "precision": "month",
+   "investigation": "saffire-ii",
+   "kind": "operations",
+   "title": "Saffire-II completed",
+   "summary": "NASA states Saffire I and II were completed in June and November 2016 respectively.",
+   "finding_id": "saffire-1-2-complete",
+   "source": {"label": "NASA Release 17-011 (2 June 2017)", "url": "https://www.nasa.gov/news-release/nasa-prepares-to-ignite-third-saffire-experiment"}
+  },
+  {
+   "id": "acme-2017",
+   "date": "2017",
+   "precision": "year",
+   "investigation": "acme",
+   "kind": "operations",
+   "title": "ACME gaseous-flame research begins on the ISS",
+   "summary": "A NASA paper states that six gaseous-fuel flame experiments have been carried out on the ISS since 2017 using the Combustion Integrated Rack.",
+   "finding_id": null,
+   "source": {"label": "NTRS 20210021781", "url": "https://ntrs.nasa.gov/citations/20210021781"}
+  },
+  {
+   "id": "saffire-iii-2017",
+   "date": "2017-06-04",
+   "precision": "day",
+   "precision_note": "Planned ignition date stated in a release issued two days earlier.",
+   "investigation": "saffire-iii",
+   "kind": "operations",
+   "title": "Saffire-III planned ignition",
+   "summary": "NASA describes Saffire-III as the final test in the first phase of large-scale flame-growth experiments.",
+   "finding_id": "saffire-phase1",
+   "source": {"label": "NASA Release 17-011 (2 June 2017)", "url": "https://www.nasa.gov/news-release/nasa-prepares-to-ignite-third-saffire-experiment"}
+  },
+  {
+   "id": "bass-ii-report-2021",
+   "date": "2021-10",
+   "precision": "month",
+   "investigation": "bass-ii",
+   "kind": "publication",
+   "title": "BASS-II Summary Report published",
+   "summary": "NASA/TM-20210011385 collects the BASS-II principal-investigator reports, including extinction, flame-spread and flammability-boundary results.",
+   "finding_id": "bass2-critical-velocity",
+   "source": {"label": "NASA/TM-20210011385", "url": "https://ntrs.nasa.gov/citations/20210011385"}
+  }
+ ]
+}
