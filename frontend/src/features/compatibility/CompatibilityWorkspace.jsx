@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { AlertCircle, ArrowUpRight, Beaker, CheckCircle2, ClipboardList, FileText, GitCompareArrows, LoaderCircle, ShieldAlert } from 'lucide-react';
 import { getExperiments, compareExperiments } from '../../lib/api.js';
 import './compatibility.css';
+import { useResearch } from '../../state/ResearchContext.jsx';
 
 function display(value) {
   return value === null || value === undefined || String(value).trim() === ''
@@ -41,6 +42,7 @@ function EvidencePassport({ passport }) {
 }
 
 export default function CompatibilityWorkspace() {
+  const research = useResearch();
   const [records, setRecords] = useState([]);
   const [loadingRecords, setLoadingRecords] = useState(true);
   const [recordsError, setRecordsError] = useState('');
@@ -62,8 +64,9 @@ export default function CompatibilityWorkspace() {
         const requestedFirst = params.get('first');
         const requestedSecond = params.get('second');
         const knownIds = new Set(items.map(item => item.id));
-        setFirstId(knownIds.has(requestedFirst) ? requestedFirst : items[0]?.id || '');
-        setSecondId(knownIds.has(requestedSecond) ? requestedSecond : items[1]?.id || '');
+        const [ctxA, ctxB] = research.experiments;
+        setFirstId(knownIds.has(requestedFirst) ? requestedFirst : knownIds.has(ctxA) ? ctxA : items[0]?.id || '');
+        setSecondId(knownIds.has(requestedSecond) ? requestedSecond : knownIds.has(ctxB) ? ctxB : items[1]?.id || '');
       })
       .catch((error) => {
         if (error.name !== 'AbortError') {
@@ -98,7 +101,7 @@ export default function CompatibilityWorkspace() {
     setIsComparing(true);
     try {
       const next = await compareExperiments({ firstId, secondId, signal: controller.signal });
-      if (!controller.signal.aborted) setComparison(next);
+      if (!controller.signal.aborted) { setComparison(next); research.setExperiments([firstId, secondId]); }
     } catch (error) {
       if (error.name !== 'AbortError') setCompareError(error.message || 'Comparison failed.');
     } finally {
