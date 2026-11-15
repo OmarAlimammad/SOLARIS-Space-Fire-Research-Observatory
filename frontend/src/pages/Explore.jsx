@@ -6,6 +6,7 @@ import {
   RotateCcw, Search, ShieldAlert, X,
 } from 'lucide-react';
 import SectionHeading from '../components/SectionHeading.jsx';
+import { useResearch } from '../state/ResearchContext.jsx';
 import { getExperiments, getMetadata } from '../lib/api.js';
 import {
   SOURCE_URL, COVERAGE_FIELDS, applyFilters, countBy, describe, enrich,
@@ -30,8 +31,8 @@ function DataBars({ rows, active, onSelect, emptyLabel = 'No recorded values' })
   const max = Math.max(1, ...rows.map(r=>r.count));
   if (!rows.length) return <p className="atlas-empty-chart">{emptyLabel}</p>;
   return <div className="atlas-bars">{rows.map((row)=><button
-    type="button" key={String(row.key)} className={`atlas-bar-row ${active===String(row.value ?? key)?'is-active':''}`}
-    aria-pressed={active===String(row.value ?? key)} onClick={()=>onSelect(String(key))}
+    type="button" key={String(row.key)} className={`atlas-bar-row ${active===String(row.value ?? row.key)?'is-active':''}`}
+    aria-pressed={active===String(row.value ?? row.key)} onClick={()=>onSelect(row)}
     title={`Filter by ${row.key}: ${row.count} records`}>
     <span className="atlas-bar-label">{row.key}</span>
     <span className="atlas-bar-track"><span style={{width:`${Math.max(3,(100*row.count/max))}%`}}/></span>
@@ -67,7 +68,7 @@ export default function Explore() {
   const [view,setView] = useState('table');
   const [page,setPage] = useState(0);
   const [detailId,setDetailId] = useState(null);
-  const [compareIds,setCompareIds] = useState([]);
+  const { experiments: compareIds, toggleExperiment: toggleCompare, clear: clearCompare } = useResearch();
 
   useEffect(()=>{
     const ctrl = new AbortController();
@@ -104,9 +105,6 @@ export default function Explore() {
   const totalPages = Math.max(1,Math.ceil(ranked.length/PAGE_SIZE));
   const setFilter=(key,value)=>{setFilters(f=>({...f,[key]:value}));setPage(0)};
   const reset=()=>{setFilters(INITIAL_FILTERS);setPage(0)};
-  function toggleCompare(id) {
-    setCompareIds(old=>old.includes(id) ? old.filter(v=>v!==id) : old.length>=2 ? [old[1],id] : [...old,id]);
-  }
   function exportCSV() {
     const blob = new Blob([toCSV(ranked)], {type:'text/csv;charset=utf-8'});
     const url=URL.createObjectURL(blob);
@@ -124,13 +122,13 @@ export default function Explore() {
   }
 
   return <div className="inner-page atlas-page">
-    <div className="container atlas-title-row">
+    <div className="container atlas-title-row" data-reveal>
       <SectionHeading eyebrow="DATA ATLAS / NASA PSI-25" title={<>Read the experiment. <em>Question the evidence.</em></>}
         description="A source-grounded scientific workspace for the original BASS-II experiment records. Every chart is calculated from the returned NASA table — without simulated measurements or invented fire-risk scores."/>
       <a href={SOURCE_URL} target="_blank" rel="noopener noreferrer" className="atlas-source-top">NASA SOURCE <ArrowUpRight size={17}/></a>
     </div>
 
-    {loading ? <div className="container atlas-loading" role="status"><LoaderCircle className="spin" size={26}/> Reading NASA source table...</div>
+    {loading ? <div className="container atlas-loading" role="status"><div style={{width:'100%'}}><div className="s-row" style={{marginBottom:18}}><LoaderCircle className="spin" size={20}/> Reading NASA source table…</div><div className="s-grid-3">{[0,1,2].map(i=><div key={i} className="s-skeleton" style={{height:110}}/>)}</div><div className="s-skeleton" style={{height:260,marginTop:18}}/></div></div>
     : error ? <div className="container atlas-error" role="alert"><ShieldAlert size={24}/><div><strong>Source data unavailable</strong><p>{error}</p><code>cd backend; python -m uvicorn main:app --reload --port 8000</code></div></div>
     : <>
       <div className="container atlas-workspace">
@@ -190,7 +188,7 @@ export default function Explore() {
         </section>
         <div className="atlas-footer-note"><ShieldAlert size={18}/><p>All analytics are derived from the supplied NASA PSI-25 / BASS-II table. Instrument display readings are not physical flow velocities. No flame-spread measurement or fire-risk probability is calculated. Parsed material categories describe text explicitly named in the table.</p></div>
       </div>
-      <div className={`atlas-compare-dock ${compareIds.length?'is-visible':''}`} aria-live="polite"><div className="atlas-compare-dock-inner"><div><GitCompareArrows size={20}/><strong>Compare experiments</strong><span>{compareIds.length?compareIds.join(' vs '):'Select two records'}</span></div><div><button type="button" className="atlas-dock-clear" onClick={()=>setCompareIds([])}>Clear</button><a className={`atlas-dock-go ${compareIds.length===2?'':'is-disabled'}`} aria-disabled={compareIds.length!==2} tabIndex={compareIds.length===2?0:-1} href={compareIds.length===2 ? `#/research?${new URLSearchParams({first:compareIds[0],second:compareIds[1]}).toString()}`:'#/explore'} onClick={e=>{if(compareIds.length!==2)e.preventDefault()}}>OPEN COMPATIBILITY ENGINE <ArrowRight size={17}/></a></div></div></div>
+      <div className={`atlas-compare-dock ${compareIds.length?'is-visible':''}`} aria-live="polite"><div className="atlas-compare-dock-inner"><div><GitCompareArrows size={20}/><strong>Compare experiments</strong><span>{compareIds.length?compareIds.join(' vs '):'Select two records'}</span></div><div><button type="button" className="atlas-dock-clear" onClick={clearCompare}>Clear</button><a className={`atlas-dock-go ${compareIds.length===2?'':'is-disabled'}`} aria-disabled={compareIds.length!==2} tabIndex={compareIds.length===2?0:-1} href="#/theater" onClick={e=>{if(compareIds.length!==2)e.preventDefault()}}>OPEN COMPARISON THEATER <ArrowRight size={17}/></a></div></div></div>
     </>}
   </div>;
 }
