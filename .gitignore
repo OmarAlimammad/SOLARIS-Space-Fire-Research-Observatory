@@ -20,3 +20,4 @@ models/
 *.pth
 *.pkl
 .venv/
+.vercel
