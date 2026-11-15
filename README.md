@@ -20,7 +20,7 @@ React + Vite frontend · FastAPI backend · NASA PSI source data · Cantera / Nu
 | **Research Studio** (8 tools) | `#/research?tool=…` | Compatibility Engine + Evidence Passport, Contradiction Detector, Evidence Gap Explorer (+ scalar coverage of every table), Earth-to-Space Transfer, Uncertainty-Aware Flame Tracker, What-If Comparator, Next-Best-Experiment Advisor (+ table coverage questions), **Scientific Referee** | See below |
 | **Flame Comparison Theater** | `#/theater` | Two experiments side by side, synchronized playback of NASA footage you load locally, conditions matrix, warnings, disabled unsupported numeric comparisons | BASS-II rows; PSI file listings |
 | **NASA Evidence Universe** | `#/universe` | Pan/zoom knowledge graph; every edge has a meaning and a stated basis; accessible list view | PSI records, BASS-II counts, quoted findings, curated tags (marked), gaps |
-| **Research Copilot** | `#/copilot` | BM25 retrieval over NASA passages; optional Claude summary with per-sentence citations | Retrieval always; AI text only when a server key is configured |
+| **Research Copilot** | `#/copilot` | BM25 retrieval over NASA passages and source-table rows; optional AI summary (Claude or Gemini) with per-sentence citations | Retrieval always; AI text only when a server key is configured |
 | **Space Habitat Safety Explorer** | `#/habitat` | Illustrative station / lunar / Mars cabins; material + ventilation → which evidence applies and what is missing | Findings, BASS-II counts; no risk scores |
 | **One-Click Scientific Report** | `#/report` | Server-generated PDF: tables, chart, verbatim findings, Evidence Passport with SHA-256 of the input CSV | Data held by SOLARIS only |
 | **Discovery Timeline** | `#/timeline` | Milestones dated by NASA sources, BASS-II test dates from the table, PSI record ranges shown separately | NASA releases / NTRS, PSI-25 table |
@@ -112,7 +112,15 @@ $env:ANTHROPIC_API_KEY = "your-key"
 python -m uvicorn main:app --reload --port 8000
 ```
 
-Optional: `$env:SOLARIS_COPILOT_MODEL` (default `claude-opus-5-5`). Without a key the Copilot runs in transparent retrieval mode.
+Optional: `$env:SOLARIS_COPILOT_MODEL` (default `claude-opus-5-5`).
+
+Or use Google Gemini instead (used when no Anthropic key is set):
+
+```powershell
+$env:GEMINI_API_KEY = "your-key"     # Google AI Studio key; GOOGLE_API_KEY also works
+```
+
+Optional: `$env:SOLARIS_GEMINI_MODELS` — comma-separated models tried in order (default `gemini-3.5-flash,gemini-3.1-flash-lite`; a busy, quota-limited or retired model falls through to the next) and `$env:SOLARIS_GEMINI_TIMEOUT_S` (default 25 per model). Without any key, or if every model call fails, the Copilot runs in transparent retrieval mode. On Vercel, set the key as an encrypted environment variable (`vercel env add GEMINI_API_KEY production`), never in code.
 
 **Tests and production build**
 
@@ -148,7 +156,7 @@ backend/
     search.py                # BM25 retrieval over labelled evidence
     graph.py                 # Evidence Universe nodes/edges with provenance
     research.py              # gaps, tensions, transfer, what-if, advisor
-    copilot.py               # retrieval + optional Claude synthesis with citations
+    copilot.py               # retrieval + optional Claude or Gemini synthesis with citations
     report.py                # reportlab PDF
   tools/build_psi_catalog.py # refresh the PSI metadata snapshot
   scientific/tables.py         # PSI source-table registry + PSI listing check
