@@ -1,0 +1,22 @@
+# JavaScript
+frontend/node_modules/
+frontend/dist/
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+# Local tooling
+.env
+.env.*
+!.env.example
+.DS_Store
+.vscode/
+# Large derived research artifacts (keep lightweight original/source CSV tracked)
+data/processed/
+models/
+*.pt
+*.pth
+*.pkl
+.venv/

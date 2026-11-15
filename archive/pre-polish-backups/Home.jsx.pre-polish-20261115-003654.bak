@@ -1,0 +1,521 @@
+
+import React, { useEffect, useState } from "react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Database,
+  FlaskConical,
+  ShieldCheck,
+  BookOpen,
+  ArrowDown,
+  FileSearch,
+} from "lucide-react";
+import { getMetadata } from "../lib/api.js";
+
+const NASA_SOURCE =
+  "https://psi.nasa.gov/physci/repo/data/investigations/PSI-25";
+
+const NASA_FLAME_IMAGE =
+  "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/ciencia/sistema-solar/2025/phys_hc_space-flame.png?crop=faces%2Cfocalpoint&fit=clip&h=1006&w=1100";
+
+const NASA_COMPARISON_IMAGE =
+  "https://science.nasa.gov/wp-content/uploads/2023/09/candle-flames.gif";
+
+const ESA_BASS_IMAGE =
+  "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2014/08/microgravity_flame/14714389-2-eng-GB/Microgravity_flame.jpg";
+
+function Eyebrow({ number, children }) {
+  return (
+    <span className="obs-eyebrow">
+      <span className="obs-eyebrow-line" />
+      {number ? `${number} / ` : ""}
+      {children}
+    </span>
+  );
+}
+
+export default function Home() {
+  const [records, setRecords] = useState(null);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    getMetadata({ signal: controller.signal })
+      .then((data) => {
+        const count = Number(data?.total_records);
+        if (Number.isFinite(count) && count >= 0) {
+          setRecords(count);
+        }
+      })
+      .catch(() => {});
+
+    return () => controller.abort();
+  }, []);
+
+  return (
+    <main className="obs-home">
+      {/* 01 — HERO */}
+      <section className="obs-hero">
+        <div className="container obs-hero-grid">
+          <div className="obs-hero-copy">
+            <Eyebrow>SPACE FIRE RESEARCH OBSERVATORY</Eyebrow>
+
+            <h1>
+              Fire behaves
+              <br />
+              differently
+              <br />
+              <em>beyond Earth.</em>
+            </h1>
+
+            <p className="obs-hero-description">
+              Explore NASA combustion experiments, compare
+              scientific evidence, and understand what
+              fire research can — and cannot — tell us
+              about safety in space.
+            </p>
+
+            <div className="obs-actions">
+              <a className="obs-button-primary" href="#/explore">
+                Explore NASA Data
+                <ArrowUpRight size={18} />
+              </a>
+              <a className="obs-button-secondary" href="#/research">
+                Open Research Studio
+                <ArrowRight size={18} />
+              </a>
+            </div>
+
+            <div className="obs-hero-note">
+              <span className="obs-note-rule" />
+              Independent scientific research platform
+              <br />
+              Built around traceable NASA evidence.
+            </div>
+          </div>
+
+          <figure className="obs-hero-figure">
+            <div className="obs-photo-top">
+              <span>OBSERVATORY / 001</span>
+              <span>MICROGRAVITY COMBUSTION</span>
+            </div>
+
+            <div className="obs-photo-frame">
+              <img
+                src={NASA_FLAME_IMAGE}
+                alt="NASA photograph of a combustion flame observed in microgravity"
+                fetchPriority="high"
+              />
+
+              <div className="obs-photo-index">
+                EXPERIMENTAL PHOTOGRAPHY
+                <span>NASA RESEARCH ARCHIVE</span>
+              </div>
+            </div>
+
+            <figcaption className="obs-photo-caption">
+              <span>
+                <strong>Flames beyond gravity</strong>
+                <small>NASA experimental imagery</small>
+              </span>
+              <a
+                href="https://ciencia.nasa.gov/sistema-solar/la-estacion-espacial-internacional-25-anos-de-descubrimientos-cientificos/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="View original NASA image source"
+              >
+                SOURCE <ArrowUpRight size={17} />
+              </a>
+            </figcaption>
+          </figure>
+        </div>
+
+        <div className="container obs-scroll">
+          <span>SCROLL TO EXPLORE</span>
+          <ArrowDown size={15} />
+        </div>
+      </section>
+
+      {/* LIVE DATA FOUNDATION */}
+      <section className="obs-data-strip">
+        <div className="container obs-data-inner">
+          <div className="obs-data-label">
+            <span className="obs-data-line" />
+            RESEARCH FOUNDATION
+          </div>
+
+          <div className="obs-data-item">
+            <strong>{records ?? "—"}</strong>
+            <span>BASS-II source records</span>
+          </div>
+
+          <div className="obs-data-item">
+            <strong>PSI-25</strong>
+            <span>NASA investigation</span>
+          </div>
+
+          <div className="obs-data-item">
+            <strong>07</strong>
+            <span>Planned research tools</span>
+          </div>
+
+          <a
+            className="obs-source-link"
+            href={NASA_SOURCE}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            ORIGINAL SOURCE
+            <ArrowUpRight size={16} />
+          </a>
+        </div>
+      </section>
+
+      {/* 02 — GRAVITY SCIENCE */}
+      <section className="obs-science">
+        <div className="container obs-science-grid">
+          <div className="obs-science-heading">
+            <Eyebrow number="01">THE QUESTION OF GRAVITY</Eyebrow>
+
+            <h2>
+              Gravity changes
+              <br />
+              <em>the conditions.</em>
+            </h2>
+
+            <p>
+              On Earth, buoyancy produces familiar upward
+              flows around many flames. In microgravity,
+              that mechanism weakens, changing the roles
+              of diffusion, heat transfer and imposed airflow.
+            </p>
+
+            <p>
+              The outcome also depends on the fuel,
+              geometry, oxygen supply and experimental
+              environment.
+            </p>
+
+            <a className="obs-text-link" href="#/discover">
+              Understand the physics
+              <ArrowUpRight size={18} />
+            </a>
+          </div>
+
+          <figure className="obs-comparison-figure">
+            <div className="obs-figure-heading">
+              <span>FIGURE 01</span>
+              <span>GRAVITY / MICROGRAVITY</span>
+            </div>
+
+            <img
+              src={NASA_COMPARISON_IMAGE}
+              alt="NASA comparison of an Earth-gravity candle flame and a rounded microgravity candle flame"
+              loading="lazy"
+            />
+
+            <figcaption>
+              <div>
+                <strong>Earth</strong>
+                <span>Buoyancy-driven motion</span>
+              </div>
+
+              <div>
+                <strong>Microgravity</strong>
+                <span>Reduced buoyancy</span>
+              </div>
+            </figcaption>
+
+            <p className="obs-figure-credit">
+              Image: NASA. An illustrative example of
+              flame behavior, not a universal prediction
+              for every fuel or condition.
+              {" "}
+              <a
+                href="https://science.nasa.gov/image-detail/candle-flames-3/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View source
+              </a>
+            </p>
+          </figure>
+        </div>
+      </section>
+
+      {/* 03 — FEATURED RESEARCH */}
+      <section className="obs-featured">
+        <div className="container">
+          <div className="obs-featured-head">
+            <Eyebrow number="02">FEATURED INVESTIGATION</Eyebrow>
+            <span>NASA EXPERIMENTAL EVIDENCE</span>
+          </div>
+
+          <div className="obs-featured-grid">
+            <div className="obs-featured-copy">
+              <span className="obs-small-label">NASA / PSI-25</span>
+
+              <h2>
+                Burning and
+                <br />
+                Suppression
+                <br />
+                <em>of Solids II.</em>
+              </h2>
+
+              <p>
+                BASS-II investigates the combustion
+                behavior of solid materials under
+                microgravity conditions, including the
+                influence of experimental configurations
+                and imposed airflow.
+              </p>
+
+              <div className="obs-featured-facts">
+                <div>
+                  <span>INVESTIGATION</span>
+                  <strong>BASS-II</strong>
+                </div>
+                <div>
+                  <span>RESEARCH FIELD</span>
+                  <strong>Solid-fuel combustion</strong>
+                </div>
+                <div>
+                  <span>DATA FOUNDATION</span>
+                  <strong>NASA PSI-25</strong>
+                </div>
+              </div>
+
+              <div className="obs-featured-actions">
+                <a className="obs-button-primary" href="#/explore">
+                  Explore the records <ArrowUpRight size={17} />
+                </a>
+
+                <a
+                  className="obs-text-link"
+                  href={NASA_SOURCE}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Original investigation <ArrowUpRight size={17} />
+                </a>
+              </div>
+            </div>
+
+            <figure className="obs-featured-photo">
+              <img
+                src={ESA_BASS_IMAGE}
+                alt="Microgravity combustion flame photographed during the BASS-II research investigation"
+                loading="lazy"
+              />
+
+              <figcaption>
+                <span>BASS-II / MICROGRAVITY FLAME</span>
+                <a
+                  href="https://www.esa.int/ESA_Multimedia/Images/2014/08/Microgravity_flame"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  IMAGE: ESA <ArrowUpRight size={15} />
+                </a>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      {/* 04 — SCIENTIFIC WORKFLOW */}
+      <section className="obs-workflow">
+        <div className="container">
+          <div className="obs-workflow-head">
+            <div>
+              <Eyebrow number="03">THE RESEARCH PROCESS</Eyebrow>
+              <h2>
+                From observations
+                <br />
+                <em>to evidence.</em>
+              </h2>
+            </div>
+
+            <p>
+              SOLARIS connects real experiments,
+              transparent comparisons and scientific
+              questions inside one research workspace.
+            </p>
+          </div>
+
+          <div className="obs-workflow-grid">
+            <a
+              className="obs-workflow-primary"
+              href="#/explore"
+            >
+              <div className="obs-workflow-number">01 / EXPLORE</div>
+              <Database size={28} strokeWidth={1.5} />
+              <div>
+                <h3>Begin with the source.</h3>
+                <p>
+                  Find NASA experiment records,
+                  inspect their original parameters
+                  and identify missing information.
+                </p>
+                <span>
+                  OPEN DATA ATLAS <ArrowUpRight size={17} />
+                </span>
+              </div>
+            </a>
+
+            <div className="obs-workflow-secondary">
+              <a href="#/research">
+                <div className="obs-workflow-number">
+                  02 / COMPARE
+                </div>
+                <FlaskConical size={25} strokeWidth={1.5} />
+                <div>
+                  <h3>Test comparability.</h3>
+                  <p>
+                    Investigate similarities,
+                    differences and unknown conditions.
+                  </p>
+                  <span>
+                    RESEARCH STUDIO <ArrowUpRight size={16} />
+                  </span>
+                </div>
+              </a>
+
+              <a href="#/research">
+                <div className="obs-workflow-number">
+                  03 / UNDERSTAND
+                </div>
+                <FileSearch size={25} strokeWidth={1.5} />
+                <div>
+                  <h3>Trace every conclusion.</h3>
+                  <p>
+                    Explore sources, assumptions
+                    and uncertainty through
+                    the Evidence Passport concept.
+                  </p>
+                  <span>
+                    VIEW RESEARCH TOOLS <ArrowUpRight size={16} />
+                  </span>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <p className="obs-roadmap-note">
+            Scientific tools are being developed progressively.
+            Features not yet validated are presented as
+            research concepts rather than completed analyses.
+          </p>
+        </div>
+      </section>
+
+      {/* 05 — SCIENTIFIC PRINCIPLES */}
+      <section className="obs-method">
+        <div className="container obs-method-grid">
+          <div className="obs-method-intro">
+            <Eyebrow number="04">OUR SCIENTIFIC APPROACH</Eyebrow>
+
+            <h2>
+              Good science starts
+              <br />
+              with <em>better evidence.</em>
+            </h2>
+
+            <p>
+              Every conclusion deserves a source.
+              Every comparison needs context.
+              Every limitation should remain visible.
+            </p>
+
+            <a className="obs-button-light" href="#/about">
+              Our methodology <ArrowUpRight size={17} />
+            </a>
+          </div>
+
+          <div className="obs-method-list">
+            <div>
+              <span>01</span>
+              <BookOpen size={21} />
+              <section>
+                <h3>Source before interpretation.</h3>
+                <p>
+                  Start with original NASA records
+                  and documented experimental conditions.
+                </p>
+              </section>
+            </div>
+
+            <div>
+              <span>02</span>
+              <FlaskConical size={21} />
+              <section>
+                <h3>Compare only what is comparable.</h3>
+                <p>
+                  Separate measurements, assumptions,
+                  instrument readings and unavailable data.
+                </p>
+              </section>
+            </div>
+
+            <div>
+              <span>03</span>
+              <ShieldCheck size={21} />
+              <section>
+                <h3>Make limitations visible.</h3>
+                <p>
+                  Explain what the evidence supports
+                  and where further research is needed.
+                </p>
+              </section>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 06 — FINAL ENTRY */}
+      <section className="obs-final">
+        <div className="container obs-final-grid">
+          <div>
+            <Eyebrow>CONTINUE THE INVESTIGATION</Eyebrow>
+
+            <h2>
+              The next discovery
+              <br />
+              begins with <em>a question.</em>
+            </h2>
+
+            <p>
+              Step into SOLARIS and explore the
+              experimental evidence behind combustion
+              research in space.
+            </p>
+
+            <a
+              className="obs-button-primary"
+              href="#/explore"
+            >
+              Explore NASA experiments <ArrowUpRight size={18} />
+            </a>
+          </div>
+
+          <div className="obs-final-reference">
+            <span>FIELD NOTE / 001</span>
+            <div className="obs-final-line" />
+            <strong>
+              What can a NASA experiment tell us —
+              and what remains unknown?
+            </strong>
+            <p>
+              Begin with BASS-II. Follow the data.
+              Investigate the limits of the evidence.
+            </p>
+            <a href="#/research">
+              ENTER THE RESEARCH LAB <ArrowRight size={17} />
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}

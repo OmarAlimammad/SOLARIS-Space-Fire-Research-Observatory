@@ -1,0 +1,65 @@
+/* Isolated Experiment Compatibility + Evidence Passport design */
+.compat-panel { min-width:0; }
+.compat-status {display:inline-flex;align-items:center;gap:7px;font-size:9px;font-weight:800;letter-spacing:.08em;color:#2879a4;background:#eaf5fc;padding:9px 12px;border-radius:24px;}
+.compat-heading {border-bottom:1px solid #e2ebf2;padding:35px 0 28px;}
+.compat-heading-icon {display:grid;place-items:center;width:54px;height:54px;border-radius:12px;background:#eaf6fc;color:#1d83b7;}
+.compat-heading h2 {font-size:clamp(26px,3.3vw,36px);letter-spacing:-.055em;line-height:1.24;color:#143e5a;margin:22px 0 10px;}
+.compat-heading p {max-width:800px;color:#648298;font-size:13px;line-height:1.9;margin:0;}
+.compat-heading strong {color:#285777;}
+.compat-selector {display:grid;grid-template-columns:minmax(0,1fr) 32px minmax(0,1fr);column-gap:13px;row-gap:18px;align-items:end;padding:28px 0;}
+.compat-selector label {min-width:0;display:flex;flex-direction:column;gap:10px;}
+.compat-selector label span {font-size:10px;letter-spacing:.12em;color:#6c91a7;font-weight:800;}
+.compat-selector select {width:100%;min-width:0;appearance:auto;border:1px solid #cddfec;border-radius:8px;color:#254e6c;background:#fff;font-size:12px;padding:15px 12px;min-height:50px;}
+.compat-selector select:focus-visible,.compat-run:focus-visible {outline:3px solid #9ed8f5;outline-offset:2px;}
+.compat-divider-icon {display:grid;place-items:center;height:50px;color:#73abc8;}
+.compat-submit-row {grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:18px;padding-top:1px;}
+.compat-submit-row p {font-size:11px;line-height:1.6;color:#8298a9;max-width:360px;}
+.compat-run {display:inline-flex;align-items:center;gap:11px;justify-content:center;background:#187fbe;color:white;border:0;border-radius:7px;padding:15px 18px;min-height:48px;font-size:12px;font-weight:800;cursor:pointer;flex-shrink:0;}
+.compat-run:hover:not(:disabled) {background:#0b639a;}
+.compat-run:disabled {opacity:.55;cursor:not-allowed;}
+.compat-inline-error {grid-column:1/-1;color:#b13b38;font-size:12px;margin:0;}
+.compat-message {padding:20px;border:1px solid #dbe8f2;border-radius:9px;background:#f2f8fc;color:#567d97;display:flex;align-items:center;gap:10px;margin:20px 0;font-size:12px;line-height:1.7;}
+.compat-error {color:#8c4532;background:#fff6f2;border-color:#edd9ce;}
+.compat-empty {border:1px dashed #cbdfea;background:#f8fbfd;border-radius:9px;padding:25px;display:flex;align-items:start;gap:14px;color:#6e9ab5;}
+.compat-empty>div {display:flex;flex-direction:column;gap:6px;}
+.compat-empty strong {font-size:13px;color:#356c8e;}
+.compat-empty span {font-size:12px;color:#7795a7;line-height:1.6;}
+.compat-result {padding-top:5px;}
+.compat-assessment {background:#f0f7fb;padding:22px;border:1px solid #d8e9f2;border-radius:9px;display:grid;grid-template-columns:1.4fr 1fr;gap:25px;align-items:center;}
+.compat-assessment>div:first-child>span {font-size:10px;letter-spacing:.13em;font-weight:800;color:#4a8aaf;}
+.compat-assessment h3 {font-size:21px;margin:12px 0 8px;color:#1e526f;letter-spacing:-.04em;}
+.compat-assessment p {font-size:12px;line-height:1.8;color:#5f8094;margin:0;}
+.compat-tallies {display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.compat-tallies>div {background:white;border:1px solid #dfebf3;padding:13px 10px;display:flex;flex-direction:column;gap:8px;text-align:center;}
+.compat-tallies strong {font-size:25px;color:#1d5677;}
+.compat-tallies span {font-size:10px;color:#758fa1;line-height:1.3;}
+.compat-fields-title {display:flex;justify-content:space-between;gap:10px;margin:32px 0 16px;font-size:10px;font-weight:800;letter-spacing:.12em;color:#5384a3;}
+.compat-table-scroll {max-width:100%;overflow-x:auto;border:1px solid #e0eaf2;border-radius:8px;}
+.compat-table {width:100%;border-collapse:collapse;min-width:560px;text-align:left;}
+.compat-table thead {background:#f4f8fb;}
+.compat-table th,.compat-table td {padding:16px 14px;border-bottom:1px solid #e6edf3;vertical-align:top;font-size:11px;color:#305b77;line-height:1.6;}
+.compat-table thead th {font-size:10px;letter-spacing:.07em;color:#718da0;}
+.compat-table tbody th {font-weight:800;width:37%;}
+.compat-table tbody th small {display:block;color:#8a9ead;font-size:10px;line-height:1.6;font-weight:400;margin-top:6px;}
+.compat-table tbody tr:last-child>th,.compat-table tbody tr:last-child>td {border-bottom:none;}
+.compat-field-status {display:inline-block;white-space:nowrap;font-size:10px;font-weight:800;border-radius:5px;padding:5px 7px;}
+.compat-match {background:#e8f5f1;color:#2a7467;}
+.compat-different {background:#fff3e4;color:#9a6a25;}
+.compat-unknown {background:#eff2f6;color:#69798b;}
+.compat-caveat {display:flex;gap:14px;align-items:start;background:#fffaf1;border:1px solid #eadfc4;border-radius:9px;padding:17px 19px;margin-top:20px;color:#9d773b;}
+.compat-caveat p {margin:0;font-size:12px;color:#816b4c;line-height:1.75;}
+.compat-passport {background:#f9fcfe;border:1px solid #d7e7f0;padding:29px;margin-top:28px;border-radius:10px;}
+.compat-passport-eyebrow {display:flex;gap:9px;align-items:center;font-size:10px;letter-spacing:.13em;color:#247aaa;font-weight:800;}
+.compat-passport h3 {font-size:22px;color:#1a4b68;margin:15px 0 23px;letter-spacing:-.03em;}
+.compat-passport-facts {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+.compat-passport-facts div {padding:14px;border:1px solid #e2edf3;background:#fff;min-width:0;}
+.compat-passport-facts dt {font-size:10px;color:#7495a8;font-weight:800;margin-bottom:8px;text-transform:uppercase;letter-spacing:.07em;}
+.compat-passport-facts dd {font-size:12px;color:#2b5773;margin:0;line-height:1.7;overflow-wrap:anywhere;}
+.compat-source-link {display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:800;color:#167ab8;margin:24px 0 7px;}
+.compat-passport h4 {font-size:12px;color:#245773;letter-spacing:.04em;margin:21px 0 12px;}
+.compat-passport>p,.compat-passport li {font-size:11px;color:#668399;line-height:1.8;}
+.compat-passport ul {padding-left:18px;margin:0;}
+.compat-passport li {margin-bottom:6px;}
+.compat-limits li {padding-left:2px;}
+@media(max-width:1150px) { .compat-selector {grid-template-columns:1fr;} .compat-divider-icon {display:none;} .compat-selector label {grid-column:1/-1;} .compat-assessment {grid-template-columns:1fr;} }
+@media(max-width:700px) { .compat-status {font-size:8px;} .compat-heading {padding:25px 0;} .compat-submit-row {flex-direction:column;align-items:stretch;} .compat-submit-row p {max-width:none;} .compat-run {width:100%;} .compat-tallies>div {padding:10px 5px;} .compat-tallies strong {font-size:22px;} .compat-passport {padding:20px;} .compat-passport-facts {grid-template-columns:1fr;} }
