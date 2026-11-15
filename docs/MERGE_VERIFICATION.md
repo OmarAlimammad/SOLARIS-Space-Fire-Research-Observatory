@@ -21,9 +21,23 @@ Environment: Linux, Node 26, Chromium headless shell 131 (Playwright 1.49, WebGL
 * **Regression / navigation** — 11/11 relevant checks: Theater with carried selection, Universe, Timeline, Discover, Simulate dropdown (6 items) navigates, browser back, Home grid (12 cards), mobile menu → Simulate → World Builder, reduced motion leaves nothing invisible, mobile source-table view without overflow. (A 12th check expected the selection dock on `#/explore`; the live dock is intentionally hidden there — test expectation corrected, component unchanged.)
 * **Error/empty states seen** — engine missing → 503 `simulation_unavailable` with recovery text; Onboard without a saved flight → "A computed flight is required" empty state; out-of-range input (Mars 699 Pa in the 2-D solver) → field-level range message and server rejection before any computation; hosted budget exceeded → `timed_out`, no frames returned (pytest).
 
+## Vercel preview deployment
+
+Preview `solaris-kug6uklp7-m-54e8.vercel.app` (commit `ee923f9`, `vercel deploy`, not promoted): build **Ready**; functions `api/index` and `api/sim` 42.8 MB each (compressed), region iad1, Python 3.12.16, Cantera 3.2.0 / NumPy 2.2.6 / SciPy 1.15.3 import cleanly. Checked through `vercel curl` (preview is behind Vercel Authentication):
+
+| Check | Result |
+|---|---|
+| `/`, `/ephemeris/de441_2026_2032.json` (2.5 MB), `/models/SaturnV.glb` | 200 |
+| `/api/health`, `/api/v1/datasets` | OK; 12 tables, 1,467 rows, all `name_and_size_match` |
+| `/api/v5/health`, `/api/v5/capabilities` | execution mode `inline` |
+| Equilibrium CH₄/air | completed, 0.1 s compute, 2225 K |
+| 1-D premixed CH₄/air | completed, 39 s compute, S_L = 0.382 m/s |
+| 2-D jet flame 40 × 20, 0.1 s | completed, 2.1 s compute, 21 frames, 1.36 MB response |
+| 2-D jet flame default 80 × 40, 0.4 s | completed, 70 s compute (75 s wall), 13 of 41 frames × 6 fields, 1.79 MB response |
+
 ## Not verified here
 
-* A real Vercel deployment: the hosted path was exercised locally through the same inline code and the `api/sim.py` entry point; bundle size (≈230 MB engine vs 500 MB limit) and the 300 s duration are from Vercel's current documentation, not a deploy.
+* Browser end-to-end on the preview itself: it is behind Vercel Authentication and no bypass token was created; the same build was tested end-to-end locally in both execution modes (above).
 * Real-GPU WebGL frame rates, screen readers, Windows launchers, AI-generated Copilot text (no `ANTHROPIC_API_KEY` in this environment; retrieval mode tested).
 
 ## Benchmark re-run
