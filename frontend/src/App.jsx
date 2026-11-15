@@ -38,12 +38,13 @@ export default function App() {
   const match = findRoute(route.path);
   const Page = match ? pageFor(match) : null;
   const [progressKey, setProgressKey] = useState(0);
-  const first = useRef(true);
+  const prevPath = useRef(route.path);
   useGlobalReveal(route.path);
 
   useEffect(() => {
     document.title = match ? (match.path === '/' ? match.title : `${match.title} · SOLARIS`) : 'Not found · SOLARIS';
-    if (first.current) { first.current = false; return; }
+    if (prevPath.current === route.path) return;
+    prevPath.current = route.path;
     window.scrollTo({ top: 0, behavior: 'instant' });
     setProgressKey(k => k + 1);
     // Move focus to main content for keyboard and screen-reader users after navigation.

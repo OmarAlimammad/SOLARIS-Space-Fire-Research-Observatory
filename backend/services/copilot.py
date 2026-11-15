@@ -40,12 +40,13 @@ MATERIALS = {"pmma": "PMMA (explicit)", "sibal": "SIBAL (explicit)", "nomex": "N
 def _intent(question: str, selected: list[str]) -> dict:
     known = {r["id"].upper(): r for r in load_original_records()}
     ids = [m.upper() for m in TEST_ID.findall(question) if m.upper() in known]
+    asked_ids = len(ids)
     for s in selected:
         if s and s.upper() in known and s.upper() not in ids:
             ids.append(s.upper())
     out: dict = {"record_ids": ids[:6]}
     wants_compare = bool(re.search(r"\b(compare|differ|difference|versus|vs\.?)\b", question, re.I))
-    if len(ids) >= 2 and (wants_compare or len(ids) == 2):
+    if len(ids) >= 2 and (asked_ids >= 2 or (wants_compare and asked_ids + len(selected) >= 2)):
         out["comparison"] = build_comparison(known[ids[0]], known[ids[1]])
     q = question.lower()
     for key, group in MATERIALS.items():

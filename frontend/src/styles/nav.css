@@ -34,3 +34,5 @@
 .main-nav .nav-menu a { height: auto; white-space: normal; border-bottom: 0; align-items: flex-start; }
 .footer-inner { grid-template-columns: 1.5fr 1fr 1fr 1.1fr; gap: 48px; }
 @media (max-width: 940px) { .footer-inner { grid-template-columns: 1fr 1fr; } .footer-lead { grid-column: span 2; } }
+/* backdrop-filter would make the header the containing block for the fixed mobile menu */
+@media (max-width: 940px) { .site-header { backdrop-filter: none; -webkit-backdrop-filter: none; background: #fff; } }
