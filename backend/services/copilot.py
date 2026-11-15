@@ -21,6 +21,7 @@ from .search import search
 
 MODEL = os.environ.get("SOLARIS_COPILOT_MODEL", "claude-opus-5-5")
 MAX_PASSAGES = 10
+MAX_TABLE_ROWS = 3
 
 SYSTEM_PROMPT = """You are the SOLARIS Research Copilot, a research assistant for NASA microgravity combustion evidence.
 
@@ -29,6 +30,7 @@ Answer using ONLY the documents provided in the user turn. Rules:
 - Keep three things visibly separate: what the sources state, your inference from them (label it "Inference:"), and what is missing (label it "Not in the provided evidence:").
 - Never invent measurements, flame-spread rates, calibrated airflow speeds, extinction thresholds, uncertainty bounds, risk percentages, papers or citations.
 - In the BASS-II table, "Air display", "Fan display" and "Flow restrictor" are raw instrument fields, not airflow speeds. Never convert them.
+- Documents of type source_table_row are raw cells of NASA PSI experimental tables. Quote units exactly as written, never convert or pool values across different investigations' tables, and do not treat a table row as an individual test unless the text says so.
 - Two records that differ in a condition do not show that the condition caused an outcome. Say so when relevant.
 - Documents marked "SOLARIS educational note" are explanatory text written by SOLARIS, not NASA sources; say so if you rely on them.
 - Be concise: at most about 220 words, plain prose or short bullets."""
@@ -56,15 +58,17 @@ def _intent(question: str, selected: list[str]) -> dict:
             out["material"] = {
                 "group": group, "count": len(rows), "record_ids": [r["id"] for r in rows],
                 "initial_o2_range": [o2[0], o2[-1]] if o2 else None,
-                "note": "Counted from BASS-II rows whose fuel description names the material. Other investigations' rows are not imported.",
+                "note": "Counted from BASS-II rows whose fuel description names the material. Rows from other investigations' tables are retrieved separately and never added to this count.",
             }
             break
     return out
 
 
 def _passages(question: str, intent: dict) -> list[dict]:
-    hits = search(question, limit=MAX_PASSAGES + 4)
-    hits = [h for h in hits if h["evidence_type"] != "experimental_record"][:MAX_PASSAGES]
+    hits = search(question, limit=MAX_PASSAGES + 12)
+    # Source-table rows from the other PSI tables are useful evidence but must not crowd out findings and PSI text.
+    rows = [h for h in hits if h["evidence_type"] == "source_table_row"][:MAX_TABLE_ROWS]
+    hits = [h for h in hits if h["evidence_type"] not in ("experimental_record", "source_table_row")][:MAX_PASSAGES - len(rows)] + rows
     by_id = {r["id"].upper(): r for r in load_original_records()}
     for rid in intent.get("record_ids", [])[:4]:
         r = by_id[rid]
@@ -150,6 +154,7 @@ def answer(question: str, selected_ids: list[str] | None = None) -> dict:
         "integrity": [
             "Passages are ranked by transparent keyword relevance (BM25), not by truth.",
             "Experimental records are source fields only; no flame-spread rates or calibrated flows exist in them.",
+            "Source-table rows from other PSI tables keep their original units and are never pooled with BASS-II.",
         ],
     }
     if not passages:

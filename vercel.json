@@ -8,9 +8,14 @@
     "api/index.py": {
       "includeFiles": "{backend,data}/**",
       "maxDuration": 60
+    },
+    "api/sim.py": {
+      "includeFiles": "{backend,scenarios,docs/v5}/**",
+      "maxDuration": 300
     }
   },
   "rewrites": [
+    { "source": "/api/v5/(.*)", "destination": "/api/sim" },
     { "source": "/api/(.*)", "destination": "/api/index" }
   ]
 }

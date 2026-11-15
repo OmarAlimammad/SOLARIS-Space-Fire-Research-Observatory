@@ -202,7 +202,7 @@ def build_report(question: str, record_ids: list[str], investigation_id: str = "
     story.append(_table(passport_rows, [40 * mm, 134 * mm]))
     story += [P("Limitations", "h3")]
     limits = (comparison["evidence_passport"]["limitations"] if comparison else []) + [
-        "Only BASS-II row-level data is imported into SOLARIS; other investigations are represented by catalog metadata.",
+        "This report covers BASS-II rows only. SOLARIS also holds the other PSI experimental tables, but their fields and units differ and they are not pooled here.",
         "Published findings are excerpts. Read them in their source documents before drawing conclusions.",
         "This report is not a fire-safety certification, risk assessment or validated engineering analysis.",
     ]

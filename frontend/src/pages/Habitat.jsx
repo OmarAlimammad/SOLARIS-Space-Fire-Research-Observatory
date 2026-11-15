@@ -3,6 +3,7 @@ import { ArrowUpRight, CheckCircle2, CircleDashed, Info, ShieldAlert, Wind } fro
 import { api, useApi } from '../lib/api.js';
 import { useResearch } from '../state/ResearchContext.jsx';
 import { ApiError, EvidenceBadge, PageHeader, Skeleton, Tabs } from '../components/ui.jsx';
+import { SourceTableEvidence, TracerSandbox } from '../features/habitat/HabitatEvidence.jsx';
 
 /* Illustrative geometry only — not engineering drawings of any real vehicle. */
 const HABITATS = {
@@ -111,7 +112,7 @@ export default function Habitat() {
             <h3 className="s-h3" style={{ marginTop: 6 }}>{M.label} with {VENT[vent].label.toLowerCase()}</h3>
             <ul className="hb-checks">
               <Check ok={H.evidence}>{H.evidence ? 'Gravity regime matches the microgravity experiments in SOLARIS.' : `${H.gravity}: no SOLARIS dataset or finding was recorded in this regime.`}</Check>
-              <Check ok={rows > 0}>{rows > 0 ? `${rows} BASS-II row(s) name this material.` : 'No imported experimental rows for this material.'}</Check>
+              <Check ok={rows > 0}>{rows > 0 ? `${rows} BASS-II row(s) name this material.` : 'No BASS-II row names this material. Other NASA tables are searched below.'}</Check>
               <Check ok={matFindings.length > 0}>{matFindings.length ? `${matFindings.length} verbatim NASA finding(s) concern this material.` : 'No verified finding in SOLARIS concerns this material.'}</Check>
               <Check ok={false}>Zone-specific evidence ({zoneLabel}): none. Zones are illustrative; no experiment reproduced a cabin layout.</Check>
             </ul>
@@ -126,6 +127,10 @@ export default function Habitat() {
           <div className="s-row"><a className="s-btn s-btn-ghost s-btn-sm" href="#/research?tool=safety">Earth-to-Space transfer tool <ArrowUpRight size={13} /></a><a className="s-btn s-btn-ghost s-btn-sm" href="#/research?tool=gaps">Evidence gaps <ArrowUpRight size={13} /></a><a className="s-btn s-btn-quiet s-btn-sm" href="#/library"><Info size={13} /> Saffire in the Library</a></div>
         </>}
       </aside>
+    </div>
+    <div className="container hb-extras">
+      <SourceTableEvidence hab={hab} mat={mat} vent={vent} />
+      <TracerSandbox vent={vent} />
     </div>
   </div>;
 }

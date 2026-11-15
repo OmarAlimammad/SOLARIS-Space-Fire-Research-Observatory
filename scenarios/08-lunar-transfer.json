@@ -1,0 +1,27 @@
+{
+ "schema_version": "5.0",
+ "order": 8,
+ "title": "Lunar transfer and orbit insertion",
+ "destination": "flight",
+ "kind": "lunar",
+ "fidelity_level": "flight",
+ "expected_runtime": "1-5 s",
+ "summary": "Apollo-class stack: finite translunar injection from a 185 km parking orbit, about three days of N-body coast with JPL DE441 Moon states, finite lunar orbit insertion. No landing is simulated.",
+ "expected_behaviour": "Continuous propagation from Earth orbit into a closed lunar orbit of roughly 100 x 300 km.",
+ "acceptance_checks": [
+  "Run ends with the Moon as central body.",
+  "Perilune altitude between 80 and 130 km.",
+  "Lunar orbit eccentricity below 0.2 (captured).",
+  "Propellant remaining is non-negative for every stage."
+ ],
+ "payload": {
+  "scenario": "lunar",
+  "params": {
+   "epoch_utc": "2026-11-20T00:00:00Z",
+   "parking_alt_km": 185,
+   "perilune_alt_km": 110,
+   "tli_dv_m_s": 3150,
+   "insert": true
+  }
+ }
+}

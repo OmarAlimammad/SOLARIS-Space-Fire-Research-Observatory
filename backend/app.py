@@ -248,3 +248,24 @@ def make_report(request: ReportRequest):
         "Content-Disposition": f'attachment; filename="SOLARIS_report_{stamp}.pdf"',
         "X-SOLARIS-CSV-SHA256": meta["csv_sha256"],
     })
+
+
+# --------------------------------------------------------------------------- source tables (merged from SOLARIS 4.0/5.0)
+# Versioned, lossless access to every NASA PSI experimental table in data/raw/ (registry, rows, summaries,
+# exports, original bytes) and the MissionShield evidence tools (record passports, literal record comparison,
+# scalar-coverage questions, numeric claim referee, passive-tracer transport sandbox).
+from .scientific.mission_shield import router as _mission_shield_router  # noqa: E402
+from .scientific.routes import router as _source_table_router  # noqa: E402
+
+app.include_router(_source_table_router)
+app.include_router(_mission_shield_router)
+
+
+# --------------------------------------------------------------------------- simulation (merged from SOLARIS 5.0)
+# World Builder, Flame Laboratory (Levels 1-3), flight-run records, onboard coupling, scenarios: /api/v5/*.
+# On Vercel these routes are served by the dedicated function api/sim.py (see vercel.json).
+from .sim_mount import register as _register_simulation  # noqa: E402
+
+# api/index.py sets SOLARIS_SKIP_SIMULATION=1: on Vercel /api/v5 is routed to api/sim.py, so the evidence
+# function never imports numpy/scipy/cantera on a cold start.
+SIMULATION_AVAILABLE = None if os.environ.get("SOLARIS_SKIP_SIMULATION") == "1" else _register_simulation(app)

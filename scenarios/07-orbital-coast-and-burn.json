@@ -1,0 +1,28 @@
+{
+ "schema_version": "5.0",
+ "order": 7,
+ "title": "Orbital coast and finite burn",
+ "destination": "flight",
+ "kind": "leo",
+ "fidelity_level": "flight",
+ "expected_runtime": "under 1 s",
+ "summary": "Hypothetical orbital laboratory in a 400 km, 51.6 degree orbit; one orbit of coast, a 30 m/s finite prograde burn, one more orbit.",
+ "expected_behaviour": "The burn raises apoapsis by roughly 100 km, mass decreases by the rocket equation, eccentricity becomes non-zero.",
+ "acceptance_checks": [
+  "Thrust delta-v delivered equals 30 m/s within 0.1 m/s.",
+  "Final mass equals m0 * exp(-dv / (Isp g0)) within 0.1 %.",
+  "Apoapsis altitude after the burn is 90-120 km above the initial altitude."
+ ],
+ "payload": {
+  "scenario": "leo",
+  "params": {
+   "epoch_utc": "2026-11-20T00:00:00Z",
+   "altitude_km": 400,
+   "inclination_deg": 51.6,
+   "orbits": 2,
+   "burn_dv_m_s": 30,
+   "drag": true,
+   "j2": true
+  }
+ }
+}

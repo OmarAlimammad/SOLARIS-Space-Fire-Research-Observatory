@@ -1,0 +1,99 @@
+{
+ "schema_version": "5.0",
+ "order": 5,
+ "title": "Sealed chamber: oxygen and pressure evolution",
+ "destination": "flame",
+ "kind": "flame_l3",
+ "fidelity_level": 3,
+ "expected_runtime": "about 40 s",
+ "summary": "Methane jet burning inside a closed, adiabatic-wall chamber at 1 g. The thermodynamic pressure rises and the oxygen inventory falls as computed by the solver.",
+ "expected_behaviour": "Pressure increases monotonically while heat is released; oxygen mass decreases; total mass changes only by the injected fuel.",
+ "acceptance_checks": [
+  "Run completes.",
+  "Relative mass residual below 1e-6 (sealed formulation conserves mass).",
+  "Final thermodynamic pressure above the initial pressure.",
+  "Oxygen inventory at the end is below its initial value."
+ ],
+ "payload": {
+  "mode": "flame_l3",
+  "fuel": "CH4",
+  "ox": {
+   "basis": "mole",
+   "species": {
+    "N2": 0.79,
+    "O2": 0.21
+   },
+   "humidity": {
+    "mode": "none"
+   }
+  },
+  "p": 101325,
+  "T": 300,
+  "environment": {
+   "schema_version": "5.0",
+   "kind": "sealed_chamber",
+   "name": "Sealed laboratory chamber on Earth",
+   "composition": {
+    "basis": "mole",
+    "species": {
+     "N2": 0.79,
+     "O2": 0.21
+    },
+    "humidity": {
+     "mode": "none",
+     "relative_humidity": null
+    }
+   },
+   "pressure_pa": 101325.0,
+   "temperature_k": 295.15,
+   "altitude_m": 0.0,
+   "wind_m_s": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "acceleration": {
+    "mode": "explicit",
+    "vector_m_s2": [
+     0.0,
+     0.0,
+     -9.80665
+    ],
+    "omega_rad_s": null,
+    "radius_m": null
+   },
+   "body": null,
+   "boundary": {
+    "type": "sealed",
+    "volume_m3": 0.001,
+    "ventilation_m_s": 0.0
+   },
+   "profile": {
+    "type": "none",
+    "layers": [],
+    "geopotential": false,
+    "top_altitude_m": null,
+    "source": ""
+   },
+   "source": "User laboratory default.",
+   "notes": ""
+  },
+  "l3": {
+   "geometry": "axisymmetric",
+   "boundary": "sealed",
+   "length_m": 0.08,
+   "width_m": 0.04,
+   "radius_m": 0.003,
+   "velocity": 0.25,
+   "coflow": 0,
+   "accel": -9.80665,
+   "lateral": 0,
+   "nx": 64,
+   "ny": 32,
+   "duration": 0.4,
+   "ignite": true,
+   "react": true,
+   "radiation": false
+  }
+ }
+}

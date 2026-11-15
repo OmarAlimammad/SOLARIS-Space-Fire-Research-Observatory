@@ -1,0 +1,23 @@
+{
+ "schema_version": "5.0",
+ "order": 9,
+ "title": "Interplanetary transfer: Earth to Mars (bounded example)",
+ "destination": "flight",
+ "kind": "mars",
+ "fidelity_level": "flight",
+ "expected_runtime": "under 2 s",
+ "summary": "Hypothetical probe on a 250-day Lambert-targeted transfer departing 2026-11-14, with heliocentric N-body cruise and two trim burns, ending at the Mars 125 km interface. A Saturn V alone is not claimed to perform this mission.",
+ "expected_behaviour": "The probe reaches the Mars atmospheric interface on a hyperbolic approach; capture, entry and landing are not modelled.",
+ "acceptance_checks": [
+  "Final central body is Mars and final altitude is 125 km within 1 km.",
+  "Arrival orbit is hyperbolic (eccentricity above 1).",
+  "Total trim delta-v is below 100 m/s."
+ ],
+ "payload": {
+  "scenario": "mars",
+  "params": {
+   "epoch_utc": "2026-11-14T00:00:00Z",
+   "tof_days": 250
+  }
+ }
+}

@@ -8,6 +8,7 @@ const EXAMPLES = [
   'Why does combustion behave differently in microgravity?',
   'What does BASS-II investigate?',
   'Which available experiments involve PMMA?',
+  'What does the SPICE table record about smoke points?',
   'How do B1 and B2 differ?',
   'What evidence exists that flammability limits differ in reduced gravity?',
   'What data is missing for lunar habitat fire safety?',
@@ -22,7 +23,7 @@ function Passage({ p, n, highlighted }) {
     </div>
     <strong>{p.title}</strong>
     <p>{p.text.length > 420 ? `${p.text.slice(0, 420)}…` : p.text}</p>
-    <div className="cp-cite"><span>{p.citation}</span>{p.url && <a href={p.url} target="_blank" rel="noopener noreferrer">Open source <ArrowUpRight size={12} /></a>}</div>
+    <div className="cp-cite"><span>{p.citation}</span>{p.dataset_id && <a href={`#/explore?view=tables&dataset=${p.dataset_id}&row=${p.source_row}`}>Open row in Data Atlas <ArrowUpRight size={12} /></a>}{p.url && <a href={p.url} target="_blank" rel="noopener noreferrer">Open source <ArrowUpRight size={12} /></a>}</div>
   </li>;
 }
 

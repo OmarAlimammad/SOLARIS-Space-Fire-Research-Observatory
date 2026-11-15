@@ -13,14 +13,15 @@ export const EVIDENCE = {
   illustration: { cls: 'ev-illustration', label: 'Educational illustration' },
   ai: { cls: 'ev-ai', label: 'AI-assisted interpretation' },
   missing: { cls: 'ev-missing', label: 'Unavailable evidence' },
+  simulation: { cls: 'ev-simulation', label: 'Simulation output' },
 };
 export const EVIDENCE_FROM_API = {
   published_finding: 'finding', psi_record_text: 'metadata', publication: 'finding', experimental_record: 'measured',
   educational_note: 'illustration', reported_measurement: 'measured', instrument_setting: 'instrument',
   instrument_readout: 'instrument', parsed_label: 'metadata', parsed_source_text: 'metadata', reported: 'metadata',
-  measured: 'measured', experimental_metadata: 'metadata',
+  measured: 'measured', experimental_metadata: 'metadata', source_table_row: 'measured',
 };
-const API_LABEL_OVERRIDE = { psi_record_text: 'NASA PSI record text', publication: 'Listed publication', educational_note: 'SOLARIS explainer', experimental_record: 'BASS-II record' };
+const API_LABEL_OVERRIDE = { psi_record_text: 'NASA PSI record text', publication: 'Listed publication', educational_note: 'SOLARIS explainer', experimental_record: 'BASS-II record', source_table_row: 'NASA source-table row' };
 
 export function EvidenceBadge({ kind, apiKind, children }) {
   const key = kind || EVIDENCE_FROM_API[apiKind] || 'metadata';

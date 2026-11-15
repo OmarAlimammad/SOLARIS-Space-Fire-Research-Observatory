@@ -1,0 +1,104 @@
+{
+ "generated_utc": "2026-11-15T14:32:20.188Z",
+ "node": "v24.22.2",
+ "benchmarks": [
+  {
+   "id": "FL-SATURN-BASELINE",
+   "title": "Legacy Saturn V adapter vs supplied baseline_flight.csv",
+   "metric": "max relative difference in t, altitude, speed, mass over all samples",
+   "value": 0,
+   "tolerance": 1e-9,
+   "status": "PASS",
+   "reference": "Supplied Saturn V Orbital Flight Lab V2 baseline (regression; not historical telemetry)",
+   "external": false
+  },
+  {
+   "id": "FL-EPHEM-INTERP",
+   "title": "Hermite interpolation of cached Horizons states at doubled node spacing",
+   "metric": "worst position error / 2 km (true error at stored spacing is ~16x smaller)",
+   "value": 0.12279426805467031,
+   "tolerance": 1,
+   "status": "PASS",
+   "reference": "JPL Horizons DE441 nodes withheld from the interpolant",
+   "external": false
+  },
+  {
+   "id": "FL-KEPLER",
+   "title": "Two-body circular orbit propagated for 10 periods",
+   "metric": "max of relative energy drift, angular-momentum drift, position closure",
+   "value": 2.411966321730302e-7,
+   "tolerance": 0.000001,
+   "status": "PASS",
+   "reference": "Analytic Kepler solution",
+   "external": false
+  },
+  {
+   "id": "FL-ROCKET-EQ",
+   "title": "Finite burn to depletion vs Tsiolkovsky equation",
+   "metric": "relative delta-v error",
+   "value": 1.0290364116372075e-9,
+   "tolerance": 1e-7,
+   "status": "PASS",
+   "reference": "Tsiolkovsky rocket equation",
+   "external": false
+  },
+  {
+   "id": "FL-J2-NODE",
+   "title": "J2 nodal regression of a 500 km, 51.6 deg orbit",
+   "metric": "relative error vs first-order secular rate",
+   "value": 0.002212011455357654,
+   "tolerance": 0.02,
+   "status": "PASS",
+   "reference": "First-order secular J2 theory",
+   "external": false
+  },
+  {
+   "id": "FL-LAMBERT",
+   "title": "Lambert solution vs numerically propagated heliocentric arc (150 d)",
+   "metric": "relative departure-velocity error",
+   "value": 1.078870658510088e-12,
+   "tolerance": 0.000001,
+   "status": "PASS",
+   "reference": "Self-consistency with the propagator",
+   "external": false
+  },
+  {
+   "id": "FL-LUNAR",
+   "title": "Lunar transfer scenario executed end to end",
+   "metric": "final selenocentric orbit [periapsis km, apoapsis km, eccentricity]",
+   "value": [
+    100.04696821123106,
+    312.387523328023,
+    0.054625095444836375
+   ],
+   "tolerance": "bound orbit, e < 0.1",
+   "status": "PASS",
+   "reference": "Scenario execution check (no external trajectory reference)",
+   "external": false
+  },
+  {
+   "id": "FL-MARS",
+   "title": "Earth-Mars bounded transfer executed end to end",
+   "metric": "[C3 km^2/s^2, arrival error days, total trim delta-v m/s]",
+   "value": [
+    12.009572538387847,
+    -0.10799013642386512,
+    104.70879338115726
+   ],
+   "tolerance": "arrival at 125 km interface within 1.5 d of plan",
+   "status": "PASS",
+   "reference": "Scenario execution check (no external trajectory reference)",
+   "external": false
+  },
+  {
+   "id": "FL-6DOF-FREE",
+   "title": "Torque-free rigid body, 300 s",
+   "metric": "max relative drift of |L|, inertial L vector, rotational energy",
+   "value": 1.246400059105218e-10,
+   "tolerance": 1e-7,
+   "status": "PASS",
+   "reference": "Conservation laws",
+   "external": false
+  }
+ ]
+}

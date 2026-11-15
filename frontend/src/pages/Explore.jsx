@@ -13,6 +13,9 @@ import {
   isValidOxygen, oxygenBin, sortRecords, toCSV,
 } from '../features/data-atlas/analysis.js';
 import '../features/data-atlas/dashboard.css';
+import SourceTables from '../features/data-atlas/SourceTables.jsx';
+import { Tabs } from '../components/ui.jsx';
+import { replaceParams } from '../lib/router.js';
 
 const PAGE_SIZE = 12;
 const INITIAL_FILTERS = { search: '', material: 'all', year: 'all', oxygen: 'all', quality: 'all' };
@@ -58,7 +61,7 @@ function FieldNote({ title, children }) {
   return <div className="atlas-field-note"><span>{title}</span><p>{children}</p></div>;
 }
 
-export default function Explore() {
+function BassWorkspace({ switcher }) {
   const [records,setRecords] = useState([]);
   const [loading,setLoading] = useState(true);
   const [error,setError] = useState('');
@@ -127,6 +130,7 @@ export default function Explore() {
         description="A source-grounded scientific workspace for the original BASS-II experiment records. Every chart is calculated from the returned NASA table — without simulated measurements or invented fire-risk scores."/>
       <a href={SOURCE_URL} target="_blank" rel="noopener noreferrer" className="atlas-source-top">NASA SOURCE <ArrowUpRight size={17}/></a>
     </div>
+    {switcher}
 
     {loading ? <div className="container atlas-loading" role="status"><div style={{width:'100%'}}><div className="s-row" style={{marginBottom:18}}><LoaderCircle className="spin" size={20}/> Reading NASA source table…</div><div className="s-grid-3">{[0,1,2].map(i=><div key={i} className="s-skeleton" style={{height:110}}/>)}</div><div className="s-skeleton" style={{height:260,marginTop:18}}/></div></div>
     : error ? <div className="container atlas-error" role="alert"><ShieldAlert size={24}/><div><strong>Source data unavailable</strong><p>{error}</p><code>cd backend; python -m uvicorn main:app --reload --port 8000</code></div></div>
@@ -190,5 +194,29 @@ export default function Explore() {
       </div>
       <div className={`atlas-compare-dock ${compareIds.length?'is-visible':''}`} aria-live="polite"><div className="atlas-compare-dock-inner"><div><GitCompareArrows size={20}/><strong>Compare experiments</strong><span>{compareIds.length?compareIds.join(' vs '):'Select two records'}</span></div><div><button type="button" className="atlas-dock-clear" onClick={clearCompare}>Clear</button><a className={`atlas-dock-go ${compareIds.length===2?'':'is-disabled'}`} aria-disabled={compareIds.length!==2} tabIndex={compareIds.length===2?0:-1} href="#/theater" onClick={e=>{if(compareIds.length!==2)e.preventDefault()}}>OPEN COMPARISON THEATER <ArrowRight size={17}/></a></div></div></div>
     </>}
+  </div>;
+}
+
+/** Data Atlas: the original BASS-II analysis workspace, plus every other NASA PSI source table (merged from SOLARIS 5.0). */
+export default function Explore({ params }) {
+  const [view, setViewState] = useState(() => params?.get('view') === 'tables' ? 'tables' : 'bass');
+  useEffect(() => { const v = params?.get('view') === 'tables' ? 'tables' : 'bass'; setViewState(v); }, [params]);
+  const setView = (v) => { setViewState(v); replaceParams(v === 'tables' ? { view: 'tables' } : {}); };
+  const switcher = <div className="container atlas-view-switch" data-reveal>
+    <Tabs label="Data Atlas view" value={view} onChange={setView} tabs={[
+      { value: 'bass', label: 'BASS-II workspace', icon: <Grid2X2 size={14} /> },
+      { value: 'tables', label: 'All NASA source tables', icon: <Database size={14} /> },
+    ]} />
+    <p>{view === 'bass' ? 'Charts, comparison and selection tools for the 129 BASS-II rows.' : 'Every PSI experimental table SOLARIS holds — 11 investigations, each read on its own terms.'}</p>
+  </div>;
+  if (view === 'bass') return <BassWorkspace switcher={switcher} />;
+  return <div className="inner-page atlas-page">
+    <div className="container atlas-title-row" data-reveal>
+      <SectionHeading eyebrow="DATA ATLAS / NASA PSI SOURCE TABLES" title={<>Every table. <em>Every row traceable.</em></>}
+        description="The experimental tables NASA publishes on the PSI repository for BASS, BASS-II, ACME, FLEX, FLEX-2, Saffire I–III, SAME, SAME-R and SPICE — unchanged, with their original units and a locator for every row."/>
+      <a href="https://psi.nasa.gov/physci/repo/" target="_blank" rel="noopener noreferrer" className="atlas-source-top">NASA PSI <ArrowUpRight size={17}/></a>
+    </div>
+    {switcher}
+    <SourceTables params={params} />
   </div>;
 }

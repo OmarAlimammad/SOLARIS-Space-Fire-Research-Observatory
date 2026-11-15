@@ -32,6 +32,7 @@
   --ev-illustration: #a05ac9;
   --ev-ai: #d0558a;
   --ev-missing: #9aa9b6;
+  --ev-simulation: #3f62c9; /* computed by a SOLARIS solver — never a NASA measurement */
   /* depth */
   --s-shadow-1: 0 1px 2px rgba(16, 52, 81, .05), 0 2px 8px rgba(16, 52, 81, .04);
   --s-shadow-2: 0 4px 14px rgba(16, 52, 81, .07), 0 1px 3px rgba(16, 52, 81, .05);
@@ -146,7 +147,7 @@ button.s-chip[aria-pressed="true"] { background: var(--s-ink); color: #fff; bord
 .ev-badge:before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--c); }
 .ev-measured { --c: var(--ev-measured); } .ev-metadata { --c: var(--ev-metadata); } .ev-instrument { --c: var(--ev-instrument); }
 .ev-finding { --c: var(--ev-finding); } .ev-model { --c: var(--ev-model); } .ev-illustration { --c: var(--ev-illustration); }
-.ev-ai { --c: var(--ev-ai); } .ev-missing { --c: var(--ev-missing); }
+.ev-ai { --c: var(--ev-ai); } .ev-missing { --c: var(--ev-missing); } .ev-simulation { --c: var(--ev-simulation); }
 
 /* ---------- skeletons, loaders, empty states ---------- */
 .s-skeleton { position: relative; overflow: hidden; background: #e8f0f6; border-radius: 8px; min-height: 12px; }

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark"><meta name="theme-color" content="#050c16">
+<title>ORBITAL//LAB 2.0 — Saturn V Mission Simulator</title>
+<meta name="description" content="NASA məlumatları əsasında Saturn V 3-DOF uçuş dinamikası, atmosfer, mərhələlər, qrafiklər və 3D vizualizasiya.">
+<link rel="stylesheet" href="styles.css">
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}</script>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand"><div class="brand-mark"><div class="brand-rocket">✦</div></div><div><div class="brand-title">ORBITAL<span>//</span>LAB <b>2.0</b></div><div class="brand-meta">SATURN V · FLIGHT DYNAMICS SYSTEM</div></div></div>
+    <div class="top-center"><span class="live-dot"></span><span id="system-status">MISSION SOFTWARE READY</span><span class="vline"></span><span class="top-physics">3-DOF · RK4 · COESA-76 · J₂</span></div>
+    <div class="top-right"><button id="help-btn" class="ghost-btn">? <span>MODEL INFO</span></button><button id="screenshot-btn" class="ghost-btn">↧ <span>SNAPSHOT</span></button><span class="version-badge">BUILD 2.0</span></div>
+  </header>
+  <div class="workspace">
+    <aside class="control-sidebar">
+      <div class="sidebar-heading"><div class="overline">MISSION CONFIGURATION <span>01 / 03</span></div><h2>Launch parameters</h2><p>Fizika parametrlərini dəyiş və trayektoriyanı yenidən hesabla.</p></div>
+      <div class="sidebar-block">
+        <div class="block-title"><span>01</span> MODEL PROFILE <small>REAL-WORLD BASELINE</small></div>
+        <div class="preset-group"><button type="button" data-preset="saturn" class="on">SATURN V</button><button type="button" data-preset="light">LIGHT LOAD</button><button type="button" data-preset="steep">STEEP ASCENT</button></div>
+        <div class="info-strip"><span class="status-glow"></span> 3 mərhələli, dəyişən kütləli, Yer mərkəzli uçuş modeli</div>
+      </div>
+      <div class="sidebar-block">
+        <div class="block-title"><span>02</span> ROCKET PARAMETERS <small>EDITABLE INPUTS</small></div>
+        <div class="input-grid">
+          <label class="field"><span>m₀/mᶠ <i class="help-mark" title="Birinci mərhələnin yanma başlanğıcı/sonu kütlə nisbəti. Digər mərhələlər və faydalı yük üzərində qalır.">ⓘ</i></span><div class="input-holder"><input id="ratio" type="number" min="1.2" max="7" step="0.01" value="3.56"><em>×</em></div></label>
+          <label class="field"><span>Initial velocity <i title="Başlanğıc radial sürət, m/s" class="help-mark">ⓘ</i></span><div class="input-holder"><input id="v0" type="number" min="0" max="4000" step="10" value="0"><em>m/s</em></div></label>
+          <label class="field"><span>Payload multiplier</span><div class="input-holder"><input id="payloadFactor" type="number" min="0.3" max="4" step="0.1" value="1"><em>×</em></div></label>
+          <label class="field"><span>Engine throttle</span><div class="input-holder"><input id="throttle" type="number" min="0.4" max="1.15" step="0.05" value="1"><em>×</em></div></label>
+          <label class="field"><span>Drag multiplier</span><div class="input-holder"><input id="cdScale" type="number" min="0" max="3" step="0.05" value="1"><em>×</em></div></label>
+          <label class="field"><span>Eastward wind</span><div class="input-holder"><input id="windEast" type="number" min="-100" max="100" step="5" value="0"><em>m/s</em></div></label>
+        </div>
+      </div>
+      <div class="sidebar-block">
+        <div class="block-title"><span>03</span> GUIDANCE <small>PITCH PROGRAM</small></div>
+        <div class="input-grid">
+          <label class="field"><span>Pitch begins</span><div class="input-holder"><input id="pitchStart" type="number" min="0" max="300" step="5" value="0"><em>s</em></div></label>
+          <label class="field"><span>Pitch completes</span><div class="input-holder"><input id="pitchEnd" type="number" min="80" max="800" step="5" value="265"><em>s</em></div></label>
+          <label class="field"><span>Final pitch angle</span><div class="input-holder"><input id="pitchFinal" type="number" min="50" max="100" step="1" value="80"><em>°</em></div></label>
+          <label class="field"><span>AoA soft limit</span><div class="input-holder"><input id="limitAoA" type="number" min="1" max="20" step="1" value="5"><em>°</em></div></label>
+        </div>
+      </div>
+      <div class="sidebar-block switches-block">
+        <div class="block-title"><span>04</span> ENVIRONMENT <small>PHYSICS SWITCHES</small></div>
+        <label class="switchline"><span>Standard atmosphere / drag</span><input id="atmosphere" type="checkbox" checked><b></b></label>
+        <label class="switchline"><span>Earth rotation & air corotation</span><input id="rotation" type="checkbox" checked><b></b></label>
+        <label class="switchline"><span>J₂ gravitational perturbation</span><input id="j2" type="checkbox" checked><b></b></label>
+        <label class="switchline"><span>Approximate aerodynamic lift</span><input id="lift" type="checkbox" checked><b></b></label>
+        <label class="switchline"><span>Orbit target auto-cutoff</span><input id="targetOrbit" type="checkbox" checked><b></b></label>
+      </div>
+      <div class="sidebar-block equation-block">
+        <div class="block-title"><span>05</span> ROCKET EQUATION <small>IDEAL / UPPER BOUND</small></div>
+        <div class="equation">Δv = I<sub>sp</sub> · g₀ · ln <span class="frac"><b>m₀</b><b>mᶠ</b></span></div>
+        <div class="equation-desc">İdeal Δv qravitasiya, drag və idarəetmə itkilərini əhatə etmir. Buradakı m₀/mᶠ S-IC yanma nisbətidir.</div>
+        <div class="eq-stats"><div><span>IDEAL ΔV (3 STAGES)</span><b id="calc-dv">—</b></div><div><span>INITIAL T/W</span><b id="calc-twr">—</b></div><div><span>LIFTOFF MASS</span><b id="calc-mass">—</b></div><div><span>S-IC BURN</span><b id="calc-burn">—</b></div></div>
+      </div>
+      <div id="input-error" role="alert" class="input-error" hidden></div>
+      <div class="launch-area"><button id="calculate-btn" class="primary-btn">◢ &nbsp; RECALCULATE MISSION <span>↗</span></button><div class="launch-secondary"><button id="play-btn">▶ &nbsp; LAUNCH</button><button id="reset-btn">↺ RESET</button><button id="compare-btn">⊕ COMPARE</button></div><div class="hint">Dəyişikliklər <b>RECALCULATE</b> düyməsindən sonra tətbiq olunur.</div></div>
+    </aside>
+    <section class="center-panel">
+      <div class="scene-card">
+        <div id="scene-container" aria-label="Three.js Saturn V uçuş səhnəsi"></div>
+        <div class="scene-topbar"><div class="scene-mode"><span class="scanmark">⊙</span> VISUAL FLIGHT TRACKER <em> / </em><b id="scene-camera-name">FOLLOW CAMERA</b></div><span id="flight-status" class="flight-status">● PRE-LAUNCH</span></div>
+        <div class="scene-altitude"><small>ALTITUDE A.S.L.</small><div id="big-alt">0.0 <i>km</i></div><div class="small-stats"><span>T+ <b id="hud-clock">00:00</b></span><span>SPEED <b id="hud-speed">0 m/s</b></span></div></div>
+        <div class="axis-gizmo"><span class="axis-up">↑ UP</span><span>→ EAST</span></div>
+        <div class="scene-bottom"><div class="cam-tabs"><button data-camera="chase" class="selected">◉ FOLLOW</button><button data-camera="pad">▤ LAUNCH PAD</button><button data-camera="globe">◎ EARTH / ORBIT</button></div><div class="view-hint">DRAG · ROTATE &nbsp; / &nbsp; SCROLL · ZOOM</div></div>
+        <div class="scene-scale-note">3D raket və Yer miqyası görünüş üçün şişirdilib · Hərəkət fizikası SI vahidlərində hesablanır.</div>
+        <div class="scene-toast" id="scene-toast"></div>
+        <div class="crosshair"><span></span></div>
+      </div>
+      <div class="bottom-metrics"><div><span><i class="tiny-orange"></i> ACCELERATION LOAD</span><strong id="metric-g">0.00 <small>g</small></strong><small>PROPER / SPECIFIC FORCE</small></div><div><span><i class="tiny-blue"></i> AERODYNAMIC PRESSURE</span><strong id="metric-q">0.0 <small>kPa</small></strong><small>q = ½ ρ |vREL|²</small></div><div><span><i class="tiny-purple"></i> MACH NUMBER</span><strong id="metric-mach">0.00 <small>Ma</small></strong><small>LOCAL SPEED OF SOUND</small></div><div><span><i class="tiny-green"></i> TOTAL MASS</span><strong id="metric-mass">0 <small>t</small></strong><small>INCLUDES REMAINING FUEL</small></div></div>
+      <div class="chart-card"><div class="chart-head"><div><span class="overline">TRAJECTORY ANALYSIS / 02</span><h3>Flight profile</h3></div><div class="chart-buttons"><button data-chart="alt" class="selected">ALTITUDE</button><button data-chart="speed">VELOCITY</button><button data-chart="q">DYNAMIC Q</button><button data-chart="g">G-LOAD</button></div></div><div class="chart-wrap"><canvas id="flight-chart" aria-label="Simulyasiya qrafiki"></canvas></div><div class="timeline-row"><span id="timeline-start">T+00:00</span><input id="timeline" type="range" value="0" min="0" max="1000" step="0.1" aria-label="Zaman xətti"><span id="timeline-end">T+00:00</span></div><div class="replay-row"><div class="timeline-status">● <span id="replay-status">READY · DRAG THE TIME BAR TO REPLAY</span></div><div class="playback"><button id="previous-event" title="Əvvəlki hadisəyə keç">↤</button><button id="speed-btn" title="Zaman sürəti">8× SPEED</button><button id="next-event" title="Növbəti hadisəyə keç">↦</button></div></div></div>
+    </section>
+    <aside class="telemetry-sidebar"><div class="telemetry-title"><div class="overline">REAL-TIME TELEMETRY <span>03 / 03</span></div><h2>Mission data</h2><p>İnteqrasiyadan hesablanmış parametrlər.</p></div>
+      <div class="flight-clock"><span>MISSION ELAPSED TIME</span><strong id="mission-clock">T+ 00:00.0</strong><small id="clock-phase">STANDBY</small></div>
+      <div class="stage-card"><div class="stage-head"><span>ACTIVE STAGE</span><b id="stage-label">S-IC / STAGE 1</b></div><div class="stage-pips"><div class="active" id="st0">I <span>S-IC</span></div><div id="st1">II <span>S-II</span></div><div id="st2">III <span>S-IVB</span></div></div><div class="stage-engine"><span>PROPULSION</span><b id="engine-state">F-1 CLUSTER / READY</b></div><div class="fuel-head"><span>ACTIVE STAGE FUEL</span><strong id="fuel-number">100%</strong></div><div class="fuel-meter"><span id="fuel-meter"></span></div></div>
+      <div class="telemetry-section"><div class="section-hd">DYNAMIC PERFORMANCE</div><div class="telemetry-rows"><div><span>Ground-relative speed</span><strong id="t-groundspeed">—</strong></div><div><span>Vertical speed</span><strong id="t-vertical">—</strong></div><div><span>Downrange distance</span><strong id="t-range">—</strong></div><div><span>Thrust produced</span><strong id="t-thrust">—</strong></div><div><span>Drag force</span><strong id="t-drag">—</strong></div><div><span>Angle of attack</span><strong id="t-aoa">—</strong></div><div><span>Cd(M) estimate</span><strong id="t-cd">—</strong></div><div><span>Convective heat proxy</span><strong id="t-heat">—</strong></div></div></div>
+      <div class="telemetry-section"><div class="section-hd">ATMOSPHERE / EARTH</div><div class="telemetry-rows"><div><span>Air density (ρ)</span><strong id="t-rho">—</strong></div><div><span>Static pressure</span><strong id="t-pressure">—</strong></div><div><span>Temperature</span><strong id="t-temp">—</strong></div><div><span>Gravitational acceleration</span><strong id="t-gravity">—</strong></div></div></div>
+      <div class="orbit-card"><div class="section-hd">ORBITAL ELEMENTS (OSC.)</div><div class="orbit-main"><div><span>PERIGEE</span><strong id="t-perigee">—</strong></div><div><span>APOGEE</span><strong id="t-apogee">—</strong></div></div><div class="orbit-sub"><span>ECCENTRICITY <b id="t-ecc">—</b></span><span>INCLINATION <b id="t-inc">—</b></span></div><div id="orbit-caption" class="orbit-caption">Perigey Yer səthindən aşağıdırsa orbit sabit deyil.</div></div>
+      <div class="telemetry-section event-section"><div class="section-hd">FLIGHT EVENT LOG <span id="event-count"></span></div><div id="event-list" class="event-list"></div></div>
+      <div class="data-actions"><button id="csv-btn">↓ &nbsp; EXPORT CSV</button><button id="json-btn">⌘ &nbsp; EXPORT JSON</button></div>
+    </aside>
+  </div>
+  <footer class="footer"><span><b>ORBITAL//LAB 2.0</b> / SATURN V FLIGHT RESEARCH EXPERIENCE</span><span>MODELS: COESA 1976 LOWER AIR · APPROX. Cd(M) · ECI + EARTH ROTATION · J₂ · RK4</span><span class="warn-foot">EDUCATIONAL 3-DOF / NOT CFD, 6-DOF OR FLIGHT-CERTIFIED</span></footer>
+</div>
+<dialog id="model-dialog"><div class="dialog-content"><button id="close-dialog" class="dialog-x">✕</button><div class="overline">SCIENTIFIC MODEL / LIMITATIONS</div><h2>What does this simulation calculate?</h2><p>Bu proqram 3D məkanda <b>nöqtə kütləli (3-DOF)</b> raketin irəliləmə dinamikasını hesablayır. Fizika Three.js animasiyasından müstəqil işləyir.</p><ul><li>Qravitasiya: iki-cisimli Yer potensialı və əlavə J₂ düzəlişi.</li><li>Atmosfer: COESA 1976, 0–86 km; bundan yuxarı <b>təxmini</b> sıxlıq uzantısı.</li><li>Hava müqaviməti: nisbi hava sürəti, q = ½ρv², təxmini Mach-dan asılı Cᴅ(M).</li><li>AoA və qaldırma qüvvəsi: sadələşdirilmiş ox-simmetrik raket yaxınlaşması; ölçülmüş aerodinamik verilənlər deyil.</li><li>Mühərrik: mərhələ kütlələri, impuls, statik təzyiqə görə dartı və propellant axını.</li><li>İdarəetmə: qabaqcadan proqramlaşdırılmış pitch komandası, dinamik təzyiqdə yumşaq AoA limitlənməsi, təxmini orbital insertion cutoff.</li></ul><p><b>Məhdudiyyət:</b> 6-DOF aerodinamik momentlər, elastik konstruksiya, CFD, real Apollo guidance, külək təbəqələrinin 3D meteorologiyası, məhdud mühərrik alov dinamikası, tarixi mərhələ zamanları və TLI tam modelləşdirilmir. 3D raket/göy miqyası vizual məqsədlə dəyişdirilir.</p><div class="dialog-actions"><button id="dialog-ok">UNDERSTOOD</button><a href="README.md" target="_blank" rel="noopener">READ DOCUMENTATION ↗</a></div></div></dialog>
+<script type="module" src="app.mjs"></script>
+</body>
+</html>

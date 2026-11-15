@@ -1,0 +1,35 @@
+{
+ "schema_version": "5.0",
+ "order": 11,
+ "title": "Onboard flame during Saturn V first-stage cutoff",
+ "destination": "coupled",
+ "kind": "coupled_flame",
+ "fidelity_level": 3,
+ "expected_runtime": "about 20 s",
+ "summary": "A sealed methane/air chamber aboard the Saturn V. The window spans S-IC engine cutoff and S-II ignition: sensed acceleration drops from about 4.8 g to under 1 g (the legacy model ignites the second stage at separation, so there is no free-fall gap), and that history drives buoyancy in the chamber.",
+ "expected_behaviour": "Before cutoff the plume is strongly accelerated along the thrust axis; after staging the buoyant driving is several times weaker.",
+ "acceptance_checks": [
+  "Coupled run completes and both streams share one experiment ID.",
+  "Applied axial acceleration magnitude before cutoff exceeds 40 m/s2 and after staging is below 12 m/s2.",
+  "The S-IC cutoff event is listed inside the window with its flight and chamber times."
+ ],
+ "payload": {
+  "flight": {
+   "scenario": "saturn_legacy",
+   "params": {
+    "payloadFactor": 1,
+    "throttle": 1,
+    "pitchFinal": 80,
+    "windEast": 0
+   }
+  },
+  "window": {
+   "event": "S-IC \u00b7 ENGINE CUTOFF",
+   "lead_s": 0.3,
+   "duration_s": 0.6
+  },
+  "fuel": "CH4",
+  "axis": "+x (toward nose, along thrust)",
+  "grid": "40x20"
+ }
+}

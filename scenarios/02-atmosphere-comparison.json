@@ -1,0 +1,62 @@
+{
+ "schema_version": "5.0",
+ "order": 2,
+ "title": "Atmosphere comparison: air versus 30 % O2 / He",
+ "destination": "flame",
+ "kind": "equilibrium",
+ "fidelity_level": 1,
+ "expected_runtime": "under 5 s per run",
+ "summary": "Same fuel and stoichiometry, two oxidizer mixtures. Step A: run in dry air. Step B: press \"Variant B\" (30 % O2 in helium) and run again. The equilibrium state is recomputed by Cantera each time.",
+ "expected_behaviour": "The helium-diluted, oxygen-enriched mixture gives a higher adiabatic flame temperature than air because He has a lower molar heat capacity than N2 and more O2 is available per mole of diluent.",
+ "acceptance_checks": [
+  "Both runs complete with element-balance residual below 1e-9.",
+  "Adiabatic temperature in air is 2225 K +/- 15 K (CH4, phi = 1, 300 K, 1 atm, GRI-Mech 3.0).",
+  "Variant B temperature is higher than variant A."
+ ],
+ "payload": {
+  "mode": "equilibrium",
+  "fuel": "CH4",
+  "phi": 1,
+  "constraint": "HP",
+  "ox": {
+   "basis": "mole",
+   "species": {
+    "N2": 0.79,
+    "O2": 0.21
+   },
+   "humidity": {
+    "mode": "none"
+   }
+  },
+  "p": 101325,
+  "T": 300,
+  "variants": [
+   {
+    "label": "Variant A: dry air (21 % O2 / 79 % N2)",
+    "ox": {
+     "basis": "mole",
+     "species": {
+      "N2": 0.79,
+      "O2": 0.21
+     },
+     "humidity": {
+      "mode": "none"
+     }
+    }
+   },
+   {
+    "label": "Variant B: 30 % O2 / 70 % He",
+    "ox": {
+     "basis": "mole",
+     "species": {
+      "He": 0.7,
+      "O2": 0.3
+     },
+     "humidity": {
+      "mode": "none"
+     }
+    }
+   }
+  ]
+ }
+}

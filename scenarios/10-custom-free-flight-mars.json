@@ -1,0 +1,28 @@
+{
+ "schema_version": "5.0",
+ "order": 10,
+ "title": "Custom free-flight state at Mars",
+ "destination": "flight",
+ "kind": "free",
+ "fidelity_level": "flight",
+ "expected_runtime": "under 1 s",
+ "summary": "A vehicle initialised directly in a 300 x 2000 km Mars orbit (state defined relative to Mars, converted to the inertial frame), with a 50 m/s prograde burn at periapsis passage.",
+ "expected_behaviour": "Telemetry is reported relative to Mars; periapsis stays near 300 km and apoapsis rises after the burn.",
+ "acceptance_checks": [
+  "Initial periapsis and apoapsis altitudes reproduce the inputs within 1 km.",
+  "Inclination stays at 30 degrees within 0.01 degrees.",
+  "Central body in telemetry is Mars throughout."
+ ],
+ "payload": {
+  "scenario": "free",
+  "params": {
+   "epoch_utc": "2027-03-01T00:00:00Z",
+   "body": "mars",
+   "periapsis_alt_km": 300,
+   "apoapsis_alt_km": 2000,
+   "inclination_deg": 30,
+   "orbits": 2,
+   "burn_dv_m_s": 50
+  }
+ }
+}

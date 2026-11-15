@@ -9,13 +9,13 @@ function Provenance() {
   return <section className="container source-section" data-reveal>
     <span className="eyebrow"><span className="eyebrow-line"/> DATA PROVENANCE</span>
     <h2>What SOLARIS actually holds.</h2>
-    <p className="s-lede" style={{marginBottom:18}}>Eleven investigations are catalogued from public NASA PSI metadata. Only BASS-II has row-level experimental data imported. Nothing below is estimated.</p>
+    <p className="s-lede" style={{marginBottom:18}}>Eleven investigations are catalogued from public NASA PSI metadata, and SOLARIS holds the PSI experimental table of each one — unchanged, with file name and byte size matching the PSI listing. Each table is read on its own; nothing is pooled or converted. Simulation laboratories produce clearly labelled computed outputs, never stored as data. Nothing below is estimated.</p>
     {r.loading ? <Skeleton lines={6}/> : r.error ? <ApiError error={r.error} onRetry={r.reload} what="the investigation catalog"/> :
     <div className="s-table-wrap"><table className="s-table">
       <thead><tr><th>Investigation</th><th>PSI accession</th><th>Data in SOLARIS</th><th>PSI experimental table</th><th>Listed publications</th><th>Verified quotes</th></tr></thead>
       <tbody>{r.data.items.map(i=><tr key={i.id}><td><strong>{i.name}</strong><br/><small className="s-muted">{i.title}</small></td>
         <td><a href={i.psi_url} target="_blank" rel="noreferrer" style={{color:'var(--s-blue)',fontWeight:700}}>{i.accessions.join(', ')}</a></td>
-        <td><span className={`st-level ${i.data_status.level}`}>{i.data_status.level==='row_level_imported'?`${i.data_status.imported_rows} rows`:'Catalog only'}</span></td>
+        <td><span className={`st-level ${i.data_status.level}`}>{i.data_status.level==='row_level_imported'?`${i.data_status.imported_rows} rows${i.data_status.tables_not_imported?.length?` (${i.data_status.tables_imported} of ${i.data_status.psi_tables.length} tables)`:''}`:'Catalog only'}</span></td>
         <td>{i.data_status.psi_tables.map(t=>t.file_name.replace(/^PSI-\d+_Experimental table_/,'')).join(', ')||'—'}</td>
         <td>{i.publication_count}</td><td>{i.finding_ids.length}</td></tr>)}</tbody></table></div>}
     <div className="s-row" style={{marginTop:18}}>{Object.entries(EVIDENCE).map(([k])=><EvidenceBadge key={k} kind={k}/>)}</div>

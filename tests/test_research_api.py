@@ -13,11 +13,14 @@ os.environ["SOLARIS_COPILOT_DISABLE_LLM"] = "1"
 client = TestClient(app)
 
 
-def test_eleven_investigations_and_only_bassii_has_rows():
+def test_eleven_investigations_and_imported_source_tables():
     items = client.get("/api/investigations").json()["items"]
     assert [i["name"] for i in items] == ["BASS", "BASS-II", "ACME", "FLEX", "FLEX-2", "Saffire-I", "Saffire-II", "Saffire-III", "SAME", "SAME-R", "SPICE"]
     imported = [i["id"] for i in items if i["data_status"]["level"] == "row_level_imported"]
-    assert imported == ["bass-ii"]
+    assert imported == [i["id"] for i in items]  # every investigation now has its PSI table(s) in data/raw/
+    acme = next(i for i in items if i["id"] == "acme")["data_status"]
+    assert acme["tables_imported"] == 2 and len(acme["tables_not_imported"]) == 4  # PSI-20..23 tables are not supplied
+    assert all(t["psi_listing_status"] == "name_and_size_match" for i in items for t in i["data_status"]["source_tables"])
     assert next(i for i in items if i["id"] == "bass-ii")["data_status"]["imported_rows"] == 129
     for i in items:
         assert i["psi_url"].startswith("https://psi.nasa.gov/physci/repo/data/investigations/PSI-")

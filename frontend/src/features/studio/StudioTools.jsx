@@ -3,6 +3,7 @@ import { AlertTriangle, ArrowUpRight, Download, FlaskConical, Lightbulb, LoaderC
 import { api, getExperiments, useApi } from '../../lib/api.js';
 import { useResearch } from '../../state/ResearchContext.jsx';
 import { ApiError, EmptyState, EvidenceBadge, Skeleton } from '../../components/ui.jsx';
+import { TableCoverage } from './SourceTableTools.jsx';
 
 const CONCEPT_LABEL = (c) => c.replaceAll('-', ' ').replace(/^\w/, m => m.toUpperCase());
 
@@ -85,6 +86,11 @@ export function GapTool() {
       </div>
       <ul className="st-limits">{r.data.limitations.map((l, i) => <li key={i}>{l}</li>)}</ul>
     </>}
+    <section className="st-subsection" aria-labelledby="st-cov-all">
+      <div className="s-row" style={{ justifyContent: 'space-between' }}><h3 id="st-cov-all" className="s-h3">Scalar coverage in every NASA source table</h3><EvidenceBadge kind="metadata">Counted from source cells</EvidenceBadge></div>
+      <p className="s-muted">Beyond BASS-II: for any PSI experimental table, how many source-record rows carry a usable number for each numeric field. Gaps here are gaps in the table, not proven gaps in NASA science.</p>
+      <TableCoverage />
+    </section>
   </div>;
 }
 
@@ -284,5 +290,10 @@ export function AdvisorTool() {
         <div className="cp-ids">{Object.entries(idea.evidence).map(([k, v]) => <span key={k} className="s-chip">{k.replaceAll('_', ' ')}: {Array.isArray(v) ? v.map(x => typeof x === 'number' ? `${x}%` : x).join(', ') : String(v)}</span>)}</div>
       </article>)}</div>
     </>}
+    <section className="st-subsection" aria-labelledby="st-adv-tables">
+      <h3 id="st-adv-tables" className="s-h3">Questions from the other NASA source tables</h3>
+      <p className="s-muted">Fields that are often blank or non-numeric in a table point to measurements or documentation a future campaign could supply. These are research questions, not approved experiments.</p>
+      <TableCoverage mode="questions" initial="spice-table" />
+    </section>
   </div>;
 }
