@@ -41,7 +41,8 @@ def records_or_503():
 
 @app.get("/api/health")
 def health():
-    return {"status": "ok", "source_data_available": DATA_PATH.is_file(), "copilot_llm": copilot._claude_available()}
+    return {"status": "ok", "source_data_available": DATA_PATH.is_file(), "copilot_llm": copilot.llm_provider() is not None,
+            "copilot_provider": copilot.llm_provider()}
 
 
 @app.get("/api/metadata")

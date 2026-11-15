@@ -31,8 +31,8 @@ function Answer({ result }) {
   const index = Object.fromEntries(result.passages.map((p, i) => [p.id, i + 1]));
   const [hl, setHl] = useState(null);
   return <div className="cp-answer">
-    <div className={`cp-mode ${result.mode === 'claude_grounded' ? 'is-ai' : ''}`}>
-      {result.mode === 'claude_grounded' ? <Sparkles size={15} /> : <Search size={15} />}
+    <div className={`cp-mode ${result.mode?.endsWith('_grounded') ? 'is-ai' : ''}`}>
+      {result.mode?.endsWith('_grounded') ? <Sparkles size={15} /> : <Search size={15} />}
       <span>{result.mode_label}</span>
     </div>
     {result.notice && <div className="s-alert is-info" style={{ marginBottom: 14 }}><TriangleAlert size={16} /><span>{result.notice}</span></div>}
@@ -75,7 +75,7 @@ function Answer({ result }) {
       <span className="s-label">Evidence vs inference</span>
       <ul>
         <li><strong>Evidence:</strong> the numbered passages, each with its source and evidence class.</li>
-        <li><strong>Inference:</strong> {result.mode === 'claude_grounded' ? 'the AI text above, which must be checked against the passages.' : 'none generated — read the passages directly.'}</li>
+        <li><strong>Inference:</strong> {result.mode?.endsWith('_grounded') ? 'the AI text above, which must be checked against the passages.' : 'none generated — read the passages directly.'}</li>
         {result.integrity.map((t, i) => <li key={i}>{t}</li>)}
       </ul>
     </section>
@@ -110,7 +110,7 @@ export default function Copilot() {
 
   return <div className="s-page">
     <PageHeader kicker="Research Copilot" title={<>Ask the evidence. <em>See every source.</em></>}
-      lede="Questions are answered from NASA PSI records, verbatim NASA findings, listed publications and BASS-II rows. With a server-side AI key, Claude writes a cited summary; without one, you get the ranked evidence itself — never a simulated answer."
+      lede="Questions are answered from NASA PSI records, verbatim NASA findings, listed publications, BASS-II rows and rows of the other NASA PSI tables. With a server-side AI key, an AI model (Claude or Gemini) writes a cited summary; without one, you get the ranked evidence itself — never a simulated answer."
       aside={<div className={`cp-status ${health.data?.copilot_llm ? 'is-on' : ''}`}>
         {health.loading ? <LoaderCircle size={15} className="spin" /> : health.data?.copilot_llm ? <Sparkles size={15} /> : <Database size={15} />}
         <span>{health.loading ? 'Checking…' : health.error ? 'API offline' : health.data?.copilot_llm ? 'AI synthesis available' : 'Retrieval mode (no AI key)'}</span>
@@ -144,7 +144,7 @@ export default function Copilot() {
           <ol className="cp-steps">
             <li>Detect test IDs and named materials, and query the NASA table directly.</li>
             <li>Rank passages with BM25 keyword relevance — transparent and reproducible.</li>
-            <li>Optionally, Claude summarises <em>only</em> those passages with per-sentence citations.</li>
+            <li>Optionally, an AI model (Claude or Gemini) summarises <em>only</em> those passages with per-sentence citations.</li>
             <li>Evidence classes stay visible; missing evidence is reported as missing.</li>
           </ol>
         </div>

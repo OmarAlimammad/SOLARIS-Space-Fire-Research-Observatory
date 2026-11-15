@@ -1,4 +1,4 @@
-"""Research Copilot — retrieval first, optional Claude synthesis second.
+"""Research Copilot — retrieval first, optional AI synthesis (Claude or Gemini) second.
 
 Pipeline
 1. Detect explicit intents (test IDs to compare, material lookups).
@@ -6,14 +6,21 @@ Pipeline
 3. If ANTHROPIC_API_KEY (or another Anthropic credential) is configured and the
    ``anthropic`` package is installed, ask Claude to answer ONLY from the retrieved
    passages, passed as citable documents. Citations are mapped back to passage IDs.
-4. Otherwise return "retrieval mode": the ranked evidence itself, with no generated prose.
+   Otherwise, if GEMINI_API_KEY (or GOOGLE_API_KEY) is configured, ask Gemini the same way:
+   passages are numbered [S1]..[Sn], the model must end each supported sentence with its
+   markers, and only markers that point at a supplied passage are kept as citations.
+4. Otherwise (or if every model call fails) return "retrieval mode": the ranked evidence
+   itself, with no generated prose.
 
 The API key stays on the server. It is never sent to the browser.
 """
 from __future__ import annotations
 
+import json
 import os
 import re
+import urllib.error
+import urllib.request
 
 from ..scientific.bassii import load_original_records, material_group
 from ..scientific.compatibility import build_comparison
@@ -103,6 +110,89 @@ def _claude_available() -> bool:
     return True
 
 
+GEMINI_MODELS = [m.strip() for m in os.environ.get("SOLARIS_GEMINI_MODELS", "gemini-3.5-flash,gemini-3.1-flash-lite").split(",") if m.strip()]
+GEMINI_TIMEOUT_S = float(os.environ.get("SOLARIS_GEMINI_TIMEOUT_S", "25"))
+GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+_MARKERS = re.compile(r"\s*((?:\[\s*S?\d+(?:\s*[,;]\s*S?\d+)*\s*\]\s*)+)")
+
+
+def _gemini_key() -> str | None:
+    if os.environ.get("SOLARIS_COPILOT_DISABLE_LLM"):
+        return None
+    return os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY") or None
+
+
+def llm_provider() -> str | None:
+    """Which AI provider the Copilot will use: Claude first, then Gemini, else None (retrieval only)."""
+    if _claude_available():
+        return "claude"
+    if _gemini_key():
+        return "gemini"
+    return None
+
+
+def _split_cited(text: str, passages: list[dict]) -> list[dict]:
+    """Turn '... sentence [S1][S3]. Next ...' into blocks with citations; drop markers that point at no passage."""
+    blocks, pos = [], 0
+    for m in _MARKERS.finditer(text):
+        nums = [int(n) for n in re.findall(r"\d+", m.group(1))]
+        cites = [{"passage_id": passages[n - 1]["id"], "cited_text": ""} for n in dict.fromkeys(nums) if 1 <= n <= len(passages)]
+        chunk = text[pos:m.start()]
+        if chunk or cites:
+            blocks.append({"text": chunk, "citations": cites})
+        pos = m.end()
+        if pos < len(text) and text[pos - 1] != " " and text[pos] not in ".,;:!?\n":
+            blocks[-1]["text"] += " "
+    if pos < len(text):
+        blocks.append({"text": text[pos:], "citations": []})
+    return blocks
+
+
+def _plain(text: str) -> str:
+    """The Copilot renders plain text: remove Markdown emphasis/headings a model may still emit."""
+    text = re.sub(r"\*\*(.+?)\*\*", r"\1", text)
+    text = re.sub(r"(?m)^\s{0,3}#{1,6}\s+", "", text)
+    text = re.sub(r"(?m)^(\s*)[*•]\s+", r"\1- ", text)
+    text = re.sub(r"(?m)^(Inference|Not in the provided evidence|What the sources state):\s*\n+(?=\1:)", "", text)
+    return text
+
+
+def _ask_gemini(question: str, passages: list[dict]) -> dict:
+    key = _gemini_key()
+    docs = "\n\n".join(f"[S{i}] ({p['evidence_type']}) {p['title']}\nSource: {p['citation']}\n{p['text']}" for i, p in enumerate(passages, 1))
+    system = SYSTEM_PROMPT + ("\n- The documents are numbered [S1] to [S%d]. End every sentence that uses a document with its marker(s), "
+                              "e.g. [S2] or [S1][S4]. Use no other citation format and never cite a number that was not given."
+                              "\n- Write plain text only: no Markdown, no asterisks, no headings. Use '- ' for list items and put the labels "
+                              "'Inference:' and 'Not in the provided evidence:' at the start of the relevant line, once each." % len(passages))
+    body = {
+        "systemInstruction": {"parts": [{"text": system}]},
+        "contents": [{"role": "user", "parts": [{"text": f"Documents:\n\n{docs}\n\nQuestion: {question}"}]}],
+        "generationConfig": {"temperature": 0.2, "maxOutputTokens": 4096},
+    }
+    errors = []
+    for model in GEMINI_MODELS:
+        req = urllib.request.Request(GEMINI_URL.format(model=model), data=json.dumps(body).encode(),
+                                     headers={"Content-Type": "application/json", "x-goog-api-key": key})
+        try:
+            with urllib.request.urlopen(req, timeout=GEMINI_TIMEOUT_S) as r:
+                data = json.loads(r.read())
+        except urllib.error.HTTPError as exc:   # 429 quota, 503 overloaded, 404 retired model: try the next one
+            errors.append(f"{model}: HTTP {exc.code}")
+            continue
+        except (TimeoutError, OSError, ValueError) as exc:
+            errors.append(f"{model}: {type(exc).__name__}")
+            continue
+        cand = (data.get("candidates") or [{}])[0]
+        if cand.get("finishReason") in ("SAFETY", "RECITATION", "PROHIBITED_CONTENT", "BLOCKLIST"):
+            raise RuntimeError("The model declined this request.")
+        text = "".join(part.get("text", "") for part in cand.get("content", {}).get("parts", []) if not part.get("thought")).strip()
+        if not text:
+            errors.append(f"{model}: empty response")
+            continue
+        return {"blocks": _split_cited(_plain(text), passages), "model": data.get("modelVersion") or model}
+    raise RuntimeError("; ".join(errors) or "no Gemini model configured")
+
+
 def _ask_claude(question: str, passages: list[dict]) -> dict:
     import anthropic
 
@@ -160,18 +250,19 @@ def answer(question: str, selected_ids: list[str] | None = None) -> dict:
     if not passages:
         result["notice"] = "No passage in the SOLARIS evidence base matches this question. This is missing evidence, not a negative answer."
         return result
-    if _claude_available():
+    provider = llm_provider()
+    if provider:
         try:
-            llm = _ask_claude(question, passages)
+            llm = _ask_claude(question, passages) if provider == "claude" else _ask_gemini(question, passages)
             result.update({
-                "mode": "claude_grounded",
+                "mode": f"{provider}_grounded",
                 "mode_label": f"AI-assisted interpretation ({llm['model']}) grounded in the passages below",
                 "answer": llm["blocks"],
             })
         except Exception as exc:  # network, auth, rate limit — fall back transparently
             result["notice"] = f"The AI model could not be reached ({type(exc).__name__}). Showing retrieval results only."
     else:
-        result["notice"] = ("No AI model is configured on the server (set ANTHROPIC_API_KEY to enable it). "
+        result["notice"] = ("No AI model is configured on the server (set ANTHROPIC_API_KEY or GEMINI_API_KEY to enable it). "
                             "These are the most relevant passages; read them directly.")
     return result
 
