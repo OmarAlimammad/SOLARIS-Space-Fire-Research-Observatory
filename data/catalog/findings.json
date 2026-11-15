@@ -319,9 +319,7 @@
     "large-scale-fire",
     "flame-spread"
    ],
-   "materials": [
-    "sibal"
-   ],
+   "materials": [],
    "verification": "string-matched against NASA web page text (2026-11-15)"
   },
   {
