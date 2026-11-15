@@ -1,0 +1,367 @@
+{
+ "notes": "Verbatim quotations from NASA documents. PDF quotes were string-matched against pdftotext output; web quotes were matched against the fetched NASA release text on 2026-11-15. Quotes are excerpts and must be read in their source context.",
+ "findings": [
+  {
+   "id": "bass2-stoich",
+   "investigation": "bass-ii",
+   "evidence_type": "published_finding",
+   "quote": "Sensor data from the tests showed that the O2 was burning nearly stoichiometrically to CO2, and that CO levels appear to be a function of geometry and, in some cases, the flow velocity and geometry combination.",
+   "source": {
+    "title": "Burning and Suppression of Solids–II (BASS-II) Summary Report",
+    "publisher": "NASA Glenn Research Center",
+    "identifier": "NASA/TM-20210011385",
+    "date": "2021-10",
+    "url": "https://ntrs.nasa.gov/citations/20210011385",
+    "pdf": "https://ntrs.nasa.gov/api/citations/20210011385/downloads/TM-20210011385.pdf"
+   },
+   "locator": "§1.6 Overall Conclusions",
+   "concepts": [
+    "oxygen",
+    "combustion-products",
+    "flow",
+    "geometry"
+   ],
+   "materials": [],
+   "verification": "string-matched against PDF text"
+  },
+  {
+   "id": "bass2-inefficient",
+   "investigation": "bass-ii",
+   "evidence_type": "published_finding",
+   "quote": "The CO to CO2 ratios for these fires are an order of magnitude higher than for efficient flue gases, indicating that these flames are not efficient.",
+   "source": {
+    "title": "Burning and Suppression of Solids–II (BASS-II) Summary Report",
+    "publisher": "NASA Glenn Research Center",
+    "identifier": "NASA/TM-20210011385",
+    "date": "2021-10",
+    "url": "https://ntrs.nasa.gov/citations/20210011385",
+    "pdf": "https://ntrs.nasa.gov/api/citations/20210011385/downloads/TM-20210011385.pdf"
+   },
+   "locator": "§1.6 Overall Conclusions",
+   "concepts": [
+    "combustion-products"
+   ],
+   "materials": [],
+   "verification": "string-matched against PDF text"
+  },
+  {
+   "id": "bass2-critical-velocity",
+   "investigation": "bass-ii",
+   "evidence_type": "published_finding",
+   "quote": "Results from four different fuel thicknesses indicate that fuel thickness does not affect the critical velocity, which increases if the O2 level is decreased. A two-dimensional computation model confirms this finding.",
+   "source": {
+    "title": "Burning and Suppression of Solids–II (BASS-II) Summary Report",
+    "publisher": "NASA Glenn Research Center",
+    "identifier": "NASA/TM-20210011385",
+    "date": "2021-10",
+    "url": "https://ntrs.nasa.gov/citations/20210011385",
+    "pdf": "https://ntrs.nasa.gov/api/citations/20210011385/downloads/TM-20210011385.pdf"
+   },
+   "locator": "§2.2.8 Conclusions (Bhattacharjee)",
+   "concepts": [
+    "extinction",
+    "opposed-flow",
+    "oxygen",
+    "fuel-thickness",
+    "flow"
+   ],
+   "materials": [
+    "pmma"
+   ],
+   "verification": "string-matched against PDF text"
+  },
+  {
+   "id": "bass2-thermal-regime",
+   "investigation": "bass-ii",
+   "evidence_type": "published_finding",
+   "quote": "Data from downward spread in ambient air is shown to correlate well (within the experimental uncertainty) with the microgravity data, establishing that the thermal limit is extended to downward spreading configuration in atmospheric condition on Earth.",
+   "source": {
+    "title": "Burning and Suppression of Solids–II (BASS-II) Summary Report",
+    "publisher": "NASA Glenn Research Center",
+    "identifier": "NASA/TM-20210011385",
+    "date": "2021-10",
+    "url": "https://ntrs.nasa.gov/citations/20210011385",
+    "pdf": "https://ntrs.nasa.gov/api/citations/20210011385/downloads/TM-20210011385.pdf"
+   },
+   "locator": "§2.3 Conclusion (Bhattacharjee)",
+   "concepts": [
+    "flame-spread",
+    "opposed-flow",
+    "earth-transfer"
+   ],
+   "materials": [
+    "pmma"
+   ],
+   "verification": "string-matched against PDF text"
+  },
+  {
+   "id": "bass-thickness-spread",
+   "investigation": "bass-ii",
+   "evidence_type": "published_finding",
+   "quote": "The greater the thickness of the fuel, the greater is the time taken for the flame to spread and so the lower is the spread rate.",
+   "source": {
+    "title": "Burning and Suppression of Solids–II (BASS-II) Summary Report",
+    "publisher": "NASA Glenn Research Center",
+    "identifier": "NASA/TM-20210011385",
+    "date": "2021-10",
+    "url": "https://ntrs.nasa.gov/citations/20210011385",
+    "pdf": "https://ntrs.nasa.gov/api/citations/20210011385/downloads/TM-20210011385.pdf"
+   },
+   "locator": "§5.7 Conclusions (Miller & Wichman)",
+   "concepts": [
+    "flame-spread",
+    "fuel-thickness"
+   ],
+   "materials": [],
+   "verification": "string-matched against PDF text"
+  },
+  {
+   "id": "bass-model-gap",
+   "investigation": "bass-ii",
+   "evidence_type": "published_finding",
+   "quote": "The model currently predicts much higher spread rates than those obtained in the experiment. We need to modify chemical kinetics and material properties to improve model accuracy and results.",
+   "source": {
+    "title": "Burning and Suppression of Solids–II (BASS-II) Summary Report",
+    "publisher": "NASA Glenn Research Center",
+    "identifier": "NASA/TM-20210011385",
+    "date": "2021-10",
+    "url": "https://ntrs.nasa.gov/citations/20210011385",
+    "pdf": "https://ntrs.nasa.gov/api/citations/20210011385/downloads/TM-20210011385.pdf"
+   },
+   "locator": "§5.7 Conclusions (Miller & Wichman)",
+   "concepts": [
+    "flame-spread",
+    "modeling"
+   ],
+   "materials": [],
+   "verification": "string-matched against PDF text"
+  },
+  {
+   "id": "bass2-rod-ignition",
+   "investigation": "bass-ii",
+   "evidence_type": "published_finding",
+   "quote": "Ignition limits are found to be at higher O2 concentrations than the flammability limits due to the added heat loss to the initially cold fuel rod present at ignition. The ignition delay time can be up to almost 10 times longer than the NASA STD–6001 standard igniter on time.",
+   "source": {
+    "title": "Burning and Suppression of Solids–II (BASS-II) Summary Report",
+    "publisher": "NASA Glenn Research Center",
+    "identifier": "NASA/TM-20210011385",
+    "date": "2021-10",
+    "url": "https://ntrs.nasa.gov/citations/20210011385",
+    "pdf": "https://ntrs.nasa.gov/api/citations/20210011385/downloads/TM-20210011385.pdf"
+   },
+   "locator": "§6.1 Conclusions (Olson)",
+   "concepts": [
+    "ignition",
+    "flammability-limit",
+    "oxygen",
+    "earth-transfer"
+   ],
+   "materials": [
+    "pmma"
+   ],
+   "verification": "string-matched against PDF text"
+  },
+  {
+   "id": "bass-sibal-quench",
+   "investigation": "bass-ii",
+   "evidence_type": "published_finding",
+   "quote": "The quenching velocities are small (between 1 and 5 cm/s), and an accurate determination is necessary to resolve the slope of the quenching boundary.",
+   "source": {
+    "title": "Burning and Suppression of Solids–II (BASS-II) Summary Report",
+    "publisher": "NASA Glenn Research Center",
+    "identifier": "NASA/TM-20210011385",
+    "date": "2021-10",
+    "url": "https://ntrs.nasa.gov/citations/20210011385",
+    "pdf": "https://ntrs.nasa.gov/api/citations/20210011385/downloads/TM-20210011385.pdf"
+   },
+   "locator": "Concurrent flame growth over cotton-fiberglass fabric — Conclusions",
+   "concepts": [
+    "extinction",
+    "flow",
+    "flammability-limit",
+    "concurrent-flow"
+   ],
+   "materials": [
+    "sibal"
+   ],
+   "verification": "string-matched against PDF text"
+  },
+  {
+   "id": "bass-sibal-theory",
+   "investigation": "bass-ii",
+   "evidence_type": "published_finding",
+   "quote": "The experimental data obtained supports earlier theoretical predictions (at least qualitatively) of solid flammability limits at low flow velocities due to radiative and conductive losses.",
+   "source": {
+    "title": "Burning and Suppression of Solids–II (BASS-II) Summary Report",
+    "publisher": "NASA Glenn Research Center",
+    "identifier": "NASA/TM-20210011385",
+    "date": "2021-10",
+    "url": "https://ntrs.nasa.gov/citations/20210011385",
+    "pdf": "https://ntrs.nasa.gov/api/citations/20210011385/downloads/TM-20210011385.pdf"
+   },
+   "locator": "Concurrent flame growth over cotton-fiberglass fabric — Conclusions",
+   "concepts": [
+    "flammability-limit",
+    "flow",
+    "modeling"
+   ],
+   "materials": [
+    "sibal"
+   ],
+   "verification": "string-matched against PDF text"
+  },
+  {
+   "id": "flex-limit-lower",
+   "investigation": "flex",
+   "evidence_type": "published_finding",
+   "quote": "The research to date shows that the flammability limit is lower in reduced gravity.",
+   "source": {
+    "title": "Combustion, Complex Fluids, and Fluid Physics Experiments on the ISS",
+    "publisher": "NASA Glenn Research Center (IAC-12.A2.7.4)",
+    "identifier": "NTRS 20120017940",
+    "date": "2012-10",
+    "url": "https://ntrs.nasa.gov/citations/20120017940",
+    "pdf": "https://ntrs.nasa.gov/api/citations/20120017940/downloads/20120017940.pdf"
+   },
+   "locator": "Flame Extinguishment Experiment (FLEX) section",
+   "concepts": [
+    "flammability-limit",
+    "suppression",
+    "droplet",
+    "earth-transfer"
+   ],
+   "materials": [
+    "heptane",
+    "methanol"
+   ],
+   "verification": "string-matched against PDF text"
+  },
+  {
+   "id": "flex-suppressant-margin",
+   "investigation": "flex",
+   "evidence_type": "published_finding",
+   "quote": "The implication of this result is that terrestrial standards for inert gas suppressants in low gravity do not offer the same margi[n] …",
+   "source": {
+    "title": "Combustion, Complex Fluids, and Fluid Physics Experiments on the ISS",
+    "publisher": "NASA Glenn Research Center (IAC-12.A2.7.4)",
+    "identifier": "NTRS 20120017940",
+    "date": "2012-10",
+    "url": "https://ntrs.nasa.gov/citations/20120017940",
+    "pdf": "https://ntrs.nasa.gov/api/citations/20120017940/downloads/20120017940.pdf"
+   },
+   "locator": "Flame Extinguishment Experiment (FLEX) section",
+   "concepts": [
+    "suppression",
+    "earth-transfer"
+   ],
+   "materials": [
+    "heptane",
+    "methanol"
+   ],
+   "verification": "string-matched against PDF text"
+  },
+  {
+   "id": "spice-2009",
+   "investigation": "spice",
+   "evidence_type": "published_finding",
+   "quote": "The Smoke Point In Coflow Experiment (SPICE) was conducted in 2009 on the International Space Station in its Microgravity Science Glovebox (MSG) and studied laminar, axisymmetric, gas-jet diffusion flames",
+   "source": {
+    "title": "Combustion, Complex Fluids, and Fluid Physics Experiments on the ISS",
+    "publisher": "NASA Glenn Research Center (IAC-12.A2.7.4)",
+    "identifier": "NTRS 20120017940",
+    "date": "2012-10",
+    "url": "https://ntrs.nasa.gov/citations/20120017940",
+    "pdf": "https://ntrs.nasa.gov/api/citations/20120017940/downloads/20120017940.pdf"
+   },
+   "locator": "Smoke Point In Coflow Experiment (SPICE) section",
+   "concepts": [
+    "soot",
+    "gaseous-flame"
+   ],
+   "materials": [],
+   "verification": "string-matched against PDF text"
+  },
+  {
+   "id": "same-particles",
+   "investigation": "same",
+   "evidence_type": "published_finding",
+   "quote": "Smoke Aerosol Measurement Experiment (SAME) [4] examined the particle size distribution of the smoke from spacecraft materials.",
+   "source": {
+    "title": "Combustion, Complex Fluids, and Fluid Physics Experiments on the ISS",
+    "publisher": "NASA Glenn Research Center (IAC-12.A2.7.4)",
+    "identifier": "NTRS 20120017940",
+    "date": "2012-10",
+    "url": "https://ntrs.nasa.gov/citations/20120017940",
+    "pdf": "https://ntrs.nasa.gov/api/citations/20120017940/downloads/20120017940.pdf"
+   },
+   "locator": "Spacecraft fire safety section",
+   "concepts": [
+    "smoke",
+    "detection"
+   ],
+   "materials": [],
+   "verification": "string-matched against PDF text"
+  },
+  {
+   "id": "saffire1-conducted",
+   "investigation": "saffire-i",
+   "evidence_type": "published_finding",
+   "quote": "Engineers at NASA’s Glenn Research Center in Cleveland, Ohio and Orbital ATK in Dulles, Virginia successfully conducted the first remote Spacecraft Fire Experiment, or Saffire I , carried inside an Orbital ATK Cygnus cargo vehicle that departed the International Space Station on Tuesday, June 14.",
+   "source": {
+    "title": "NASA Glenn Successfully Ignites Largest Fire Experiment in Space (Release 16-021)",
+    "publisher": "NASA",
+    "identifier": "Release 16-021",
+    "date": "2016-06-15",
+    "url": "https://www.nasa.gov/news-release/nasa-glenn-successfully-ignites-largest-fire-experiment-in-space"
+   },
+   "locator": "Release text",
+   "concepts": [
+    "large-scale-fire",
+    "flame-spread"
+   ],
+   "materials": [
+    "sibal"
+   ],
+   "verification": "string-matched against NASA web page text (2026-11-15)"
+  },
+  {
+   "id": "saffire-phase1",
+   "investigation": "saffire-iii",
+   "evidence_type": "published_finding",
+   "quote": "SAFFIRE III is the final test in the first phase of a series of experiments designed to investigate large-scale flame growth and material flammability limits in long-duration microgravity.",
+   "source": {
+    "title": "NASA Prepares to Ignite Third SAFFIRE Experiment (Release 17-011)",
+    "publisher": "NASA",
+    "identifier": "Release 17-011",
+    "date": "2017-06-02",
+    "url": "https://www.nasa.gov/news-release/nasa-prepares-to-ignite-third-saffire-experiment"
+   },
+   "locator": "Release text",
+   "concepts": [
+    "large-scale-fire",
+    "flammability-limit"
+   ],
+   "materials": [],
+   "verification": "string-matched against NASA web page text (2026-11-15)"
+  },
+  {
+   "id": "saffire-1-2-complete",
+   "investigation": "saffire-ii",
+   "evidence_type": "published_finding",
+   "quote": "SAFFIRE I and II were successfully completed in June and November of 2016 respectively.",
+   "source": {
+    "title": "NASA Prepares to Ignite Third SAFFIRE Experiment (Release 17-011)",
+    "publisher": "NASA",
+    "identifier": "Release 17-011",
+    "date": "2017-06-02",
+    "url": "https://www.nasa.gov/news-release/nasa-prepares-to-ignite-third-saffire-experiment"
+   },
+   "locator": "Release text",
+   "concepts": [
+    "large-scale-fire"
+   ],
+   "materials": [],
+   "verification": "string-matched against NASA web page text (2026-11-15)"
+  }
+ ]
+}
